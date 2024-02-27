@@ -18,6 +18,7 @@
 
 body {
   color: rgb(var(--foreground-rgb));
+  font-family: "lexend" !important;
   background: linear-gradient(
       to bottom,
       transparent,
@@ -30,4 +31,12 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+}
+
+@font-face {
+  font-family: 'lexend';
+  src: url('/fonts/Lexend-VariableFont_wght.ttf') format('truetype'); /* Modern Browsers */
+  /* Add more src lines for different font file formats if needed */
+  font-weight: normal;
+  font-style: normal;
 }
