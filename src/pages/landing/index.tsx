@@ -1,9 +1,22 @@
+'use client';
 import PrimaryButton from "@/app/components/button/PrimaryButton";
 import LandingHeader from "./header";
 import SecondaryButton from "@/app/components/button/SecondaryButton";
 import LandingFooter from "./footer";
+import SignupModal from "@/app/components/modal/SignupModal";
+import React from "react";
 
 const LandingPage = () => {
+  const [isSignupModalOpen, setSignupModalOpen] = React.useState(false);
+
+  const openSignupModal = () => {
+    // setSignupModalOpen(true);
+  };
+
+  const closeSignupModal = () => {
+    setSignupModalOpen(false);
+  };
+
   return (
     <div>
       <LandingHeader />
@@ -19,7 +32,7 @@ const LandingPage = () => {
                   connections
                 </div>
                 <div className="fixed md:static bottom-10">
-                  <SecondaryButton>Join Today</SecondaryButton>
+                  <SecondaryButton onClick={openSignupModal}>Join Today</SecondaryButton>
                   <div className="mt-4 mb-10 hidden md:block">
                     By signing up, you agree to the Terms of Service and Privacy
                     Policy.
@@ -35,6 +48,7 @@ const LandingPage = () => {
         </div>
       </div>
       <LandingFooter />
+      <SignupModal isOpen={isSignupModalOpen} onClose={closeSignupModal} />
     </div>
   );
 };

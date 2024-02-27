@@ -10,6 +10,7 @@ const config: Config = {
     colors: {
       primary: "#6E0EE9",
       secondary: "#BFFA4323",
+      back: "#000",
     },
     extend: {
       backgroundImage: {
