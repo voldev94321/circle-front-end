@@ -5,12 +5,13 @@ import SecondaryButton from "@/app/components/button/SecondaryButton";
 import LandingFooter from "./footer";
 import SignupModal from "@/app/components/modal/SignupModal";
 import React from "react";
+import Image from "next/image";
 
 const LandingPage = () => {
   const [isSignupModalOpen, setSignupModalOpen] = React.useState(false);
 
   const openSignupModal = () => {
-    // setSignupModalOpen(true);
+    setSignupModalOpen(true);
   };
 
   const closeSignupModal = () => {
@@ -22,7 +23,7 @@ const LandingPage = () => {
       <LandingHeader />
       <div className="flex justify-center items-center h-screen">
         <div className="md:gap-8 flex flex-col md:flex-row h-screen">
-          <img src="/img/logo.svg" alt="logo" height={500} width={500} />
+          <Image src="/img/logo.svg" alt="logo" height={500} width={500} />
           <div className="flex justify-center items-center md:h-screen">
             <div className="p-4 rounded-lg flex gap-8">
               <div>

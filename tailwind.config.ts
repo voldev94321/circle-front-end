@@ -8,9 +8,11 @@ const config: Config = {
   ],
   theme: {
     colors: {
-      primary: "#6E0EE9",
+      primary: "#8043FA",
       secondary: "#BFFA4323",
       back: "#000",
+      back2: "#151515",
+      front: "#FFF",
     },
     extend: {
       backgroundImage: {
