@@ -18,7 +18,7 @@ const MenuItems = [
 const LandingHeader = () => {
     return (
         <div className="fixed p-4 right-20 hidden md:block">
-            <div className="flex gap-8">
+            <div className="flex gap-8 text-lg">
                 {MenuItems.map((item, index) => (
                     <Link key={index} className="" href={item.link}>
                         {item.value}
