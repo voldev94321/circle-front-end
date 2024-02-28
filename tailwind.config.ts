@@ -13,6 +13,7 @@ const config: Config = {
       back: "#000",
       back2: "#151515",
       front: "#FFF",
+      dangerous: "#DC143C"
     },
     extend: {
       backgroundImage: {
@@ -20,6 +21,15 @@ const config: Config = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      // keyframes: {
+      //   wiggle: {
+      //     "0%, 100%": { transform: "rotate(-2deg)" },
+      //     "50%": { transform: "rotate(2deg)" }
+      //   }
+      // },
+      // animation: {
+      //   wiggle: "wiggle 200ms ease-in-out"
+      // }
     },
   },
   plugins: [],

@@ -73,9 +73,9 @@ const SignupModal: React.FC<SignupModalProps> = ({ isOpen, onClose }) => {
           <div className={`absolute w-1/2 h-0.5 ${ progress > 1 ? "bg-primary" : "bg-front"} z-0 top-1/2 transform -translate-y-1/2 right-0`}></div>
         </div>
         <div className="w-full flex justify-between relative">
-          <div>Enter Details</div>
-          <div className="text-center">Accept Rules</div>
-          <div className="text-right">Confirm Email</div>
+          <div className="text-primary">Enter Details</div>
+          <div className={`${ progress > 0 && "text-primary" } text-center`}>Accept Rules</div>
+          <div className={`${ progress > 1 && "text-primary" } text-right`}>Confirm Email</div>
         </div>
 
         <div className="text-3xl mt-4">
@@ -89,9 +89,9 @@ const SignupModal: React.FC<SignupModalProps> = ({ isOpen, onClose }) => {
         </div>
 
         <div className="mt-4 w-full">
-          {progress == 0 && <EnterDetails onSubmit={onSignup} />}
-          {progress == 1 && <AcceptRules onSubmit={onAgreeTerms}/>}
-          {progress == 2 && <ConfirmEmail email={email} onSubmit={onConfirmEmail}/>}
+          <div className={`${progress != 0 && "hidden"}`}><EnterDetails onSubmit={onSignup}/></div>
+          <div className={`${progress != 1 && "hidden"}`}><AcceptRules onSubmit={onAgreeTerms}/></div>
+          <div className={`${progress != 2 && "hidden"}`}><ConfirmEmail email={email} onSubmit={onConfirmEmail}/></div>
         </div>
         <div className="h-full text-center flex items-end md:hidden">
           © 2024 Circle
