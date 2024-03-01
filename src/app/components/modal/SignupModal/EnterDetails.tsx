@@ -3,7 +3,7 @@ import TextInput from "../../input/TextInput";
 import CheckBox from "../../input/CheckBox";
 import Link from "next/link";
 import PrimaryButton from "../../button/PrimaryButton";
-import { validateEmail, validateUsername } from "@/app/utils/validator";
+import { validateEmail, validateUsername } from "@/utils/validator";
 
 interface EnterDetailsPros {
   onSubmit: any;
@@ -18,14 +18,26 @@ const EnterDetails = ({ onSubmit }: EnterDetailsPros) => {
 
   const [isValidUserName, setIsValidUserName] = React.useState(true);
   const [isValidEmail, setIsValidEmail] = React.useState(true);
+  const [passwordError, setPasswordError] = React.useState("");
 
   const handleClick = () => {
     const checkEmailIsValid = validateEmail(email);
     const checkUserNameIsValid = validateUsername(userName);
+    let isPasswordError = true;
+
+    if(password == ""){
+      setPasswordError("Password should not be empty!");
+    } else if(password != confirmPassword) {
+      setPasswordError("Password does not match!");
+    } else {
+      setPasswordError("");
+      isPasswordError = false;
+    }
+
     setIsValidUserName(checkUserNameIsValid);
     setIsValidEmail(checkEmailIsValid);
 
-    if( checkEmailIsValid && checkUserNameIsValid ){
+    if( checkEmailIsValid && checkUserNameIsValid && !isPasswordError ){
         onSubmit(userName, email, password);
     }
   };
@@ -60,6 +72,7 @@ const EnterDetails = ({ onSubmit }: EnterDetailsPros) => {
         setValue={setConfirmPassword}
         value={confirmPassword}
       />
+      { passwordError && <div className="text-dangerous">{passwordError}</div>}
       <CheckBox value={isAgreeTerm} setValue={setIsAgreeTerm}>
         <div className="text-xs">
           I have read and agree to the{" "}

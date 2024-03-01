@@ -41,7 +41,7 @@ const LandingPage = () => {
                   <div className="mt-4 mb-4 text-xl">
                     Already have an account?
                   </div>
-                  <PrimaryButton>Enter Circle</PrimaryButton>
+                  <PrimaryButton classNames="bg-opacity-40">Enter Circle</PrimaryButton>
                 </div>
               </div>
             </div>

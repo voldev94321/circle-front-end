@@ -46,11 +46,16 @@ const SignupModal: React.FC<SignupModalProps> = ({ isOpen, onClose }) => {
   return isOpen ? (
     <div
       className="fixed left-0 top-0 z-20 flex h-full w-full items-center justify-center bg-transparent"
-      onClick={onClose}
+      onMouseDown={() => {
+        onClose();
+      }}
     >
       <div
         className="flex flex-col items-center gap-3 rounded-3xl md:bg-back2 bg-back p-12 pt-0 w-[40rem] h-full md:h-fit"
         onClick={(e) => handlePreventCloseModal(e)}
+        onMouseDown={e=>{
+          e.stopPropagation();
+        }}
       >
         <div className="relative w-full">
           <Image

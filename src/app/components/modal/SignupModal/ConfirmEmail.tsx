@@ -1,6 +1,9 @@
 import React from "react";
 import TextInput from "../../input/TextInput";
 import PrimaryButton from "../../button/PrimaryButton";
+import { sendEmailVerificationCode } from "@/apis/auth/sendEmailVerificationCode";
+import { toast } from "react-toastify";
+import { checkVerificationCode } from "@/apis/auth/checkVerificationCode";
 
 interface ConfirmEmailProps {
     email: string,
@@ -10,12 +13,21 @@ interface ConfirmEmailProps {
 const ConfirmEmail = ({ email, onSubmit }: ConfirmEmailProps) => {
     const [code, setCode] = React.useState("");
 
-    const onVerify = () => {
-        onSubmit();
+    const onVerify = async () => {
+        const result = await checkVerificationCode(email, code);
+        if(result.success){
+            toast.success("You are now ready to use!");
+            onSubmit();
+        } else {
+            toast.error("Verification Failed!");
+        }
     }
 
-    const onResend = () => {
-        
+    const onResend = async () => {
+        const result = await sendEmailVerificationCode(email);
+        if(result.success){
+            toast.info('We sent 6-digit codes to your email.');
+        }
     }
 
     return <div className="w-full flex flex-col gap-3">
