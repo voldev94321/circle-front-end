@@ -1,14 +1,14 @@
 'use client';
 import PrimaryButton from "@/components/button/PrimaryButton";
-import LandingHeader from "./header";
 import SecondaryButton from "@/components/button/SecondaryButton";
 import LandingFooter from "./footer";
 import SignupModal from "@/components/modal/SignupModal";
-import React from "react";
+import React, { lazy } from "react";
 import Image from "next/image";
 import SigninModal from "@/components/modal/SigninModal";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
+const LazyLandingHeader = lazy(() => import("./header"));
 
 const LandingPage = () => {
   const [isSignupModalOpen, setSignupModalOpen] = React.useState(false);
@@ -33,13 +33,14 @@ const LandingPage = () => {
 
   React.useEffect(() => {
     if(authState){
-      router.push("/dashboard");
+      // router.push("/dashboard");
     }
   }, [authState]);
 
-  return !authState && (
+  // return !authState && (
+  return (
     <div>
-      <LandingHeader />
+      <LazyLandingHeader />
       <div className="flex justify-center items-center h-screen">
         <div className="md:gap-8 flex flex-col md:flex-row h-screen">
           <Image src="/img/logo.svg" alt="logo" height={500} width={500} />

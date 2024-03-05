@@ -3,7 +3,7 @@ import React from "react";
 import TextInput from "../../input/TextInput";
 import PrimaryButton from "../../button/PrimaryButton";
 import SecondaryButton from "../../button/SecondaryButton";
-import { login } from "@/apis/auth";
+import { forgotPassword, login } from "@/apis/auth";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { setAuthState, setUserInfo } from "@/store/authSlice";
@@ -36,6 +36,15 @@ const SigninModal: React.FC<SigninModalProps> = ({ isOpen, onClose }) => {
         dispatch(setUserInfo(data.user));
         router.push("/dashboard");
         onClose();
+    }
+  }
+
+  const onForgotPassword = async () => {
+    const data = await forgotPassword(userid);
+    if(!data.success){
+      toast.error(data.message);
+    } else {
+      toast.success("We've send the updated password to your email!");
     }
   }
 
@@ -80,7 +89,7 @@ const SigninModal: React.FC<SigninModalProps> = ({ isOpen, onClose }) => {
         </div>
         <div className="w-full text-left mt-4 mb-4">Did you forget your password?</div>
         <div className="w-full">
-            <SecondaryButton classNames="">Forgot Password</SecondaryButton>
+            <SecondaryButton classNames="" onClick={onForgotPassword}>Forgot Password</SecondaryButton>
         </div>
       </div>
     </div>
