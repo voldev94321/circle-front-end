@@ -3,6 +3,7 @@ import { supportedWallets } from "@/constant";
 import { useWallet } from "@/providers/WalletContext";
 import { setWalletConnectModalState } from "@/store/modalSlice";
 import React from "react";
+import Image from "next/image";
 
 const WalletConnectModal = () => {
   const {
@@ -60,7 +61,7 @@ const WalletConnectModal = () => {
               key={item.key}
               onClick={() => handleConnectWallet(item.key)}
             >
-              <img src={`img/wallet/${item.icon}`} className="h-12 w-12" />
+              <Image src={`img/wallet/${item.icon}`} className="h-12 w-12" width={12} height={12} alt="wallet icon" />
               <div className="text-lg">{item.name}</div>
             </div>
           ))}
