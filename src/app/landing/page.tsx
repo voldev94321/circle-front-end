@@ -1,15 +1,20 @@
 'use client';
-import PrimaryButton from "@/app/components/button/PrimaryButton";
+import PrimaryButton from "@/components/button/PrimaryButton";
 import LandingHeader from "./header";
-import SecondaryButton from "@/app/components/button/SecondaryButton";
+import SecondaryButton from "@/components/button/SecondaryButton";
 import LandingFooter from "./footer";
-import SignupModal from "@/app/components/modal/SignupModal";
+import SignupModal from "@/components/modal/SignupModal";
 import React from "react";
 import Image from "next/image";
+import SigninModal from "@/components/modal/SigninModal";
+import { useSelector } from "react-redux";
+import { useRouter } from "next/navigation";
 
 const LandingPage = () => {
   const [isSignupModalOpen, setSignupModalOpen] = React.useState(false);
-
+  const [isSigninModalOpen, setSigninModalOpen] = React.useState(false);
+  const {authState} = useSelector((state: any) => state.auth);
+  const router = useRouter();
   const openSignupModal = () => {
     setSignupModalOpen(true);
   };
@@ -18,7 +23,21 @@ const LandingPage = () => {
     setSignupModalOpen(false);
   };
 
-  return (
+  const openSigninModal = () => {
+    setSigninModalOpen(true);
+  };
+
+  const closeSigninModal = () => {
+    setSigninModalOpen(false);
+  };
+
+  React.useEffect(() => {
+    if(authState){
+      router.push("/dashboard");
+    }
+  }, [authState]);
+
+  return !authState && (
     <div>
       <LandingHeader />
       <div className="flex justify-center items-center h-screen">
@@ -41,7 +60,7 @@ const LandingPage = () => {
                   <div className="mt-4 mb-4 text-xl">
                     Already have an account?
                   </div>
-                  <PrimaryButton classNames="bg-opacity-40">Enter Circle</PrimaryButton>
+                  <PrimaryButton classNames="bg-opacity-40" onClick={openSigninModal}>Enter Circle</PrimaryButton>
                 </div>
               </div>
             </div>
@@ -50,6 +69,7 @@ const LandingPage = () => {
       </div>
       <LandingFooter />
       <SignupModal isOpen={isSignupModalOpen} onClose={closeSignupModal} />
+      <SigninModal isOpen={isSigninModalOpen} onClose={closeSigninModal} />
     </div>
   );
 };

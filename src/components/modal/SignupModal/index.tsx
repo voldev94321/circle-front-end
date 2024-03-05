@@ -3,6 +3,8 @@ import React from "react";
 import EnterDetails from "./EnterDetails";
 import AcceptRules from "./AcceptRules";
 import ConfirmEmail from "./ConfirmEmail";
+import { sendEmailVerificationCode, signUp } from "@/apis/auth";
+import { toast } from "react-toastify";
 
 interface SignupModalProps {
   isOpen: boolean;
@@ -29,12 +31,24 @@ const SignupModal: React.FC<SignupModalProps> = ({ isOpen, onClose }) => {
     setProgress(1);
   }
 
-  const onAgreeTerms = () => {
-    setProgress(2);
+  const onAgreeTerms = async () => {
+    const result = await sendEmailVerificationCode(email);
+    if(result.success){
+      toast.info('We sent 6-digit codes to your email.');
+      setProgress(2);
+    } else {
+      toast.error("Unkown Error!");
+    }
   }
 
-  const onConfirmEmail = () => {
-    onClose();
+  const onConfirmEmail = async () => {
+    const signUpResult = await signUp(email, username, password);
+    if(signUpResult.success){
+      toast.success("Successfully registered!");
+      onClose();
+    } else {
+      toast.error(signUpResult.message);
+    }
   }
 
   React.useEffect(() => {

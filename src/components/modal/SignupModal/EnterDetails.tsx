@@ -4,6 +4,8 @@ import CheckBox from "../../input/CheckBox";
 import Link from "next/link";
 import PrimaryButton from "../../button/PrimaryButton";
 import { validateEmail, validateUsername } from "@/utils/validator";
+import { checkUser } from "@/apis/auth";
+import { toast } from "react-toastify";
 
 interface EnterDetailsPros {
   onSubmit: any;
@@ -20,7 +22,7 @@ const EnterDetails = ({ onSubmit }: EnterDetailsPros) => {
   const [isValidEmail, setIsValidEmail] = React.useState(true);
   const [passwordError, setPasswordError] = React.useState("");
 
-  const handleClick = () => {
+  const handleClick = async () => {
     const checkEmailIsValid = validateEmail(email);
     const checkUserNameIsValid = validateUsername(userName);
     let isPasswordError = true;
@@ -38,7 +40,12 @@ const EnterDetails = ({ onSubmit }: EnterDetailsPros) => {
     setIsValidEmail(checkEmailIsValid);
 
     if( checkEmailIsValid && checkUserNameIsValid && !isPasswordError ){
+      const isNewUser = await checkUser(email, userName);
+      if(isNewUser.success){
         onSubmit(userName, email, password);
+      } else {
+        toast.error(isNewUser.message);
+      }
     }
   };
 

@@ -1,9 +1,8 @@
 import React from "react";
 import TextInput from "../../input/TextInput";
 import PrimaryButton from "../../button/PrimaryButton";
-import { sendEmailVerificationCode } from "@/apis/auth/sendEmailVerificationCode";
 import { toast } from "react-toastify";
-import { checkVerificationCode } from "@/apis/auth/checkVerificationCode";
+import { checkVerificationCode, sendEmailVerificationCode, signUp } from "@/apis/auth";
 
 interface ConfirmEmailProps {
     email: string,
@@ -16,7 +15,6 @@ const ConfirmEmail = ({ email, onSubmit }: ConfirmEmailProps) => {
     const onVerify = async () => {
         const result = await checkVerificationCode(email, code);
         if(result.success){
-            toast.success("You are now ready to use!");
             onSubmit();
         } else {
             toast.error("Verification Failed!");
