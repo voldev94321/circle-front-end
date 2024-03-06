@@ -55,7 +55,7 @@ const LandingPage = () => {
                   <span className="text-primary">decentralized</span>{" "}
                   connections
                 </div>
-                <LazyWalletConnectButton/>
+                <div className="md:hidden"><LazyWalletConnectButton/></div>
                 <div className="fixed md:static bottom-10">
                   <SecondaryButton onClick={openSignupModal}>Join Today</SecondaryButton>
                   <div className="mt-4 mb-10 hidden md:block">
