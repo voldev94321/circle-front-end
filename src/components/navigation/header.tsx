@@ -19,7 +19,6 @@ const MenuItems = [
 ];
 
 const LandingHeader = () => {
-  const { isConnected, stakeAddress, disconnect } = useWallet();
   return (
     <div className="fixed top-0 flex justify-between w-full bg-back">
         <Link className="p-6 ml-20 hidden md:block text-xl" href={"/"}>
@@ -32,17 +31,7 @@ const LandingHeader = () => {
               {item.value}
             </Link>
           ))}
-          {isConnected ? (
-            <PrimaryButton
-              onClick={() => {
-                disconnect();
-              }}
-            >
-              Disconnect
-            </PrimaryButton>
-          ) : (
-            <WalletConnectButton />
-          )}
+          <WalletConnectButton />
         </div>
       </div>
     </div>
