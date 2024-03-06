@@ -17,7 +17,7 @@ const MenuItems = [
 
 const LandingFooter = () => {
     return (
-        <div className="fixed p-4 bottom-0 w-full hidden md:block">
+        <div className="fixed p-4 bottom-0 w-full hidden md:block bg-back">
             <div className="m-auto w-fit">
                 <div className="flex gap-8">
                     {MenuItems.map((item, index) => (

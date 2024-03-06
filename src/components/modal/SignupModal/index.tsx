@@ -9,9 +9,10 @@ import { toast } from "react-toastify";
 interface SignupModalProps {
   isOpen: boolean;
   onClose: () => void;
+  openSignInModal: () => void;
 }
 
-const SignupModal: React.FC<SignupModalProps> = ({ isOpen, onClose }) => {
+const SignupModal: React.FC<SignupModalProps> = ({ isOpen, onClose, openSignInModal }) => {
   const [progress, setProgress] = React.useState(0);
   const [username, setUsername] = React.useState("");
   const [email, setEmail] = React.useState('');
@@ -46,6 +47,7 @@ const SignupModal: React.FC<SignupModalProps> = ({ isOpen, onClose }) => {
     if(signUpResult.success){
       toast.success("Successfully registered!");
       onClose();
+      openSignInModal();
     } else {
       toast.error(signUpResult.message);
     }
@@ -116,6 +118,7 @@ const SignupModal: React.FC<SignupModalProps> = ({ isOpen, onClose }) => {
           © 2024 Circle
         </div>
       </div>
+      <div className="fixed top-2 right-2 md:hidden">⨉</div>
     </div>
   ) : (
     <></>

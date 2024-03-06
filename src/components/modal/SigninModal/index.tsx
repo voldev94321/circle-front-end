@@ -92,6 +92,7 @@ const SigninModal: React.FC<SigninModalProps> = ({ isOpen, onClose }) => {
             <SecondaryButton classNames="" onClick={onForgotPassword}>Forgot Password</SecondaryButton>
         </div>
       </div>
+      <div className="fixed top-2 right-2 md:hidden">⨉</div>
     </div>
   ) : (
     <></>

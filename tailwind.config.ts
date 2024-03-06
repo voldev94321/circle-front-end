@@ -10,6 +10,7 @@ const config: Config = {
     colors: {
       primary: "#8043FA",
       secondary: "#BFFA4323",
+      tertiary: "#BFFA43",
       back: "#000",
       back2: "#151515",
       front: "#FFF",

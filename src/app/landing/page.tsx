@@ -1,14 +1,14 @@
 'use client';
 import PrimaryButton from "@/components/button/PrimaryButton";
 import SecondaryButton from "@/components/button/SecondaryButton";
-import LandingFooter from "./footer";
+import LandingFooter from "../../components/navigation/footer";
 import SignupModal from "@/components/modal/SignupModal";
 import React, { lazy } from "react";
 import Image from "next/image";
 import SigninModal from "@/components/modal/SigninModal";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
-const LazyLandingHeader = lazy(() => import("./header"));
+const LazyLandingHeader = lazy(() => import("../../components/navigation/header"));
 
 const LandingPage = () => {
   const [isSignupModalOpen, setSignupModalOpen] = React.useState(false);
@@ -69,7 +69,7 @@ const LandingPage = () => {
         </div>
       </div>
       <LandingFooter />
-      <SignupModal isOpen={isSignupModalOpen} onClose={closeSignupModal} />
+      <SignupModal isOpen={isSignupModalOpen} onClose={closeSignupModal} openSignInModal={openSigninModal} />
       <SigninModal isOpen={isSigninModalOpen} onClose={closeSigninModal} />
     </div>
   );

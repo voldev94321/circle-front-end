@@ -1,7 +1,7 @@
 export const supportedWallets = [
   { name: "Eternl Wallet", key: "eternl", icon: "eternl.svg" },
   { name: "Nami Wallet", key: "nami", icon: "nami.svg" },
-  { name: "Vespr Wallet", key: "vespr", icon: "vespr.svg" },
+  // { name: "Vespr Wallet", key: "vespr", icon: "vespr.svg" },
 ];
 
 export const savedWalletSelectionKey = "circle-wallet";
