@@ -8,10 +8,7 @@ import Image from "next/image";
 import SigninModal from "@/components/modal/SigninModal";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
-import WalletConnectButton from "@/components/button/ConnectWalletButton";
-import { useWallet } from "@/providers/WalletContext";
 const LazyLandingHeader = lazy(() => import("../../components/navigation/header"));
-const LazyWalletConnectButton = lazy(() => import ("../../components/button/ConnectWalletButton"));
 
 const LandingPage = () => {
   const [isSignupModalOpen, setSignupModalOpen] = React.useState(false);
@@ -55,7 +52,6 @@ const LandingPage = () => {
                   <span className="text-primary">decentralized</span>{" "}
                   connections
                 </div>
-                <div className="md:hidden"><LazyWalletConnectButton/></div>
                 <div className="fixed md:static bottom-10">
                   <SecondaryButton onClick={openSignupModal}>Join Today</SecondaryButton>
                   <div className="mt-4 mb-10 hidden md:block">
