@@ -31,10 +31,10 @@ const AboutPage = () => {
           We&apos;re thrilled to introduce you to our platform. This marks an
           exciting milestone as we unveil Circle, a next-generation SocialFi
           platform designed to transform how you engage with social media and
-          finance. our journey began as a simple insight: existing platforms
+          finance. Our journey began as a simple insight: existing platforms
           lacked the seamless integration of social interaction with financial
           opportunities. We saw a gap and decided to fill it with Circle–a
-          platform that caters to teh needs of both crypto enthusiasts and
+          platform that caters to tech needs of both crypto enthusiasts and
           everyday users alike. Imagine a world where your social interactions
           seamlessly intersect with financial possibilities. With Circle, you
           can access robust feature reminiscent of platforms you&apos;re familiar
