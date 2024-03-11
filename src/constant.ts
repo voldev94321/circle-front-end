@@ -32,15 +32,15 @@ export const sideMenuItems = [
       {
         label: "Timeline",
         link: "/timeline",
-        icon: "/default.png",
+        icon: "/default.svg",
       },{
         label: "Communities",
         link: "/communities",
-        icon: "/default.png",
+        icon: "/default.svg",
       },{
         label: "Circles",
         link: "/circles",
-        icon: "/default.png",
+        icon: "/default.svg",
       }
     ]
   },
@@ -50,15 +50,15 @@ export const sideMenuItems = [
       {
         label: "Wallet",
         link: "/wallet",
-        icon: "/default.png",
+        icon: "/default.svg",
       },{
         label: "Messages",
         link: "/messages",
-        icon: "/default.png",
+        icon: "/messages.svg",
       },{
         label: "Saved",
         link: "/saved",
-        icon: "/default.png",
+        icon: "/saved.svg",
       }
     ]
   },
