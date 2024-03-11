@@ -24,3 +24,42 @@ export const zeroAddress =
 export const transactionValidTime = 1000 * 120;
 
 export const defaultDecimals = 1000000;
+
+export const sideMenuItems = [
+  {
+    category: "MENU",
+    items: [
+      {
+        label: "Timeline",
+        link: "/timeline",
+        icon: "/default.png",
+      },{
+        label: "Communities",
+        link: "/communities",
+        icon: "/default.png",
+      },{
+        label: "Circles",
+        link: "/circles",
+        icon: "/default.png",
+      }
+    ]
+  },
+  {
+    category: "LIBRARY",
+    items: [
+      {
+        label: "Wallet",
+        link: "/wallet",
+        icon: "/default.png",
+      },{
+        label: "Messages",
+        link: "/messages",
+        icon: "/default.png",
+      },{
+        label: "Saved",
+        link: "/saved",
+        icon: "/default.png",
+      }
+    ]
+  },
+]
