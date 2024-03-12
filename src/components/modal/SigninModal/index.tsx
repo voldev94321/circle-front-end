@@ -34,7 +34,7 @@ const SigninModal: React.FC<SigninModalProps> = ({ isOpen, onClose }) => {
         toast.success("You are now ready to use.");
         dispatch(setAuthState(true));
         dispatch(setUserInfo(data.user));
-        router.push("/dashboard");
+        router.push("/timeline");
         onClose();
     }
   }

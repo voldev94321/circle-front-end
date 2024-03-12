@@ -2,7 +2,11 @@ import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { supportedWallets, savedWalletSelectionKey } from "@/constant";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
-import { checkCanConnect, getAssetsFromStakeAddress, getWalletExtensionStatus } from "@/utils/web3";
+import {
+  checkCanConnect,
+  getAssetsFromStakeAddress,
+  getWalletExtensionStatus,
+} from "@/utils/web3";
 
 declare const window: any;
 
@@ -49,8 +53,9 @@ const WalletContextProvider = ({ children }: any) => {
   const calculateBalances = async () => {
     if (stakeAddress.length > 0) {
       try {
-        const { lovelace: newAdaBalance } =
-          await getAssetsFromStakeAddress(stakeAddress);
+        const { lovelace: newAdaBalance } = await getAssetsFromStakeAddress(
+          stakeAddress
+        );
         // setAssets(updatedAssets);
         setAdaBalance(newAdaBalance);
       } catch (err) {
@@ -60,7 +65,13 @@ const WalletContextProvider = ({ children }: any) => {
       }
     }
   };
-
+  // calculate assets when stake address is changed
+  useEffect(() => {
+    if (stakeAddress.length > 0) {
+      calculateBalances();
+    } else {
+    }
+  }, [stakeAddress]);
   // update network id, and address when wallet is changed
   useEffect(() => {
     if (wallet) {
@@ -185,7 +196,7 @@ const WalletContextProvider = ({ children }: any) => {
     }
     console.log("Wallet Init...");
     init();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const value: WalletContextValueProps = {
@@ -212,4 +223,4 @@ export const useWallet = () => {
   return useContext(walletContext);
 };
 
-export default  WalletContextProvider;
+export default WalletContextProvider;

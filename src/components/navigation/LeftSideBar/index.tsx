@@ -5,7 +5,7 @@ import React from "react";
 
 const LeftSideBar = () => {
     const [isMenuOpend, setIsMenuOpen] = React.useState(false);
-    return <div className=" h-full md:max-w-[330px] w-full flex">
+    return <div className=" h-full md:max-w-[330px] w-full flex fixed md:relative">
         {!isMenuOpend && <div className={`w-10 h-8 fixed top-4 left-4 flex flex-col justify-between md:hidden`} onClick={()=>{setIsMenuOpen(!isMenuOpend)}}>
             <div className="w-10 h-1.5 bg-black"></div>
             <div className="w-10 h-1.5 bg-black"></div>

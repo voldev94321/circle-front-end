@@ -24,7 +24,7 @@ const AboutPage = () => {
           The future of SocialFi starts here, with 
           <span className="text-primary"> Circle</span>.
         </div>
-        <div className="text-2xl text-tertiary">
+        <div className="text-2xl text-highlight">
           Our mission is to unite the world through decentralized connections
         </div>
         <div className="text-lg text-justify">
