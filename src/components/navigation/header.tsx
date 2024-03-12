@@ -11,7 +11,7 @@ const MenuItems = [
   },
   {
     value: "Socials",
-    link: "socials",
+    link: "timeline",
   },
 ];
 
