@@ -1,0 +1,37 @@
+:root {
+    --primary-color: white;
+  }
+
+.ql-toolbar{
+    border: none!important;
+    padding: 0px!important;
+    padding-bottom: 8px!important;
+    padding-top: 4px!important;
+}
+
+.ql-fill {
+    fill: var(--primary-color)!important;
+}
+
+.ql-stroke {
+    stroke: var(--primary-color)!important;
+}
+
+.ql-picker-label {
+    color: var(--primary-color)!important;
+}
+
+.ql-editor.ql-blank::before {
+    color: gray!important;
+    margin-left:-8px!important;
+}
+
+.ql-container{
+    border:none!important;
+}
+
+.ql-editor{
+    padding-left:0px!important;
+    padding-right:0px!important;
+    padding-top:4px!important;
+}
