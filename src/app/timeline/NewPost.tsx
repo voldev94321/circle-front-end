@@ -4,28 +4,31 @@ import React from "react";
 import { useSelector } from "react-redux";
 import ReactQuillEditor from "@/components/input/ReactQuill";
 import Image from "next/image";
+import { newPost } from "@/apis/community";
+import { toast } from "react-toastify";
+import { AxiosError } from "axios";
 
 const NewPost = () => {
-  const [contentText, setContentText] = React.useState("");
+  const [content, setContent] = React.useState("");
   const { userInfo } = useSelector((state: any) => state.auth);
-  const [images, setImages] = React.useState<FileList | null>(null);
 
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files) {
-      setImages(event.target.files);
-    }
-  };
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (images) {
-      for (let i = 0; i < images.length; i++) {
-        const image = images[i];
-        // Here you can perform operations with each image, such as uploading to a server
-        console.log("Uploaded image:", image.name);
+  const handleSend = async () => {
+    try{
+      const data = await newPost(content, userInfo.token);
+      if(data.success){
+        toast.success("Your blog posted successfully!");
+        setContent("");
+      } 
+    } catch (e: any) {
+      if(e.code == AxiosError.ERR_BAD_REQUEST){
+        if(e.response.status == 401){
+          toast.error("Unauthorized Action!");
+          return;
+        }
       }
+      toast.error("Unknow Error!");
     }
-  };
+  }
 
   return (
     <div className="w-full bg-tertiary p-2 rounded-2xl flex gap-2">
@@ -37,9 +40,9 @@ const NewPost = () => {
         height={40}
       />
       <div className="flex-grow">
-        <ReactQuillEditor />
+        <ReactQuillEditor content={content} setContent={setContent}/>
       </div>
-      <div className="m-2 hover:scale-95 h-fit">
+      <div className="m-2 hover:scale-95 h-fit cursor-pointer" onClick={handleSend}>
         <IoSendSharp size={20} />
       </div>
     </div>

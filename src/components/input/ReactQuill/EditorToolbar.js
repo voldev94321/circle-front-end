@@ -14,10 +14,22 @@ function redoChange() {
 export const modules = {
   toolbar: {
     container: "#toolbar",
+    // container: [
+    //   ["bold", "italic", "underline"],
+    //   [{"list" : "bullet"}],
+    //   ["blockquote"],
+    //   ["color", "background"],
+    //   ["link", "image"],
+    //   ["code-block"],
+    //   // ['emoji'],
+    // ],
     handlers: {
       undo: undoChange,
       redo: redoChange,
+      // 'emoji': function() {}
     },
+    // "emoji-toolbar": true,
+    // "emoji-shortname": true
   },
   history: {
     delay: 500,
@@ -36,16 +48,16 @@ export const formats = [
   "underline",
   // "align",
   // "strike",
-  "script",
-  "blockquote",
-  "background",
   "list",
   "bullet",
-  "indent",
+  "blockquote",
+  "color",
+  "background",
   "link",
   "image",
-  "color",
   "code-block",
+  // "script",
+  "indent",
 ];
 
 // Quill Toolbar component
@@ -55,7 +67,6 @@ export const QuillToolbar = () => {
     // const Size = Quill.import("formats/size");
     // Size.whitelist = ["extra-small", "small", "medium", "large"];
     // Quill.register(Size, true);
-
     // // Add fonts to whitelist and register them
     // const Font = Quill.import("formats/font");
     // Font.whitelist = [
@@ -99,7 +110,7 @@ export const QuillToolbar = () => {
       </span>
       <span className="ql-formats">
         {/* <button className="ql-list" value="ordered" /> */}
-        <button className="ql-list" value="bullet" />
+        <button className="ql-list" value="bullet"/>
         {/* <button className="ql-indent" value="-1" /> */}
         {/* <button className="ql-indent" value="+1" /> */}
       </span>

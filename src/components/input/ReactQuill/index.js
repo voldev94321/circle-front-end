@@ -4,18 +4,43 @@ import dynamic from "next/dynamic";
 const QuillEditor = dynamic(() => import("react-quill"), { ssr: false });
 import "react-quill/dist/quill.snow.css";
 import "./style.css";
+// import ToolbarEmoji from "./ToolbarEmoji";
+// const DynamicToolbarEmoji = dynamic(() => import("./ToolbarEmoji"), {ssr: false});
+// const DynamicEmojiBlot = dynamic(() => import("./EmojiBlot"), {ssr: false});
 
-export const ReactQuillEditor = () => {
-    const [state, setState] = React.useState({ value: null });
+// import EmojiBlot from "./EmojiBlot";
+// import quillEmoji from "react-quill-emoji";
+
+export const ReactQuillEditor = ({content, setContent}) => {
     const handleChange = value => {
-      setState({ value });
+      setContent( value );
     };
+
+    // React.useEffect(() => {
+    //   const  { Quill } = require("react-quill");
+    //   const quillEmoji = require("react-quill-emoji");
+    //   let Parchment = Quill.import('parchment');
+    //   try{
+        
+    //     Quill.register(
+    //       {
+    //         "formats/emoji": DynamicEmojiBlot,
+    //         "modules/emoji-toolbar": DynamicToolbarEmoji,
+    //         "modules/emoji-shortname": quillEmoji.ShortNameEmoji
+    //       },
+    //       true
+    //     );
+    //   } catch (e) {
+    //     console.log(e);
+    //   }
+    // }, []);
+
     return (
       <div className="text-editor">
         <EditorToolbar />
         <QuillEditor
           theme="snow"
-          value={state.value}
+          value={content}
           onChange={handleChange}
           placeholder={"Write something awesome..."}
           modules={modules}
