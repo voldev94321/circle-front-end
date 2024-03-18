@@ -42,7 +42,7 @@ const NewPost = () => {
       <div className="flex-grow">
         <ReactQuillEditor content={content} setContent={setContent}/>
       </div>
-      <div className="m-2 hover:scale-95 h-fit cursor-pointer" onClick={handleSend}>
+      <div className="m-2 hover:scale-95  duration-500 h-fit cursor-pointer" onClick={handleSend}>
         <IoSendSharp size={20} />
       </div>
     </div>

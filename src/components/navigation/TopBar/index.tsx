@@ -16,10 +16,10 @@ const TopBar = () => {
         </div>
         <FaSearch  size={18}/>
       </div>
-      <div className="p-2 bg-front bg-opacity-10 rounded-2xl px-4 hover:scale-95 cursor-pointer">
+      <div className="p-2 bg-front bg-opacity-10 rounded-2xl px-4 hover:scale-95  duration-500 cursor-pointer">
         <MdMessage size={20}/>
       </div>
-      <div className="p-2 bg-front bg-opacity-10 rounded-2xl px-4 hover:scale-95 cursor-pointer">
+      <div className="p-2 bg-front bg-opacity-10 rounded-2xl px-4 hover:scale-95 duration-500 cursor-pointer">
         <IoIosNotifications size={20} />
       </div>
     </div>

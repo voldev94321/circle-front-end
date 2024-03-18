@@ -30,6 +30,7 @@ const config: Config = {
       back2: "#151515",
       back3: "#18182E",
       front: "#FFF",
+      front2: "#888",
       dangerous: "#DC143C",
       transparent: "#fff0",
       black: "#000",
