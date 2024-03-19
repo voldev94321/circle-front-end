@@ -1,6 +1,6 @@
-import { getPost } from "@/apis/community";
+import { getPost } from "@/apis/blog";
 import CardView from "@/components/view/CardView";
-import PostView from "@/components/view/PostView";
+import PostView from "@/components/view/PostView/PostView";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import React from "react";
 import { useInView } from "react-intersection-observer";
@@ -48,24 +48,27 @@ const PostLayout = () => {
         {data?.pages?.map(
           (page, pageIndex) =>
             page &&
-            page.map((item: any, index: number) => (
-              <div key={index}>
-                { (index != 0 || index == 0 && pageIndex != 0) && <div className="border-t-2 border-front2 border-dotted my-8 -mx-8"></div>}
+            page.map((item: any, index: number) => {
+              return <div key={index}>
+                {(index != 0 || (index == 0 && pageIndex != 0)) && (
+                  <div className="border-t-2 border-front2 border-dotted my-8 -mx-8"></div>
+                )}
                 <PostView
                   innerRef={ref}
                   blogId={item._id}
+                  commentId={item.commentId}
                   username={item.username}
                   profilename={item.username}
                   useravatar="/img/avatar/default.png"
                   content={item.content}
-                  commentsCount={1}
+                  commentsCount={item.commentsCount}
                   likes={item.likes}
                   dislikes={item.dislikes}
                   circles={item.circles}
                   reposts={item.reposts}
                 />
-              </div>
-            ))
+              </div>;
+            })
         )}
       </CardView>
     </div>

@@ -18,7 +18,7 @@ const MenuItems = [
 const LandingHeader = () => {
   return (
     <div className="fixed top-0 flex justify-between w-full bg-back">
-        <Link className="p-6 ml-20 hidden md:block text-xl" href={"/"}>
+        <Link className="p-4 ml-20 hidden md:block text-xl" href={"/"}>
             Home
         </Link>
       <div className="p-4 mr-20 hidden md:block">

@@ -4,7 +4,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import ReactQuillEditor from "@/components/input/ReactQuill";
 import Image from "next/image";
-import { newPost } from "@/apis/community";
+import { newPost } from "@/apis/blog";
 import { toast } from "react-toastify";
 import { AxiosError } from "axios";
 
