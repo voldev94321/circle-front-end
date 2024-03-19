@@ -20,3 +20,29 @@ export const getPost = async ( skip: number, limit: number ) => {
   );
   return data.data;
 }
+
+export const likePost = async ( blogId: string, like: boolean, token: string ) => {
+  const data = await axios.post(
+    process.env.NEXT_PUBLIC_BACKEND_URL + "/community/like",
+    { blogId, like },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return data.data;
+}
+
+export const dislikePost = async ( blogId: string, dislike: boolean, token: string ) => {
+  const data = await axios.post(
+    process.env.NEXT_PUBLIC_BACKEND_URL + "/community/dislike",
+    { blogId, dislike },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return data.data;
+}

@@ -40,20 +40,20 @@ const PostLayout = () => {
     if (inView && hasNextPage) {
       fetchNextPage();
     }
-    console.log(data);
   }, [inView, fetchNextPage, hasNextPage]);
 
   return (
     <div>
       <CardView>
         {data?.pages?.map(
-          (page) =>
+          (page, pageIndex) =>
             page &&
             page.map((item: any, index: number) => (
               <div key={index}>
-                { index != 0 && <div className="border-t-2 border-front2 border-dotted my-8 -mx-8"></div>}
+                { (index != 0 || index == 0 && pageIndex != 0) && <div className="border-t-2 border-front2 border-dotted my-8 -mx-8"></div>}
                 <PostView
                   innerRef={ref}
+                  blogId={item._id}
                   username={item.username}
                   profilename={item.username}
                   useravatar="/img/avatar/default.png"
