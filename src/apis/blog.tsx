@@ -114,6 +114,22 @@ export const circlePost = async (
   }
 };
 
+export const repost = async (
+  blogId: string,
+  token: string
+) => {
+  const data = await axios.post(
+    process.env.NEXT_PUBLIC_BACKEND_URL + "/blog/repost",
+    { blogId },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return data.data;
+};
+
 export const newComment = async (
   blogId: string,
   token: string,

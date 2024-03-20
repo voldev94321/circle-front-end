@@ -1,10 +1,11 @@
-import { circlePost, dislikePost, likePost } from "@/apis/blog";
+import { circlePost, dislikePost, likePost, repost } from "@/apis/blog";
 import Image from "next/image";
 import React from "react";
 import { BiRepost, BiSolidDislike, BiSolidLike } from "react-icons/bi";
 import { MdMessage } from "react-icons/md";
 import { useSelector } from "react-redux";
 import CommentsView from "./Comments";
+import { toast } from "react-toastify";
 
 interface PostViewProps {
   blogId: string;
@@ -37,18 +38,26 @@ const PostView = ({
 }: PostViewProps) => {
   const [isComment, setIsComment] = React.useState(false);
   const { userInfo } = useSelector((state: any) => state.auth);
+
   const [isLike, setIsLike] = React.useState(
     likes.findIndex((value) => value == userInfo._id) != -1 ? true : false
   );
   const [likeCounts, setLikeCounts] = React.useState(0 + likes.length);
+
   const [isDislike, setIsDislike] = React.useState(
     dislikes.findIndex((value) => value == userInfo._id) != -1 ? true : false
   );
   const [dislikeCounts, setDislikeCounts] = React.useState(0 + dislikes.length);
+
   const [isCircle, setIsCircle] = React.useState(
     circles.findIndex((value) => value == userInfo._id) != -1 ? true : false
   );
   const [circleCounts, setCircleCounts] = React.useState(0 + circles.length);
+
+  const [isRepost, setIsRepost] = React.useState(
+    reposts.findIndex((value) => value == userInfo._id) != -1 ? true : false
+  );
+  const [repostCounts, setRepostCounts] = React.useState(0 + reposts.length);
 
   const handleComment = () => {
     setIsComment(true);
@@ -82,6 +91,17 @@ const PostView = ({
       setCircleCounts(circleCounts + 1);
     }
     setIsCircle(!isCircle);
+  };
+
+  const handleRepost = async () => {
+    if (!isRepost) {
+      repost(blogId, userInfo.token);
+      setRepostCounts(repostCounts + 1);
+      setIsRepost(true);
+      toast.success("Reposted Successfully!");
+    } else {
+      toast.warning("You've already reposted this!");
+    }
   };
 
   return (
@@ -134,11 +154,17 @@ const PostView = ({
               <div className="text-front2">{dislikeCounts}</div>
             </div>
             {reposts && (
-              <div className="flex flex-col items-center opacity cursor-pointer hover:scale-95  duration-500">
+              <div
+                className="flex flex-col items-center opacity cursor-pointer hover:scale-95  duration-500"
+                onClick={handleRepost}
+              >
                 <div className="bg-front bg-opacity-10 p-2 rounded-xl">
-                  <BiRepost size={20} />
+                  <BiRepost
+                    size={20}
+                    className={isRepost ? "text-primary" : ""}
+                  />
                 </div>
-                <div className="text-front2">{reposts.length}</div>
+                <div className="text-front2">{repostCounts}</div>
               </div>
             )}
             <div
@@ -160,7 +186,13 @@ const PostView = ({
               <div className="text-front2">{circleCounts}</div>
             </div>
           </div>
-          {isComment && <CommentsView blogId={blogId} commentId={commentId} token={userInfo.token}/>}
+          {isComment && (
+            <CommentsView
+              blogId={blogId}
+              commentId={commentId}
+              token={userInfo.token}
+            />
+          )}
         </div>
       </div>
     </div>
