@@ -55,9 +55,9 @@ const PostView = ({
   const [circleCounts, setCircleCounts] = React.useState(0 + circles.length);
 
   const [isRepost, setIsRepost] = React.useState(
-    reposts.findIndex((value) => value == userInfo._id) != -1 ? true : false
+    reposts ? (reposts.findIndex((value) => value == userInfo._id) != -1 ? true : false) : false,
   );
-  const [repostCounts, setRepostCounts] = React.useState(0 + reposts.length);
+  const [repostCounts, setRepostCounts] = React.useState(0 + (reposts ? reposts.length : 0));
 
   const handleComment = () => {
     setIsComment(true);
