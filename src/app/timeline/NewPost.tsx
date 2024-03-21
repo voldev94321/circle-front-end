@@ -7,27 +7,34 @@ import Image from "next/image";
 import { newPost } from "@/apis/blog";
 import { toast } from "react-toastify";
 import { AxiosError } from "axios";
+import { extractImgInfo, uploadImageToPinata } from "@/utils/html";
 
 const NewPost = () => {
   const [content, setContent] = React.useState("");
   const { userInfo } = useSelector((state: any) => state.auth);
 
   const handleSend = async () => {
-    try{
-      const data = await newPost(content, userInfo.token);
-      if(data.success){
-        toast.success("Your blog posted successfully!");
-        setContent("");
-      } 
-    } catch (e: any) {
-      if(e.code == AxiosError.ERR_BAD_REQUEST){
-        if(e.response.status == 401){
-          toast.error("Unauthorized Action!");
-          return;
-        }
-      }
-      toast.error("Unknow Error!");
-    }
+    console.log(content);
+    const imgList = extractImgInfo(content);
+    imgList.forEach(async imgItem => {
+      const uploadedResult = uploadImageToPinata(imgItem.src);
+      console.log(uploadedResult);
+    });
+    // try{
+    //   const data = await newPost(content, userInfo.token);
+    //   if(data.success){
+    //     toast.success("Your blog posted successfully!");
+    //     setContent("");
+    //   } 
+    // } catch (e: any) {
+    //   if(e.code == AxiosError.ERR_BAD_REQUEST){
+    //     if(e.response.status == 401){
+    //       toast.error("Unauthorized Action!");
+    //       return;
+    //     }
+    //   }
+    //   toast.error("Unknow Error!");
+    // }
   }
 
   return (
@@ -39,7 +46,7 @@ const NewPost = () => {
         width={40}
         height={40}
       />
-      <div className="flex-grow">
+      <div className="flex-grow flex items-center relative overflow-hidden">
         <ReactQuillEditor content={content} setContent={setContent}/>
       </div>
       <div className="m-2 hover:scale-95  duration-500 h-fit cursor-pointer" onClick={handleSend}>
