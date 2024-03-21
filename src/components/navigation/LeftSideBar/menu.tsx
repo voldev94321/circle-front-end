@@ -1,10 +1,15 @@
 "use client";
 import { sideMenuItems } from "@/constant";
 import Image from "next/image";
+import { useRouter } from 'next/navigation';
 import React from "react";
 
-const Menu = () => {
-  const [selectedMenu, setSelectedMenu] = React.useState("");
+interface MenuProps {
+  selectedMenu: string,
+}
+
+const Menu = ({ selectedMenu }: MenuProps) => {
+  const router = useRouter();
 
   return (
     <div className="mt-6 mb-6 ml-2 mr-2">
@@ -18,7 +23,8 @@ const Menu = () => {
                   selectedMenu == item.label && "bg-primary2"
                 } rounded-xl`}
                 onClick={() => {
-                  setSelectedMenu(item.label);
+                  // setSelectedMenu(item.label);
+                  router.push(item.link);
                 }}
               >
                 <Image

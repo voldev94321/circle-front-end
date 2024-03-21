@@ -4,7 +4,7 @@ import NewPost from "./NewPost";
 import PostLayout from "./PostLayout";
 
 const Timeline = () => {
-  return <MainLayout>
+  return <MainLayout menu="Timeline">
     <div>
       <NewPost/>
       <PostLayout/>

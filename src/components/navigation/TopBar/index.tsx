@@ -3,13 +3,18 @@ import { MdMessage } from "react-icons/md";
 import { FaSearch } from "react-icons/fa";
 import TransparentInput from "@/components/input/TransparentInput";
 import React from "react";
-const TopBar = () => {
+
+interface TopBarProps {
+  setMenu: any
+}
+
+const TopBar = ({setMenu}: TopBarProps) => {
 
     const [search, setSearch] = React.useState("");
 
   return (
     <div className="flex gap-6 items-center">
-      <div>Menu &gt; Timeline</div>
+      <div onClick={() => {setMenu(true)}}>Menu &gt; Timeline</div>
       <div className="flex-grow flex p-2 rounded-2xl bg-front bg-opacity-10 items-center px-4">
         <div className="flex-grow ">
           <TransparentInput placeholder="Search here..." value={search} setValue={setSearch} type="text"/>
