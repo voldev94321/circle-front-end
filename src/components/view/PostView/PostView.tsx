@@ -164,7 +164,7 @@ const PostView = ({
     };
 
     // Add event listener to body
-    document.body.addEventListener("click", handleClick);
+    document.body.addEventListener("mouseup", handleClick);
     let blog: any = blogRef.current;
     if(blog){
       blog.innerHTML = content;

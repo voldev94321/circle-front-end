@@ -15,6 +15,9 @@ const NewPost = () => {
   const { userInfo } = useSelector((state: any) => state.auth);
 
   const handleSend = async () => {
+    if(content == "" || content == "<p><br></p>"){
+      return;
+    }
     const imgList = extractImgInfo(content);
     let newContent = content.toString();
     for (let i = 0; i < imgList.length; i++) {

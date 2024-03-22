@@ -68,6 +68,6 @@
     opacity: 100%;
 }
 
-.quill{
-    overflow:hidden;
+.ql-tooltip{
+    margin-left: 50px;
 }
