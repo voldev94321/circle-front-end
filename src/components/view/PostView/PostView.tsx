@@ -1,13 +1,12 @@
 import { circlePost, dislikePost, likePost, repost } from "@/apis/blog";
 import Image from "next/image";
-import React from "react";
+import React, { MutableRefObject } from "react";
 import { BiRepost, BiSolidDislike, BiSolidLike } from "react-icons/bi";
 import { MdMessage } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import CommentsView from "./Comments";
 import { toast } from "react-toastify";
-import { setRepostModalData, setRepostModalState } from "@/store/modalSlice";
-import { Select, SelectItem } from "@nextui-org/select";
+import { setImageModalData, setImageModalState, setRepostModalData, setRepostModalState } from "@/store/modalSlice";
 
 interface PostViewProps {
   blogId: string;
@@ -43,6 +42,7 @@ const PostView = ({
   const [isComment, setIsComment] = React.useState(false);
   const { userInfo } = useSelector((state: any) => state.auth);
   const dispatch = useDispatch();
+  const blogRef = React.useRef(null);
 
   const [isLike, setIsLike] = React.useState(
     likes.findIndex((value) => value == userInfo._id) != -1 ? true : false
@@ -115,7 +115,7 @@ const PostView = ({
   };
 
   const handleRepost = async () => {
-    if(isRepost){
+    if (isRepost) {
       toast.error("You've already reposted this.");
       return;
     }
@@ -128,7 +128,7 @@ const PostView = ({
   };
 
   const handleRepostMenuSelected = async (e: any) => {
-    if(isRepost){
+    if (isRepost) {
       toast.error("You've already reposted this.");
       return;
     }
@@ -157,12 +157,32 @@ const PostView = ({
       // Your click event handling logic here
     };
 
+    const handleClickImage = (event: any) => {
+      const imageUrl = event.target.currentSrc;
+      dispatch(setImageModalData(imageUrl));
+      dispatch(setImageModalState(true));
+    };
+
     // Add event listener to body
     document.body.addEventListener("click", handleClick);
+    let blog: any = blogRef.current;
+    if(blog){
+      blog.innerHTML = content;
+      const blogImages = blog.getElementsByTagName("img");
+      for (let i = 0; i < blogImages.length; i++) {
+        blogImages[i].addEventListener("click", handleClickImage)
+      }
+    }
 
     // Clean up function to remove event listener when component unmounts
     return () => {
       document.body.removeEventListener("click", handleClick);
+      if(blog){
+        const blogImages = blog.getElementsByTagName("img");
+        for (let i = 0; i < blogImages.length; i++) {
+          blogImages[i].removeEventListener("click", handleClickImage)
+        }
+      }
     };
   }, []);
 
@@ -180,7 +200,11 @@ const PostView = ({
           <div className="mb-2">
             {profilename} <span className="opacity-50">{username}</span>
           </div>
-          <div dangerouslySetInnerHTML={{ __html: content }} id="blog-view" />
+          <div
+            // dangerouslySetInnerHTML={{ __html: content }}
+            id="blog-view"
+            ref={blogRef}
+          />
           {!hideIcons && (
             <div id="item-list" className="flex gap-2">
               <div

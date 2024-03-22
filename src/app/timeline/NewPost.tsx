@@ -7,25 +7,35 @@ import Image from "next/image";
 import { newPost } from "@/apis/blog";
 import { toast } from "react-toastify";
 import { AxiosError } from "axios";
-import { extractImgInfo, uploadImageToPinata } from "@/utils/html";
+import { extractImgInfo } from "@/utils/html";
+import { uploadImage } from "@/apis/uploadImage";
 
 const NewPost = () => {
   const [content, setContent] = React.useState("");
   const { userInfo } = useSelector((state: any) => state.auth);
 
   const handleSend = async () => {
-    // console.log(content);
-    // const imgList = extractImgInfo(content);
-    // imgList.forEach(async imgItem => {
-    //   const uploadedResult = uploadImageToPinata(imgItem.src);
-    //   console.log(uploadedResult);
-    // });
+    const imgList = extractImgInfo(content);
+    let newContent = content.toString();
+    for (let i = 0; i < imgList.length; i++) {
+      const imgItem = imgList[i];
+      const updatedResult = await uploadImage(imgItem.src);
+
+      newContent = newContent.replace(
+        /<img\b[^>]*>/,
+        "<div><img src='" +
+          process.env.NEXT_PUBLIC_BACKEND_URL +
+          "/uploads/" +
+          updatedResult.data +
+          "' alt='img' class='blog-image'></div>"
+      );
+    }
     try{
-      const data = await newPost(content, userInfo.token);
+      const data = await newPost(newContent, userInfo.token);
       if(data.success){
         toast.success("Your blog posted successfully!");
         setContent("");
-      } 
+      }
     } catch (e: any) {
       if(e.code == AxiosError.ERR_BAD_REQUEST){
         if(e.response.status == 401){
@@ -35,7 +45,7 @@ const NewPost = () => {
       }
       toast.error("Unknow Error!");
     }
-  }
+  };
 
   return (
     <div className="w-full bg-tertiary p-2 rounded-2xl flex gap-2">
@@ -47,9 +57,12 @@ const NewPost = () => {
         height={40}
       />
       <div className="flex-grow flex items-center relative">
-        <ReactQuillEditor content={content} setContent={setContent}/>
+        <ReactQuillEditor content={content} setContent={setContent} />
       </div>
-      <div className="m-2 hover:scale-95  duration-500 h-fit cursor-pointer" onClick={handleSend}>
+      <div
+        className="m-2 hover:scale-95  duration-500 h-fit cursor-pointer"
+        onClick={handleSend}
+      >
         <IoSendSharp size={20} />
       </div>
     </div>

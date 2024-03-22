@@ -70,3 +70,16 @@ div {
   width: 200px;
   border-radius: 20px;
 }
+
+.scale-in {
+  animation: scaleAnimation 0.5s ease-in-out forwards;
+}
+
+@keyframes scaleAnimation {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}

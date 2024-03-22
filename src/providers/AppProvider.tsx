@@ -6,6 +6,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import "@/styles/globals.css";
 import ReactQueryProvider from "./ReactQueryProvider";
 import RepostModal from "@/components/modal/RepostModal";
+import ImageModal from "@/components/modal/ImageModal";
 const LazyWalletContext = lazy(() => import("./WalletContext"));
 const LazyWalletConnectModal = lazy(
   () => import("@/components/modal/WalletConnectModal")
@@ -24,6 +25,7 @@ export default function AppProvider({
             {children}
             <LazyWalletConnectModal />
             <RepostModal/>
+            <ImageModal/>
           </PersistGate>
         </Provider>
       </ReactQueryProvider>

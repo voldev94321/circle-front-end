@@ -12,7 +12,7 @@ interface LeftSideBarProps {
 const LeftSideBar = ({ isMenuOpen, setIsMenuOpen, menu }: LeftSideBarProps) => {
   return (
     <div
-      className={` h-full md:max-w-[330px] w-full flex fixed md:relative z-50 md:block ${
+      className={` h-full lg:max-w-[330px] w-full flex fixed lg:relative z-50 lg:block ${
         !isMenuOpen ? "hidden" : ""
       }`}
       onClick={(e) => {
@@ -20,7 +20,7 @@ const LeftSideBar = ({ isMenuOpen, setIsMenuOpen, menu }: LeftSideBarProps) => {
       }}
     >
       <div
-        className={`flex flex-col p-6 h-full justify-between min-w-[330px] bg-back md:block `}
+        className={`flex flex-col p-6 h-full justify-between min-w-[330px] bg-back lg:block `}
         onClick={(e) => {
           e.stopPropagation();
         }}

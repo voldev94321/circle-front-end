@@ -4,6 +4,8 @@ export interface ModalState {
   walletConnectModalState: boolean;
   repostModalState: boolean;
   repostModalData: any;
+  imageModalState: boolean;
+  imageModalData: any;
 }
 
 // Initial state
@@ -11,6 +13,8 @@ const initialState: ModalState = {
   walletConnectModalState: false,
   repostModalState: false,
   repostModalData: {},
+  imageModalState: false,
+  imageModalData: ""
 };
 
 export const modalSlice = createSlice({
@@ -26,8 +30,14 @@ export const modalSlice = createSlice({
     setRepostModalData: (state, action: PayloadAction<any>) => {
       state.repostModalData = action.payload;
     },
+    setImageModalState: (state, action: PayloadAction<boolean>) => {
+      state.imageModalState = action.payload;
+    },
+    setImageModalData: (state, action: PayloadAction<any>) => {
+      state.imageModalData = action.payload;
+    },
   },
 });
 
-export const { setWalletConnectModalState, setRepostModalData, setRepostModalState } = modalSlice.actions;
+export const { setWalletConnectModalState, setRepostModalData, setRepostModalState, setImageModalState, setImageModalData } = modalSlice.actions;
 export const modalReducer = modalSlice.reducer;
