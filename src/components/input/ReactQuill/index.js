@@ -38,7 +38,7 @@ export const ReactQuillEditor = ({ content, setContent }) => {
   // }, []);
 
   return (
-    <div className="text-editor w-full">
+    <div className="text-editor w-full inline-grid">
       <EditorToolbar/>
       <QuillEditor
         theme="snow"

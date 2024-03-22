@@ -67,3 +67,7 @@
 .ql-link:hover{
     opacity: 100%;
 }
+
+.quill{
+    overflow:hidden;
+}
