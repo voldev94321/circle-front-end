@@ -67,8 +67,13 @@ div {
 }
 
 #blog-view img{
-  width: 200px;
+  width: 300px;
+  height: 250px;
+  object-fit: contain;
+  background-color: #fff1;
   border-radius: 20px;
+  margin-top:10px;
+  margin-bottom:10px;
 }
 
 .scale-in {

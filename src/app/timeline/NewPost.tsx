@@ -26,13 +26,16 @@ const NewPost = () => {
 
       newContent = newContent.replace(
         /<img\b[^>]*>/,
-        "<div><img src='" +
+        "<div><tempimg src='" +
           process.env.NEXT_PUBLIC_BACKEND_URL +
           "/uploads/" +
           updatedResult.data +
           "' alt='img' class='blog-image'></div>"
       );
     }
+
+    newContent = newContent.replaceAll("<tempimg", "<img");
+
     try{
       const data = await newPost(newContent, userInfo.token);
       if(data.success){
@@ -59,14 +62,14 @@ const NewPost = () => {
         width={40}
         height={40}
       />
-      <div className="flex-grow flex items-center relative">
+      <div className="flex-grow flex mt-2">
         <ReactQuillEditor content={content} setContent={setContent} />
       </div>
       <div
-        className="m-2 hover:scale-95  duration-500 h-fit cursor-pointer"
+        className="hover:scale-95  duration-500 h-fit cursor-pointer mt-2.5"
         onClick={handleSend}
       >
-        <IoSendSharp size={20} />
+        <IoSendSharp size={18} />
       </div>
     </div>
   );

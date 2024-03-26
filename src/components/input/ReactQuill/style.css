@@ -4,14 +4,10 @@
 
 .ql-toolbar{
     border: none!important;
-    padding: 0px!important;
-    padding-bottom: 8px!important;
-    padding-top: 4px!important;
+
     width: fit-content;
-    position: absolute;
-    right: -20px;
-    top: 3px;
-    z-index: 10;
+    padding: 0!important;
+    min-width:84px;
 }
 
 .ql-fill {
@@ -40,34 +36,19 @@
 }
 
 .ql-editor img{
-    width:100px!important;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width:300px!important;
+    height:240px!important;
+    object-fit: cover;
     cursor: pointer;
-}
-
-.ql-image{
-    opacity: 50%;
-}
-
-.ql-image:hover{
-    opacity: 100%;
-}
-
-.ql-color{
-    opacity: 50%;
-}
-
-.ql-color:hover{
-    opacity: 100%;
-}
-
-.ql-link{
-    opacity: 50%;
-}
-
-.ql-link:hover{
-    opacity: 100%;
+    background-color: #0008;
 }
 
 .ql-tooltip{
     margin-left: 50px;
+}
+
+.ql-formats{
+    margin-right: 0!important;
 }

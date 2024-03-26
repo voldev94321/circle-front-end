@@ -13,7 +13,6 @@ import { addImgWHAttribute, extractImgInfo } from "@/utils/html";
 // import quillEmoji from "react-quill-emoji";
 
 export const ReactQuillEditor = ({ content, setContent }) => {
-
   const handleChange = (value) => {
     setContent(value);
   };
@@ -38,9 +37,9 @@ export const ReactQuillEditor = ({ content, setContent }) => {
   // }, []);
 
   return (
-    <div className="text-editor w-full inline-grid">
-      <EditorToolbar/>
+    <div className="text-editor w-full flex">
       <QuillEditor
+        className="flex-grow mt-1"
         theme="snow"
         value={content}
         onChange={handleChange}
@@ -48,6 +47,7 @@ export const ReactQuillEditor = ({ content, setContent }) => {
         modules={modules}
         formats={formats}
       />
+      <EditorToolbar />
     </div>
   );
 };

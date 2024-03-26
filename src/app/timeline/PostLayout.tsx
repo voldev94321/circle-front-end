@@ -16,9 +16,7 @@ const PostLayout = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const fetchData = async ({ pageParam }: { pageParam: number }) => {
-    setIsLoading(true);
     const data = await getPost(pageParam, pageLimit, searchValue);
-    setIsLoading(false);
     return data.data;
   };
 
@@ -52,7 +50,9 @@ const PostLayout = () => {
 
   React.useEffect(() => {
     setTimeout(async () => {
+      setIsLoading(true);
       await refetch();
+      setIsLoading(false);
     }, 0);
   }, [searchValue]);
 
