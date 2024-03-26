@@ -1,19 +1,26 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { getPost } from "@/apis/blog";
 import CardView from "@/components/view/CardView";
 import PostView from "@/components/view/PostView/PostView";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import { useInView } from "react-intersection-observer";
+import { useSelector } from "react-redux";
+import { CircleLoader } from "react-spinners";
 
 const pageLimit = 5;
 const PostLayout = () => {
+  const { ref, inView } = useInView();
+  const { searchValue } = useSelector((state: any) => state.app);
+  const [isLoading, setIsLoading] = useState(false);
+
   const fetchData = async ({ pageParam }: { pageParam: number }) => {
-    const data = await getPost(pageParam, pageLimit);
+    setIsLoading(true);
+    const data = await getPost(pageParam, pageLimit, searchValue);
+    setIsLoading(false);
     return data.data;
   };
-
-  const { ref, inView } = useInView();
 
   const {
     data: data,
@@ -43,9 +50,15 @@ const PostLayout = () => {
     }
   }, [inView, fetchNextPage, hasNextPage]);
 
+  React.useEffect(() => {
+    setTimeout(async () => {
+      await refetch();
+    }, 0);
+  }, [searchValue]);
+
   return (
     <div>
-      <CardView>
+      { !isLoading ? <CardView>
         {data?.pages?.map(
           (page, pageIndex) =>
             page &&
@@ -96,7 +109,8 @@ const PostLayout = () => {
               );
             })
         )}
-      </CardView>
+        {(!data || !data.pages || data.pages[0].length == 0) && <div>No Contents</div>}
+      </CardView> : <div className="mt-6"><CircleLoader color="#8043FA" className="mx-auto"/></div>}
     </div>
   );
 };

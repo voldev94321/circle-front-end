@@ -1,6 +1,6 @@
 import RestrictedProvider from "@/providers/RestrictedProvider";
 import LeftSideBar from "./LeftSideBar";
-import React, { ReactNode, lazy } from "react";
+import React, { ReactNode, createContext, lazy } from "react";
 import TopBar from "./TopBar";
 const LazyRightSideBar = lazy(() => import("./RightSideBar"));
 
@@ -11,6 +11,7 @@ interface MainLayoutProps {
 
 const MainLayout = ({ menu, children }: MainLayoutProps) => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+
   return (
     <RestrictedProvider>
       <div className="bg-primary w-screen h-screen flex">

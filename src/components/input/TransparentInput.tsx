@@ -5,6 +5,7 @@ interface TransparentInputProps {
     value: any;
     max?: number;
     setValue: React.Dispatch<React.SetStateAction<any>>;
+    onKeyDown?: any;
   }
   
   const TransparentInput = ({
@@ -14,6 +15,7 @@ interface TransparentInputProps {
     value,
     max,
     setValue,
+    onKeyDown,
   }: TransparentInputProps) => {
     return (
       <input
@@ -24,6 +26,7 @@ interface TransparentInputProps {
         max={max}
         value={value}
         onChange={(e) => setValue(e.target.value)}
+        onKeyDown={onKeyDown}
       />
     );
   };

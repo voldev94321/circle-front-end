@@ -15,7 +15,7 @@ const Menu = ({ selectedMenu }: MenuProps) => {
     <div className="mt-6 mb-6 ml-2 mr-2">
       {sideMenuItems.map((menu, index) => (
         <div key={index}>
-          <div className="text-lg mt-4 mb-4">{menu.category}</div>
+          <div className="text-md mt-4 mb-4">{menu.category}</div>
           {menu.items.map((item, iIndex) => (
             <div key={iIndex}>
               <div

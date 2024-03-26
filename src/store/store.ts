@@ -5,6 +5,7 @@ import persistStore from "redux-persist/es/persistStore";
 
 import createWebStorage from "redux-persist/es/storage/createWebStorage";
 import { modalReducer } from "./modalSlice";
+import { appReducer } from "./appSlice";
 
 export function createPersistStore() {
   const isServer = typeof window === "undefined";
@@ -36,6 +37,7 @@ const authPersistConfig = {
 const rootReducer = combineReducers({
   auth: persistReducer(authPersistConfig, authReducer),
   modal: modalReducer,
+  app: appReducer,
 });
 
 export const store = configureStore({

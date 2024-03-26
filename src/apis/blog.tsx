@@ -13,10 +13,10 @@ export const newPost = async (content: string, token: string) => {
   return data.data;
 };
 
-export const getPost = async (skip: number, limit: number) => {
+export const getPost = async (skip: number, limit: number, searchValue: string) => {
   const data = await axios.post(
     process.env.NEXT_PUBLIC_BACKEND_URL + "/blog/getPosts",
-    { skip, limit }
+    { skip, limit, searchValue }
   );
   return data.data;
 };
