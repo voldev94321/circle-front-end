@@ -74,6 +74,8 @@ const CommentsView = ({ blogId, commentId, token }: CommentsViewProps) => {
           dislikes={item.dislikes}
           circles={item.circles}
           reposts={item.reposts}
+          createdAt={item.createdAt}
+          openComment
         />
       ))}
     </div>

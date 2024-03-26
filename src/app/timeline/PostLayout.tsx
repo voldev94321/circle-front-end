@@ -2,6 +2,7 @@
 import { getPost } from "@/apis/blog";
 import CardView from "@/components/view/CardView";
 import PostView from "@/components/view/PostView/PostView";
+import { getTimeAgo } from "@/utils/date";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import React, { useState } from "react";
@@ -76,7 +77,7 @@ const PostLayout = ({forwardedRef} : any) => {
                   )}
                   {item.status == "REPOSTED" && (
                     <div>
-                      <div className="flex gap-4 -mx-4 -mt-4 items-center">
+                      <div className="flex gap-4 -mx-4 -mt-4">
                         <Image
                           className="rounded-full border-[1px] border-front w-[30px] h-[30px]"
                           src={"/img/avatar/default.png"}
@@ -89,8 +90,9 @@ const PostLayout = ({forwardedRef} : any) => {
                           {item.repostedUserInfo && item.repostedUserInfo.length > 0 && item.repostedUserInfo[0].username}
                           <span className="text-front opacity-50">
                             {" "}
-                            reposted this.
+                            reposted this. • {getTimeAgo(item.repostedDate)}
                           </span>{" "}
+                          {item.quote != "" && <div dangerouslySetInnerHTML={{__html: item.quote}}></div>}
                         </div>
                       </div>
                       <hr className="mt-4 opacity-10 -mx-8 mb-2" />
@@ -110,6 +112,8 @@ const PostLayout = ({forwardedRef} : any) => {
                     dislikes={item.dislikes}
                     circles={item.circles}
                     reposts={item.reposts}
+                    createdAt={item.createdAt}
+                    isReposted={item.status == "REPOSTED"}
                   />
                 </div>
               );

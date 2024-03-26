@@ -2,13 +2,22 @@
 import { circlePost, dislikePost, likePost, repost } from "@/apis/blog";
 import Image from "next/image";
 import React, { MutableRefObject } from "react";
-import { BiRepost, BiSolidDislike, BiSolidLike } from "react-icons/bi";
-import { MdMessage } from "react-icons/md";
+import { BiRepost, BiSolidDislike, BiSolidLike, BiSolidPencil } from "react-icons/bi";
+import { MdMessage, MdOutlineReport } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import CommentsView from "./Comments";
 import { toast } from "react-toastify";
-import { setImageModalData, setImageModalState, setRepostModalData, setRepostModalState } from "@/store/modalSlice";
+import {
+  setImageModalData,
+  setImageModalState,
+  setReportModalData,
+  setReportModalState,
+  setRepostModalData,
+  setRepostModalState,
+} from "@/store/modalSlice";
 import { useRouter } from "next/navigation";
+import { SlUserFollow } from "react-icons/sl";
+import { getTimeAgo } from "@/utils/date";
 
 interface PostViewProps {
   blogId: string;
@@ -22,7 +31,10 @@ interface PostViewProps {
   dislikes: [string];
   reposts: [string];
   circles: [string];
+  createdAt: string;
   hideIcons?: boolean;
+  isReposted?: boolean;
+  openComment?: boolean;
   innerRef?: (node?: Element | null | undefined) => void;
 }
 
@@ -38,11 +50,14 @@ const PostView = ({
   dislikes,
   reposts,
   circles,
+  createdAt,
   hideIcons,
   innerRef,
+  isReposted,
+  openComment,
 }: PostViewProps) => {
   const router = useRouter();
-  const [isComment, setIsComment] = React.useState(false);
+  const [isComment, setIsComment] = React.useState(openComment);
   const { userInfo } = useSelector((state: any) => state.auth);
   const dispatch = useDispatch();
   const blogRef = React.useRef(null);
@@ -73,10 +88,10 @@ const PostView = ({
     0 + (reposts ? reposts.length : 0)
   );
   const [contextMenuVisible, setContextMenuVisible] = React.useState(false);
-  const [selectedRepostMenu, setSelectedRepostMenu] = React.useState("");
+  const [isSettingMenu, setIsSettingMenu] = React.useState(false);
 
   const handleComment = () => {
-    setIsComment(true);
+    setIsComment(!isComment);
   };
 
   const handleLike = async () => {
@@ -150,14 +165,25 @@ const PostView = ({
         dislikes,
         reposts,
         circles,
+        createdAt,
       })
     );
   };
+
+  const handleFollow = async () => {
+
+  }
+
+  const handleReport = async () => {
+    dispatch(setReportModalState(true));
+    dispatch(setReportModalData({blogId, commentId}));
+  }
 
   React.useEffect(() => {
     const handleClick = (event: any) => {
       event.preventDefault();
       setContextMenuVisible(false);
+      setIsSettingMenu(false);
       // Your click event handling logic here
     };
 
@@ -170,28 +196,28 @@ const PostView = ({
     // Add event listener to body
     document.body.addEventListener("mouseup", handleClick);
     let blog: any = blogRef.current;
-    if(blog){
+    if (blog) {
       blog.innerHTML = content;
       const blogImages = blog.getElementsByTagName("img");
       for (let i = 0; i < blogImages.length; i++) {
-        blogImages[i].addEventListener("click", handleClickImage)
+        blogImages[i].addEventListener("click", handleClickImage);
       }
     }
 
     // Clean up function to remove event listener when component unmounts
     return () => {
       document.body.removeEventListener("click", handleClick);
-      if(blog){
+      if (blog) {
         const blogImages = blog.getElementsByTagName("img");
         for (let i = 0; i < blogImages.length; i++) {
-          blogImages[i].removeEventListener("click", handleClickImage)
+          blogImages[i].removeEventListener("click", handleClickImage);
         }
       }
     };
   }, []);
 
   return (
-    <div className="w-full">
+    <div className="w-full relative">
       <div className="flex gap-4 my-2" ref={innerRef}>
         <Image
           className="rounded-full border-[1px] border-front w-[50px] h-[50px]"
@@ -202,7 +228,7 @@ const PostView = ({
         />
         <div className="flex-grow flex flex-col gap-2">
           <div className="mb-2">
-            {profilename} <span className="opacity-50">{username}</span>
+            {profilename} <span className="opacity-50">{username} • {getTimeAgo(createdAt)}</span>
           </div>
           <div
             // dangerouslySetInnerHTML={{ __html: content }}
@@ -216,7 +242,7 @@ const PostView = ({
                 onClick={handleComment}
               >
                 <div className="bg-front bg-opacity-10 p-2 rounded-xl">
-                  <MdMessage size={16} />
+                  <MdMessage size={16} className={isComment ? "text-primary" : ""}/>
                 </div>
                 <div className="text-front2">{commentsCount}</div>
               </div>
@@ -272,7 +298,7 @@ const PostView = ({
                         className="hover:bg-primary p-2 flex items-center gap-2"
                         onMouseDown={handleRepostMenuSelected}
                       >
-                        <BiRepost size={16} />
+                        <BiSolidPencil size={16} />
                         Quote
                       </div>
                     </div>
@@ -309,6 +335,33 @@ const PostView = ({
           )}
         </div>
       </div>
+      <div
+        className={`absolute ${
+          isReposted ? "-top-14" : "top-0"
+        } right-0 cursor-pointer`}
+        onClick={() => {
+          setIsSettingMenu(true);
+        }}
+      >
+        {" "}
+        . . .{" "}
+      </div>
+      {isSettingMenu && <div className={`absolute ${isReposted ? "-top-8" : "top-6"} right-0 bg-back z-50`}>
+        <div
+          className="hover:bg-primary p-2 flex items-center gap-2 cursor-pointer"
+          onMouseDown={handleFollow}
+        >
+          <SlUserFollow size={16} />
+          Follow this user
+        </div>
+        <div
+          className="hover:bg-primary p-2 flex items-center gap-2 cursor-pointer"
+          onMouseDown={handleReport}
+        >
+          <MdOutlineReport size={16} color="red"/>
+          Report
+        </div>
+      </div>}
     </div>
   );
 };

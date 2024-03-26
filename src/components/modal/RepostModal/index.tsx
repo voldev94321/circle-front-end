@@ -85,6 +85,7 @@ const RepostModal = () => {
             dislikes={repostModalData.dislikes}
             circles={repostModalData.circles}
             reposts={repostModalData.reposts}
+            createdAt={repostModalData.createdAt}
           />
         </div>
         <div className="w-full p-2 flex"><PrimaryButton classNames="ml-auto" onClick={handleRepost}>Repost</PrimaryButton></div>
