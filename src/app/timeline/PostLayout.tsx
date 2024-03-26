@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
 import { CircleLoader } from "react-spinners";
 
 const pageLimit = 5;
-const PostLayout = () => {
+const PostLayout = ({forwardedRef} : any) => {
   const { ref, inView } = useInView();
   const { searchValue } = useSelector((state: any) => state.app);
   const [isLoading, setIsLoading] = useState(false);
@@ -42,6 +42,16 @@ const PostLayout = () => {
     },
   });
 
+  const refresh = async () => {
+    setIsLoading(true);
+    await refetch();
+    setIsLoading(false);
+  }
+
+  React.useImperativeHandle(forwardedRef, () => ({
+    refresh
+  }));
+
   React.useEffect(() => {
     if (inView && hasNextPage) {
       fetchNextPage();
@@ -49,11 +59,7 @@ const PostLayout = () => {
   }, [inView, fetchNextPage, hasNextPage]);
 
   React.useEffect(() => {
-    setTimeout(async () => {
-      setIsLoading(true);
-      await refetch();
-      setIsLoading(false);
-    }, 0);
+    refresh();
   }, [searchValue]);
 
   return (

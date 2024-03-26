@@ -14,7 +14,18 @@ import { addImgWHAttribute, extractImgInfo } from "@/utils/html";
 
 export const ReactQuillEditor = ({ content, setContent }) => {
   const handleChange = (value) => {
-    setContent(value);
+    const tempElement = document.createElement('div');
+    tempElement.innerHTML = value;
+    const htmlContent = tempElement.firstChild;
+    const imgTags = htmlContent.getElementsByTagName('img');
+
+    for(let i=0;i<imgTags.length;i++){
+      const prevTag = imgTags[i].previousSibling;
+      if(!prevTag){
+        htmlContent.innerHTML = "<p><br/></p>" + htmlContent.innerHTML;
+      }
+    }
+    setContent(tempElement.innerHTML);
   };
 
   // React.useEffect(() => {

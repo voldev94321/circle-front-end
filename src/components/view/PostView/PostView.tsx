@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { circlePost, dislikePost, likePost, repost } from "@/apis/blog";
 import Image from "next/image";
 import React, { MutableRefObject } from "react";
@@ -7,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import CommentsView from "./Comments";
 import { toast } from "react-toastify";
 import { setImageModalData, setImageModalState, setRepostModalData, setRepostModalState } from "@/store/modalSlice";
+import { useRouter } from "next/navigation";
 
 interface PostViewProps {
   blogId: string;
@@ -39,6 +41,7 @@ const PostView = ({
   hideIcons,
   innerRef,
 }: PostViewProps) => {
+  const router = useRouter();
   const [isComment, setIsComment] = React.useState(false);
   const { userInfo } = useSelector((state: any) => state.auth);
   const dispatch = useDispatch();
@@ -122,6 +125,7 @@ const PostView = ({
     const result = await repost(blogId, userInfo.token, "");
     if (result.success) {
       toast.success("Reposted Successfully!");
+      router.refresh();
     } else {
       toast.error("Repost Failed!");
     }

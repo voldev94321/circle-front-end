@@ -24,7 +24,6 @@ const RepostModal = () => {
   };
 
   const handleRepost = async () => {
-    console.log(repostModalData);
     const result = await repost(repostModalData.blogId, userInfo.token, quote); 
     if(result.success){
       toast.success("Reposted Successfully!");

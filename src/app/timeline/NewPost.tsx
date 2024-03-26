@@ -10,7 +10,11 @@ import { AxiosError } from "axios";
 import { extractImgInfo } from "@/utils/html";
 import { uploadImage } from "@/apis/uploadImage";
 
-const NewPost = () => {
+interface NewPostProps {
+  refresh: any;
+}
+
+const NewPost = ({refresh}: NewPostProps) => {
   const [content, setContent] = React.useState("");
   const { userInfo } = useSelector((state: any) => state.auth);
 
@@ -41,6 +45,7 @@ const NewPost = () => {
       if(data.success){
         toast.success("Your blog posted successfully!");
         setContent("");
+        refresh();
       }
     } catch (e: any) {
       if(e.code == AxiosError.ERR_BAD_REQUEST){

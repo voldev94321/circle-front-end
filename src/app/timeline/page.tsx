@@ -2,12 +2,21 @@
 import MainLayout from "@/components/navigation/MainLayout";
 import NewPost from "./NewPost";
 import PostLayout from "./PostLayout";
+import React from "react";
 
 const Timeline = () => {
+  const postLayoutRef = React.useRef<any>(null);
+
+  const handleRefresh = () => {
+    if(postLayoutRef && postLayoutRef.current){
+      postLayoutRef.current.refresh();
+    }
+  }
+
   return <MainLayout menu="Timeline">
     <div>
-      <NewPost/>
-      <PostLayout/>
+      <NewPost refresh={handleRefresh}/>
+      <PostLayout forwardedRef={postLayoutRef}/>
     </div>
   </MainLayout>;
 };
