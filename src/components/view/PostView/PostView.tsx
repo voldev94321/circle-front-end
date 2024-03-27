@@ -59,7 +59,7 @@ const PostView = ({
   openComment,
 }: PostViewProps) => {
   const router = useRouter();
-  const [isComment, setIsComment] = React.useState(openComment);
+  const [isComment, setIsComment] = React.useState(openComment && commentsCount > 0);
   const { userInfo } = useSelector((state: any) => state.auth);
   const { blogModalState, repostModalState } = useSelector((state: any) => state.modal);
   const dispatch = useDispatch();
