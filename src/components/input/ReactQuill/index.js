@@ -74,7 +74,7 @@ export const ReactQuillEditor = ({ content, setContent }) => {
   return (
     <div className="text-editor w-full flex" ref={containerRef}>
       <QuillEditor
-        className="flex-grow mt-1"
+        className="flex-grow mt-1 overflow-hidden"
         theme="snow"
         value={content}
         onChange={handleChange}
