@@ -4,11 +4,18 @@ import { setReportModalState, setRepostModalState } from "@/store/modalSlice";
 import dynamic from "next/dynamic";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+
+const reportList = [
+  { name: "Spam", value: "Spam" },
+  { name: "Fraud", value: "Fraud" },
+  { name: "Child sexual exploitation or abuse", value: "Child Sexual" },
+];
 
 const ReportModal = () => {
   const { reportModalState } = useSelector((state: any) => state.modal);
   const { userInfo } = useSelector((state: any) => state.auth);
-  const [ selectedOption, setSelectedOption ] = React.useState("");
+  const [selectedOption, setSelectedOption] = React.useState("");
   const dispatch = useDispatch();
 
   const onClose = () => {
@@ -16,12 +23,13 @@ const ReportModal = () => {
   };
 
   const handleReport = () => {
-    console.log("RERER");
+    onClose();
+    toast.success("You reported this post!");
   };
 
   return reportModalState ? (
     <div
-      className="fixed left-0 top-0 z-50 flex h-full w-full items-center justify-center bg-transparent"
+      className="fixed left-0 top-0 z-50 flex h-full w-full items-center justify-center bg-black bg-opacity-90"
       onMouseDown={() => {
         onClose();
       }}
@@ -35,9 +43,11 @@ const ReportModal = () => {
           e.stopPropagation();
         }}
       >
+        <div className="text-3xl">Report This Post?</div>
+        <hr className="opacity-10 w-full -my-2" />
         <RadioSelect
-          classNames="ml-4 mt-1"
-          data={[{ name: "All", value: "all" }]}
+          classNames="ml-4 mt-2"
+          data={reportList}
           name="category"
           setValue={setSelectedOption}
         />

@@ -8,6 +8,7 @@ import ReactQueryProvider from "./ReactQueryProvider";
 import RepostModal from "@/components/modal/RepostModal";
 import ImageModal from "@/components/modal/ImageModal";
 import ReportModal from "@/components/modal/ReportModal";
+import BlogModal from "@/components/modal/BlogModal";
 const LazyWalletContext = lazy(() => import("./WalletContext"));
 const LazyWalletConnectModal = lazy(
   () => import("@/components/modal/WalletConnectModal")
@@ -26,8 +27,9 @@ export default function AppProvider({
             {children}
             <LazyWalletConnectModal />
             <RepostModal/>
-            <ReportModal/>
+            <BlogModal/>
             <ImageModal/>
+            <ReportModal/>
           </PersistGate>
         </Provider>
       </ReactQueryProvider>

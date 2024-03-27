@@ -4,7 +4,11 @@ import dynamic from "next/dynamic";
 const QuillEditor = dynamic(() => import("react-quill"), { ssr: false });
 import "react-quill/dist/quill.snow.css";
 import "./style.css";
-import { addImgWHAttribute, extractImgInfo } from "@/utils/html";
+import {
+  addImgWHAttribute,
+  extractImgInfo,
+  removeHtmlTags,
+} from "@/utils/html";
 // import ToolbarEmoji from "./ToolbarEmoji";
 // const DynamicToolbarEmoji = dynamic(() => import("./ToolbarEmoji"), {ssr: false});
 // const DynamicEmojiBlot = dynamic(() => import("./EmojiBlot"), {ssr: false});
@@ -12,20 +16,40 @@ import { addImgWHAttribute, extractImgInfo } from "@/utils/html";
 // import EmojiBlot from "./EmojiBlot";
 // import quillEmoji from "react-quill-emoji";
 
+const characterLimit = 500;
 export const ReactQuillEditor = ({ content, setContent }) => {
-  const handleChange = (value) => {
-    const tempElement = document.createElement('div');
-    tempElement.innerHTML = value;
-    const htmlContent = tempElement.firstChild;
-    const imgTags = htmlContent.getElementsByTagName('img');
+  const [beforeChange, setBeforeChange] = React.useState("");
+  const containerRef = React.useRef();
 
-    for(let i=0;i<imgTags.length;i++){
-      const prevTag = imgTags[i].previousSibling;
-      if(!prevTag){
-        htmlContent.innerHTML = "<p><br/></p>" + htmlContent.innerHTML;
+  const handleChange = (value) => {
+    try {
+      const tempElement = document.createElement("div");
+      tempElement.innerHTML = value;
+      const htmlContent = tempElement.firstChild;
+      const imgTags = htmlContent.getElementsByTagName("img");
+
+      for (let i = 0; i < imgTags.length; i++) {
+        const prevTag = imgTags[i].previousSibling;
+        if (!prevTag) {
+          htmlContent.innerHTML = "<p><br/></p>" + htmlContent.innerHTML;
+        }
       }
+
+      const textValue = removeHtmlTags(value);
+
+      if (textValue.length > characterLimit) {
+        tempElement.innerHTML = beforeChange;
+        const qlEditor =
+          containerRef.current.getElementsByClassName("ql-editor")[0];
+        qlEditor.innerHTML = beforeChange;
+        return;
+      }
+
+      setBeforeChange(value);
+      setContent(tempElement.innerHTML);
+    } catch (e) {
+      console.log(e);
     }
-    setContent(tempElement.innerHTML);
   };
 
   // React.useEffect(() => {
@@ -48,7 +72,7 @@ export const ReactQuillEditor = ({ content, setContent }) => {
   // }, []);
 
   return (
-    <div className="text-editor w-full flex">
+    <div className="text-editor w-full flex" ref={containerRef}>
       <QuillEditor
         className="flex-grow mt-1"
         theme="snow"

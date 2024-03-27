@@ -88,3 +88,14 @@ div {
     transform: scale(1);
   }
 }
+
+@layer components {
+  input[type="radio"]:checked {
+    appearance: none;
+    border-radius: 50%;
+    border-width: 2px;
+    box-shadow: 0 0 1px 3px white inset;
+    @apply bg-primary;
+    @apply border-primary;
+  }
+}

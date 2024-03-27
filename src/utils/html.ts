@@ -17,3 +17,7 @@ export const extractImgInfo = (htmlContent: string) => {
     return []; // Return an empty array if no <img> tags found
   }
 };
+
+export function removeHtmlTags(inputString: string) {
+  return inputString.replace(/<[^>]*>/g, ''); // Matches any HTML tag and replaces it with an empty string
+}

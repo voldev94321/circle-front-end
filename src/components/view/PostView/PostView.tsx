@@ -8,6 +8,8 @@ import { useDispatch, useSelector } from "react-redux";
 import CommentsView from "./Comments";
 import { toast } from "react-toastify";
 import {
+  setBlogModalData,
+  setBlogModalState,
   setImageModalData,
   setImageModalState,
   setReportModalData,
@@ -59,6 +61,7 @@ const PostView = ({
   const router = useRouter();
   const [isComment, setIsComment] = React.useState(openComment);
   const { userInfo } = useSelector((state: any) => state.auth);
+  const { blogModalState, repostModalState } = useSelector((state: any) => state.modal);
   const dispatch = useDispatch();
   const blogRef = React.useRef(null);
 
@@ -179,6 +182,29 @@ const PostView = ({
     dispatch(setReportModalData({blogId, commentId}));
   }
 
+  const handleClickPost = async (e: any) => {
+   
+    if(!blogModalState && !repostModalState){
+      dispatch(setBlogModalState(true));
+      dispatch(
+        setBlogModalData({
+          blogId,
+          commentId,
+          username,
+          profilename,
+          useravatar,
+          content,
+          commentsCount,
+          likes,
+          dislikes,
+          reposts,
+          circles,
+          createdAt,
+        })
+      );
+    }
+  }
+
   React.useEffect(() => {
     const handleClick = (event: any) => {
       event.preventDefault();
@@ -188,6 +214,7 @@ const PostView = ({
     };
 
     const handleClickImage = (event: any) => {
+      event.stopPropagation();
       const imageUrl = event.target.currentSrc;
       dispatch(setImageModalData(imageUrl));
       dispatch(setImageModalState(true));
@@ -234,6 +261,8 @@ const PostView = ({
             // dangerouslySetInnerHTML={{ __html: content }}
             id="blog-view"
             ref={blogRef}
+            onClick={handleClickPost}
+            className=" cursor-pointer"
           />
           {!hideIcons && (
             <div id="item-list" className="flex gap-2">
