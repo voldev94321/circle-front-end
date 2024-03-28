@@ -50,10 +50,15 @@ export const ReactQuillEditor = ({ content, setContent }) => {
 
       setBeforeChange(value);
       setContent(tempElement.innerHTML);
+
       if (isAddedBreakline) {
-        qlEditor.selectionStart = 0;
-        qlEditor.selectionEnd = 0;
-        qlEditor.focus();
+        let range = document.createRange();
+        range.selectNode(qlEditor);
+        range.setStart(qlEditor, 0);
+        range.setEnd(qlEditor, 1);
+        const selection = window.getSelection();
+        selection.removeAllRanges();
+        selection.addRange(range);
       }
     } catch (e) {
       console.log(e);
