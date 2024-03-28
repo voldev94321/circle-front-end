@@ -24,14 +24,14 @@ const RepostModal = () => {
   };
 
   const handleRepost = async () => {
-    const result = await repost(repostModalData.blogId, userInfo.token, quote); 
-    if(result.success){
+    const result = await repost(repostModalData.blogId, userInfo.token, quote);
+    if (result.success) {
       toast.success("Reposted Successfully!");
       onClose();
     } else {
       toast.error("Repost Failed!");
     }
-  }
+  };
 
   return repostModalState ? (
     <div
@@ -59,13 +59,11 @@ const RepostModal = () => {
           />
           <div className="flex-grow flex items-center relative overflow-hidden">
             <div className="text-editor w-full">
-              <QuillEditor
-                theme="snow"
+              <TransparentInput
+                placeholder="Write your quote..."
+                type="text"
                 value={quote}
-                onChange={setQuote}
-                placeholder={"Write your quote..."}
-                modules={{ toolbar: [] }}
-                formats={[]}
+                setValue={setQuote}
               />
             </div>
           </div>
@@ -88,7 +86,11 @@ const RepostModal = () => {
             createdAt={repostModalData.createdAt}
           />
         </div>
-        <div className="w-full p-2 flex"><PrimaryButton classNames="ml-auto" onClick={handleRepost}>Repost</PrimaryButton></div>
+        <div className="w-full p-2 flex">
+          <PrimaryButton classNames="ml-auto" onClick={handleRepost}>
+            Repost
+          </PrimaryButton>
+        </div>
       </div>
       <div className="fixed top-2 right-2 md:hidden">⨉</div>
     </div>

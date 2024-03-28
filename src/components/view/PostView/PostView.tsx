@@ -37,6 +37,7 @@ interface PostViewProps {
   hideIcons?: boolean;
   isReposted?: boolean;
   openComment?: boolean;
+  isCommented?: boolean;
   innerRef?: (node?: Element | null | undefined) => void;
 }
 
@@ -57,6 +58,7 @@ const PostView = ({
   innerRef,
   isReposted,
   openComment,
+  isCommented,
 }: PostViewProps) => {
   const router = useRouter();
   const [isComment, setIsComment] = React.useState(openComment && commentsCount > 0);
@@ -266,7 +268,7 @@ const PostView = ({
           />
           {!hideIcons && (
             <div id="item-list" className="flex gap-2">
-              <div
+              { !isCommented && <div
                 className="flex flex-col items-center opacity cursor-pointer hover:scale-95  duration-500"
                 onClick={handleComment}
               >
@@ -274,7 +276,7 @@ const PostView = ({
                   <MdMessage size={16} className={isComment ? "text-primary" : ""}/>
                 </div>
                 <div className="text-front2">{commentsCount}</div>
-              </div>
+              </div>}
               <div
                 className="flex flex-col items-center opacity cursor-pointer hover:scale-95  duration-500"
                 onClick={handleLike}
@@ -355,7 +357,7 @@ const PostView = ({
               </div>
             </div>
           )}
-          {isComment && (
+          {isComment && !isCommented &&  (
             <CommentsView
               blogId={blogId}
               commentId={commentId}

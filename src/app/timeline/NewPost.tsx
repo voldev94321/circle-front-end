@@ -111,6 +111,8 @@ const NewPost = ({ refresh }: NewPostProps) => {
             content={content}
             setContent={setContent}
             onPasteImage={handlePasteImage}
+            showToolbar={true}
+            onEnterPressed={()=>{}}
           />
         </div>
         <div className="mt-2 flex flex-col gap-2" ref={imageListRef}></div>

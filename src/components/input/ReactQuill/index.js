@@ -10,6 +10,7 @@ import {
   extractImgInfo,
   removeHtmlTags,
 } from "@/utils/html";
+import { getAllUsers } from "@/apis/auth";
 // import ToolbarEmoji from "./ToolbarEmoji";
 // const DynamicToolbarEmoji = dynamic(() => import("./ToolbarEmoji"), {ssr: false});
 // const DynamicEmojiBlot = dynamic(() => import("./EmojiBlot"), {ssr: false});
@@ -18,12 +19,13 @@ import {
 // import quillEmoji from "react-quill-emoji";
 
 const characterLimit = 500;
-export const ReactQuillEditor = ({ content, setContent, onPasteImage }) => {
+export const ReactQuillEditor = ({ content, setContent, onPasteImage, showToolbar, onEnterPressed }) => {
   const [beforeChange, setBeforeChange] = React.useState("");
   const containerRef = React.useRef();
 
   const handleChange = (value) => {
     try {
+      /// ------------------ Limit Check ---------------
       const tempElement = document.createElement("div");
       tempElement.innerHTML = value;
 
@@ -38,6 +40,7 @@ export const ReactQuillEditor = ({ content, setContent, onPasteImage }) => {
       }
 
       setBeforeChange(value);
+
       setContent(tempElement.innerHTML);
     } catch (e) {
       console.log(e);
@@ -65,7 +68,65 @@ export const ReactQuillEditor = ({ content, setContent, onPasteImage }) => {
     const container = containerRef.current;
     const qillEditor = container.getElementsByClassName("ql-editor")[0];
     qillEditor.addEventListener("paste", handlePaste);
+
+    setTimeout(async () => {
+      const {users} = await getAllUsers();
+
+      setInterval(() => {
+        /// --------------- Tag username --------------------
+        let value = qillEditor.innerHTML;
+        const names = value.match(/@(\w+)\b/g);
+        if(!names){
+          return;
+        }
+        let taggedUsernames = [];
+        for(let i=0;i<names.length;i++){
+          if(users.findIndex(u => names[i].slice(1) == u.username) != -1){
+            taggedUsernames.push(names[i]);
+          }
+        }
+        if (taggedUsernames.length > 0) {
+          for (let i = 0; i < taggedUsernames.length; i++) {
+            const trim = taggedUsernames[i].replace(" ", "");
+            const replaceString =
+              "<span style='color: #8043FA;' contenteditable='false'><strong>@</strong>" +
+              trim.slice(1) +
+              "</span>";
+            value = value.replaceAll(trim, replaceString);
+          }
+          // console.log(value);
+
+          let startOffset = 0;
+          let endOffset = 0;
+          let range;
+          if (window.getSelection) {
+            startOffset = window
+              .getSelection()
+              .getRangeAt(0)
+              .cloneRange().startOffset;
+            endOffset = window
+              .getSelection()
+              .getRangeAt(0)
+              .cloneRange().endOffset;
+            range = window.getSelection().getRangeAt(0).cloneRange();
+          }
+          qillEditor.innerHTML = value;
+          range.setStart(qillEditor, qillEditor.childNodes.length);
+          range.setEnd(qillEditor, qillEditor.childNodes.length);
+          window.getSelection().removeAllRanges();
+          window.getSelection().addRange(range);
+          // return;
+        }
+      }, 2000);
+    }, 0);
   }, []);
+
+  const onKeyDown = ( e ) => {
+    if(e.key == 'Enter'){
+      e.preventDefault();
+      onEnterPressed();
+    }
+  }
 
   return (
     <div className="text-editor w-full flex" ref={containerRef}>
@@ -77,8 +138,9 @@ export const ReactQuillEditor = ({ content, setContent, onPasteImage }) => {
         placeholder={"Write something awesome..."}
         modules={modules}
         formats={formats}
+        onKeyDown={onKeyDown}
       />
-      <EditorToolbar />
+      {showToolbar && <EditorToolbar />}
     </div>
   );
 };
