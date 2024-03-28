@@ -27,26 +27,34 @@ export const ReactQuillEditor = ({ content, setContent }) => {
       tempElement.innerHTML = value;
       const htmlContent = tempElement.firstChild;
       const imgTags = htmlContent.getElementsByTagName("img");
+      let isAddedBreakline = false;
 
       for (let i = 0; i < imgTags.length; i++) {
         const prevTag = imgTags[i].previousSibling;
         if (!prevTag) {
           htmlContent.innerHTML = "<p><br/></p>" + htmlContent.innerHTML;
+          isAddedBreakline = true;
         }
       }
 
       const textValue = removeHtmlTags(value);
 
+      const qlEditor =
+        containerRef.current.getElementsByClassName("ql-editor")[0];
       if (textValue.length > characterLimit) {
         tempElement.innerHTML = beforeChange;
-        const qlEditor =
-          containerRef.current.getElementsByClassName("ql-editor")[0];
+
         qlEditor.innerHTML = beforeChange;
         return;
       }
 
       setBeforeChange(value);
       setContent(tempElement.innerHTML);
+      if (isAddedBreakline) {
+        qlEditor.selectionStart = 0;
+        qlEditor.selectionEnd = 0;
+        qlEditor.focus();
+      }
     } catch (e) {
       console.log(e);
     }
