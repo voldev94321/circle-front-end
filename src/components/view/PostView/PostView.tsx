@@ -247,7 +247,7 @@ const PostView = ({
 
   return (
     <div className="w-full relative">
-      <div className="flex gap-4 my-2" ref={innerRef}>
+      <div className="flex gap-4" ref={innerRef}>
         <Image
           className="rounded-full border-[1px] border-front w-[50px] h-[50px]"
           src={useravatar}

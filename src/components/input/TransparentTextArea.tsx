@@ -27,9 +27,6 @@ const TransparentTextArea = ({
 
   return (
     <textarea
-      style={{
-        resize: "none"
-      }}
       ref={textareaRef}
       className={`w-full text-front bg-transparent focus:outline-none ${classNames}`}
       placeholder={placeholder}

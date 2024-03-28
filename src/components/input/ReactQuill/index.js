@@ -48,7 +48,7 @@ export const ReactQuillEditor = ({ content, setContent, onPasteImage, showToolba
   };
 
   const handlePaste = (event) => {
-    event.preventDefault();
+    
     const items = (event.clipboardData || window.clipboardData).items;
 
     for (let i = 0; i < items.length; i++) {
@@ -60,6 +60,8 @@ export const ReactQuillEditor = ({ content, setContent, onPasteImage, showToolba
 
         // Process the image file (e.g., upload, display)
         onPasteImage(file);
+        event.preventDefault();
+      } else {
       }
     }
   };

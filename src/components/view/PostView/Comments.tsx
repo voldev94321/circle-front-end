@@ -24,7 +24,7 @@ const CommentsView = ({ blogId, commentId, token }: CommentsViewProps) => {
   };
 
   const handleSend = async () => {
-    const result = await newComment(blogId, token, comment, commentId);
+    const result = await newComment(blogId, token, comment.replaceAll("<p><br></p>", ""), commentId);
     fetchData();
     setComment("");
     try {
@@ -87,7 +87,7 @@ const CommentsView = ({ blogId, commentId, token }: CommentsViewProps) => {
           reposts={item.reposts}
           createdAt={item.createdAt}
           openComment
-          isCommented
+          isCommented={item.commentId != ""}
         />
       ))}
     </div>

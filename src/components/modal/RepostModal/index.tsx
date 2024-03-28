@@ -1,7 +1,9 @@
 import { repost } from "@/apis/blog";
 import PrimaryButton from "@/components/button/PrimaryButton";
+import ReactQuillEditor from "@/components/input/ReactQuill";
 import { formats, modules } from "@/components/input/ReactQuill/EditorToolbar";
 import TransparentInput from "@/components/input/TransparentInput";
+import TransparentTextArea from "@/components/input/TransparentTextArea";
 import PostView from "@/components/view/PostView/PostView";
 import { setRepostModalState } from "@/store/modalSlice";
 import dynamic from "next/dynamic";
@@ -59,11 +61,12 @@ const RepostModal = () => {
           />
           <div className="flex-grow flex items-center relative overflow-hidden">
             <div className="text-editor w-full">
-              <TransparentInput
-                placeholder="Write your quote..."
-                type="text"
-                value={quote}
-                setValue={setQuote}
+              <ReactQuillEditor
+                content={quote}
+                setContent={setQuote}
+                onPasteImage={() => {}}
+                showToolbar={false}
+                onEnterPressed={()=>{}}
               />
             </div>
           </div>

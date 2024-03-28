@@ -1,4 +1,5 @@
 import { useWallet } from "@/providers/WalletContext";
+import { numberWithCommas } from "@/utils/number";
 import Decimal from "decimal.js";
 import Image from "next/image";
 import React, { lazy } from "react";
@@ -16,7 +17,7 @@ const RightSideBar = () => {
         <LazyWalletConnectButton />
         {isConnected && (
           <div>
-            <div className="my-4">Balance: { "" + new Decimal(adaBalance).dividedBy(Math.pow(10, 6)).toNumber().toFixed(2)}&nbsp;₳</div>
+            <div className="my-4">Balance: { "" + numberWithCommas(new Decimal(adaBalance).dividedBy(Math.pow(10, 6)).toNumber().toFixed(2))}&nbsp;₳</div>
           </div>
         )}
       </div>

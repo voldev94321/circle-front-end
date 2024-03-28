@@ -27,6 +27,7 @@ interface TransparentInputProps {
         value={value}
         onChange={(e) => setValue(e.target.value)}
         onKeyDown={onKeyDown}
+        multiple
       />
     );
   };
