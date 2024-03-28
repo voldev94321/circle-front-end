@@ -85,14 +85,14 @@ const PostLayout = ({forwardedRef} : any) => {
                           width={30}
                           height={30}
                         />
-                        <div className="mt-1 overflow-hidden">
+                        <div className="mt-1 overflow-hidden mr-12">
                           {" "}
                           {item.repostedUserInfo && item.repostedUserInfo.length > 0 && item.repostedUserInfo[0].username}
                           <span className="text-front opacity-50">
                             {" "}
                             reposted this. • {getTimeAgo(item.repostedDate)}
                           </span>{" "}
-                          {item.quote != "" && <div dangerouslySetInnerHTML={{__html: item.quote}}></div>}
+                          {item.quote != "" && <div style={{overflowWrap: "anywhere"}} dangerouslySetInnerHTML={{__html: item.quote}}></div>}
                         </div>
                       </div>
                       <hr className="mt-4 opacity-10 -mx-8 mb-2" />
