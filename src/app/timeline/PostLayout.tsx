@@ -85,7 +85,7 @@ const PostLayout = ({forwardedRef} : any) => {
                           width={30}
                           height={30}
                         />
-                        <div>
+                        <div className="mt-1">
                           {" "}
                           {item.repostedUserInfo && item.repostedUserInfo.length > 0 && item.repostedUserInfo[0].username}
                           <span className="text-front opacity-50">
