@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
 import EditorToolbar, { modules, formats } from "./EditorToolbar";
 import dynamic from "next/dynamic";

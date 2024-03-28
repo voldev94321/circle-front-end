@@ -12,10 +12,12 @@ interface CommentsViewProps {
 
 const CommentsView = ({ blogId, commentId, token }: CommentsViewProps) => {
   const [comment, setComment] = React.useState("");
+  const [showCommentInput, setShowCommentInput] = React.useState(false);
   const [list, setList] = React.useState([]);
-    const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
 
   const fetchData = async () => {
+    setList([]);
     const { data } = await getComments(blogId, commentId);
     setList(data);
   };
@@ -39,6 +41,12 @@ const CommentsView = ({ blogId, commentId, token }: CommentsViewProps) => {
     }
   };
 
+  const handleKeyDown = async (e: any) => {
+    if( e.key == "Enter" ) {
+      handleSend();
+    }
+  }
+
   React.useEffect(() => {
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -46,11 +54,12 @@ const CommentsView = ({ blogId, commentId, token }: CommentsViewProps) => {
 
   return (
     <div ref={ref}>
-      <div className="bg-front bg-opacity-10 p-2 rounded-2xl flex px-4 items-center mb-4">
+      {showCommentInput ? <div className="bg-front bg-opacity-10 p-2 rounded-2xl flex px-4 items-center mb-4">
         <TransparentInput
           placeholder="Add a comment.."
           value={comment}
           setValue={setComment}
+          onKeyDown={handleKeyDown}
           type="text"
         />
         <div
@@ -59,7 +68,7 @@ const CommentsView = ({ blogId, commentId, token }: CommentsViewProps) => {
         >
           <IoSendSharp size={16} />
         </div>
-      </div>
+      </div> : <div className="hover:text-primary cursor-pointer text-front2" onClick={()=>{setShowCommentInput(true);}}>Add Comment</div>}
       {list.map((item: any, index) => (
         <PostView
           key={index}
