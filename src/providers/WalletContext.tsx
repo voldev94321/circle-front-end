@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { supportedWallets, savedWalletSelectionKey } from "@/constant";
 import { toast } from "react-toastify";
