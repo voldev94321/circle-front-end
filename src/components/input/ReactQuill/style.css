@@ -7,7 +7,7 @@
 
     width: fit-content;
     padding: 0!important;
-    min-width:84px;
+    min-width:58px!important;
 }
 
 .ql-fill {
@@ -33,6 +33,7 @@
 
 .ql-editor{
     padding:0px;
+    overflow-wrap: anywhere;
 }
 
 .ql-editor img{

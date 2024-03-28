@@ -9,52 +9,90 @@ import { toast } from "react-toastify";
 import { AxiosError } from "axios";
 import { extractImgInfo } from "@/utils/html";
 import { uploadImage } from "@/apis/uploadImage";
+import { BsImages } from "react-icons/bs";
 
 interface NewPostProps {
   refresh: any;
 }
 
-const NewPost = ({refresh}: NewPostProps) => {
+const NewPost = ({ refresh }: NewPostProps) => {
   const [content, setContent] = React.useState("");
   const { userInfo } = useSelector((state: any) => state.auth);
+  const imageListRef = React.useRef<HTMLDivElement>(null);
 
   const handleSend = async () => {
-    if(content == "" || content == "<p><br></p>"){
+    const imgList = extractImgInfo("" + imageListRef.current?.innerHTML);
+    if ((content == "" || content == "<p><br></p>") && (!imgList || imgList.length == 0)) {
       return;
     }
-    const imgList = extractImgInfo(content);
+
     let newContent = content.toString();
     for (let i = 0; i < imgList.length; i++) {
       const imgItem = imgList[i];
       const updatedResult = await uploadImage(imgItem.src);
 
-      newContent = newContent.replace(
-        /<img\b[^>]*>/,
-        "<div><tempimg src='" +
+      newContent += "<div><img src='" +
           process.env.NEXT_PUBLIC_BACKEND_URL +
           "/uploads/" +
           updatedResult.data +
-          "' alt='img' class='blog-image'></div>"
-      );
+          "' alt='img' class='blog-image'></div>";
     }
 
-    newContent = newContent.replaceAll("<tempimg", "<img");
-
-    try{
+    try {
       const data = await newPost(newContent, userInfo.token);
-      if(data.success){
+      if (data.success) {
         toast.success("Your blog posted successfully!");
         setContent("");
+        if(imageListRef.current){
+          imageListRef.current.innerHTML = "";
+        }
         refresh();
       }
     } catch (e: any) {
-      if(e.code == AxiosError.ERR_BAD_REQUEST){
-        if(e.response.status == 401){
+      if (e.code == AxiosError.ERR_BAD_REQUEST) {
+        if (e.response.status == 401) {
           toast.error("Unauthorized Action!");
           return;
         }
       }
       toast.error("Unknow Error!");
+    }
+  };
+
+  const addImage = (data: string) => {
+    const imageTag = document.createElement("div");
+    imageTag.classList.add("image-container");
+    const tagId = new Date().getTime().toString();
+    imageTag.setAttribute("id", tagId);
+    imageTag.innerHTML = `<img src="${data}" alt="img-preview"/>`;
+
+    const closeButton = document.createElement("button");
+    closeButton.textContent = "⨉";
+    closeButton.classList.add("close-button");
+    closeButton.addEventListener("click", () => {
+      imageListRef.current?.removeChild(imageTag);
+    });
+    imageTag.appendChild(closeButton);
+
+    imageListRef.current?.appendChild(imageTag);
+  };
+
+  const handlePasteImage = async (file: any) => {
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      if (reader.result) {
+        addImage(reader.result.toString());
+      }
+    };
+
+    reader.readAsDataURL(file);
+  };
+
+  const handleFileChange = (event: any) => {
+    const fileArray = Array.from(event.target.files);
+    for (let i = 0; i < fileArray.length; i++) {
+      handlePasteImage(fileArray[i]);
     }
   };
 
@@ -67,11 +105,27 @@ const NewPost = ({refresh}: NewPostProps) => {
         width={40}
         height={40}
       />
-      <div className="flex-grow flex mt-2">
-        <ReactQuillEditor content={content} setContent={setContent} />
+      <div className="flex-grow  mt-2">
+        <div className=" flex">
+          <ReactQuillEditor
+            content={content}
+            setContent={setContent}
+            onPasteImage={handlePasteImage}
+          />
+        </div>
+        <div className="mt-2 flex flex-col gap-2" ref={imageListRef}></div>
+      </div>
+      <div className="hover:scale-95  duration-500 h-fit cursor-pointer mt-2.5 mr-2 relative">
+        <BsImages size={18} />
+        <input
+          className="absolute top-0 left-0 opacity-0 w-full h-full cursor-pointer"
+          type="file"
+          multiple
+          onChange={handleFileChange}
+        />
       </div>
       <div
-        className="hover:scale-95  duration-500 h-fit cursor-pointer mt-2.5"
+        className="hover:scale-95  duration-500 h-fit cursor-pointer mt-2.5 mr-1"
         onClick={handleSend}
       >
         <IoSendSharp size={18} />

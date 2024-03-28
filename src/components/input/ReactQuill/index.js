@@ -17,7 +17,7 @@ import {
 // import quillEmoji from "react-quill-emoji";
 
 const characterLimit = 500;
-export const ReactQuillEditor = ({ content, setContent }) => {
+export const ReactQuillEditor = ({ content, setContent, onPasteImage }) => {
   const [beforeChange, setBeforeChange] = React.useState("");
   const containerRef = React.useRef();
 
@@ -25,17 +25,6 @@ export const ReactQuillEditor = ({ content, setContent }) => {
     try {
       const tempElement = document.createElement("div");
       tempElement.innerHTML = value;
-      const htmlContent = tempElement.firstChild;
-      const imgTags = htmlContent.getElementsByTagName("img");
-      let isAddedBreakline = false;
-
-      for (let i = 0; i < imgTags.length; i++) {
-        const prevTag = imgTags[i].previousSibling;
-        if (!prevTag) {
-          htmlContent.innerHTML = "<p><br/></p>" + htmlContent.innerHTML;
-          isAddedBreakline = true;
-        }
-      }
 
       const textValue = removeHtmlTags(value);
 
@@ -43,46 +32,39 @@ export const ReactQuillEditor = ({ content, setContent }) => {
         containerRef.current.getElementsByClassName("ql-editor")[0];
       if (textValue.length > characterLimit) {
         tempElement.innerHTML = beforeChange;
-
         qlEditor.innerHTML = beforeChange;
         return;
       }
 
       setBeforeChange(value);
       setContent(tempElement.innerHTML);
-
-      if (isAddedBreakline) {
-        let range = document.createRange();
-        range.selectNode(qlEditor);
-        range.setStart(qlEditor, 0);
-        range.setEnd(qlEditor, 1);
-        const selection = window.getSelection();
-        selection.removeAllRanges();
-        selection.addRange(range);
-      }
     } catch (e) {
       console.log(e);
     }
   };
 
-  // React.useEffect(() => {
-  //   const  { Quill } = require("react-quill");
-  //   const quillEmoji = require("react-quill-emoji");
-  //   let Parchment = Quill.import('parchment');
-  //   try{
+  const handlePaste = (event) => {
+    event.preventDefault();
+    const items = (event.clipboardData || window.clipboardData).items;
 
-  //     Quill.register(
-  //       {
-  //         "formats/emoji": DynamicEmojiBlot,
-  //         "modules/emoji-toolbar": DynamicToolbarEmoji,
-  //         "modules/emoji-shortname": quillEmoji.ShortNameEmoji
-  //       },
-  //       true
-  //     );
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  // }, []);
+    for (let i = 0; i < items.length; i++) {
+      const item = items[i];
+
+      // Check if the clipboard item is an image
+      if (item.kind === "file" && item.type.startsWith("image/")) {
+        const file = item.getAsFile();
+
+        // Process the image file (e.g., upload, display)
+        onPasteImage(file);
+      }
+    }
+  };
+
+  React.useEffect(() => {
+    const container = containerRef.current;
+    const qillEditor = container.getElementsByClassName("ql-editor")[0];
+    qillEditor.addEventListener("paste", handlePaste);
+  }, []);
 
   return (
     <div className="text-editor w-full flex" ref={containerRef}>

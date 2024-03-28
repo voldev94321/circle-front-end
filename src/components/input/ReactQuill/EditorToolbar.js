@@ -54,7 +54,7 @@ export const formats = [
   "color",
   // "background",
   "link",
-  "image",
+  // "image",
   // "code-block",
   // "script",
   "indent",
@@ -123,7 +123,7 @@ export const QuillToolbar = () => {
         {/* <select className="ql-align" /> */}
         <select className="ql-color" />
         <button className="ql-link" />
-        <button className="ql-image" />
+        {/* <button className="ql-image" /> */}
       </span>
       <span className="ql-formats" style={{ display: "none" }}>
         {/* <button className="ql-formula" /> */}
