@@ -29,7 +29,7 @@ const BlogModal = () => {
           e.stopPropagation();
         }}
       >
-        <div className="w-full px-4">
+        <div className="w-full p-4">
           <PostView
             hideIcons
             blogId={blogModalData._id}
