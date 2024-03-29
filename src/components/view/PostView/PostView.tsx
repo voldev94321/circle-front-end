@@ -95,9 +95,21 @@ const PostView = ({
   const [contextMenuVisible, setContextMenuVisible] = React.useState(false);
   const [isSettingMenu, setIsSettingMenu] = React.useState(false);
 
+  const [showCommentInput, setShowCommentInput] = React.useState(false);
+
   const handleComment = () => {
+    if(isComment){
+      setShowCommentInput(false);
+    }
     setIsComment(!isComment);
   };
+
+  const handleShowCommentInput = () => {
+    if(!isComment && showCommentInput){
+      setIsComment(true);
+    }
+    setShowCommentInput(!showCommentInput);
+  }
 
   const handleLike = async () => {
     likePost(blogId, commentId, !isLike, userInfo.token);
@@ -263,17 +275,17 @@ const PostView = ({
             // dangerouslySetInnerHTML={{ __html: content }}
             id="blog-view"
             ref={blogRef}
-            onClick={handleClickPost}
+            onClick={handleComment}
             className=" cursor-pointer"
           />
           {!hideIcons && (
             <div id="item-list" className="flex gap-2">
               { !isCommented && <div
                 className="flex flex-col items-center opacity cursor-pointer hover:scale-95  duration-500"
-                onClick={handleComment}
+                onClick={handleShowCommentInput}
               >
                 <div className="bg-front bg-opacity-10 p-2 rounded-xl">
-                  <MdMessage size={16} className={isComment ? "text-primary" : ""}/>
+                  <MdMessage size={16} className={showCommentInput ? "text-primary" : ""}/>
                 </div>
                 <div className="text-front2">{commentsCount}</div>
               </div>}
@@ -357,13 +369,14 @@ const PostView = ({
               </div>
             </div>
           )}
-          {isComment && !isCommented &&  (
+          {(isComment || showCommentInput) && !isCommented  ?  (
             <CommentsView
               blogId={blogId}
               commentId={commentId}
               token={userInfo.token}
+              showCommentInput={showCommentInput}
             />
-          )}
+          ) : <div></div>}
         </div>
       </div>
       <div

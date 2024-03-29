@@ -9,11 +9,11 @@ interface CommentsViewProps {
   blogId: string;
   commentId: string;
   token: string;
+  showCommentInput: boolean;
 }
 
-const CommentsView = ({ blogId, commentId, token }: CommentsViewProps) => {
+const CommentsView = ({ blogId, commentId, token, showCommentInput }: CommentsViewProps) => {
   const [comment, setComment] = React.useState("");
-  const [showCommentInput, setShowCommentInput] = React.useState(false);
   const [list, setList] = React.useState([]);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -54,7 +54,7 @@ const CommentsView = ({ blogId, commentId, token }: CommentsViewProps) => {
 
   return (
     <div ref={ref}>
-      {/* {showCommentInput ?  */}
+      {showCommentInput && 
       <div className="bg-front bg-opacity-10 p-2 rounded-2xl flex px-4 items-center mb-4">
         <ReactQuillEditor
           content={comment}
@@ -69,7 +69,7 @@ const CommentsView = ({ blogId, commentId, token }: CommentsViewProps) => {
         >
           <IoSendSharp size={16} />
         </div>
-      </div>
+      </div>}
       {/* // : <div className="hover:text-primary cursor-pointer text-front2" onClick={()=>{setShowCommentInput(true);}}>Add Comment</div>} */}
       {list.map((item: any, index) => (
         <PostView
