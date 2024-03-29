@@ -86,7 +86,7 @@ const CommentsView = ({ blogId, commentId, token }: CommentsViewProps) => {
           circles={item.circles}
           reposts={item.reposts}
           createdAt={item.createdAt}
-          openComment
+          // openComment
           isCommented={item.commentId != ""}
         />
       ))}
