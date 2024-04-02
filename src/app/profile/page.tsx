@@ -6,7 +6,7 @@ import ProfileMain from "./ProfileMain";
 
 const ProfilePage = () => {
 
-  return <MainLayout menu="ProfilePage">
+  return <MainLayout menu="Profile">
     <ProfileHeader/>
     <ProfileMain/>
   </MainLayout>;

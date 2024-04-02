@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+'use client';
 import { getPost } from "@/apis/blog";
 import CardView from "@/components/view/CardView";
 import PostView from "@/components/view/PostView/PostView";

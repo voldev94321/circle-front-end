@@ -32,15 +32,15 @@ export const sideMenuItems = [
       {
         label: "Timeline",
         link: "/timeline",
-        icon: "/default.svg",
+        icon: "/timeline.svg",
       },{
-        label: "Communities",
-        link: "/communities",
-        icon: "/default.svg",
+        label: "Profile",
+        link: "/profile",
+        icon: "/profile.svg",
       },{
         label: "Circles",
         link: "/circles",
-        icon: "/default.svg",
+        icon: "/circles.svg",
       }
     ]
   },

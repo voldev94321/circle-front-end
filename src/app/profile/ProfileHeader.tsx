@@ -1,7 +1,16 @@
+'use client';
+import { setProfileModalState } from "@/store/modalSlice";
 import { IoMdSettings } from "react-icons/io";
+import { useDispatch } from "react-redux";
 
 /* eslint-disable @next/next/no-img-element */
 const ProfileHeader = () => {
+    const dispatch = useDispatch();
+
+    const handleSetting = () => {
+        dispatch(setProfileModalState(true));
+    }
+
     return (<div>
         <div className="">
             <img src="/img/avatar/banner.png" alt="banner" className="w-full rounded-2xl max-h-40"/>
@@ -13,7 +22,7 @@ const ProfileHeader = () => {
             <div>Website: Circle.com</div>
             <div>Location: United States</div>
             <div>Age: 33</div>
-            <div><IoMdSettings className="w-8 h-8"/></div>
+            <div><IoMdSettings className="w-8 h-8 cursor-pointer" onClick={handleSetting}/></div>
         </div>
     </div>)
 }

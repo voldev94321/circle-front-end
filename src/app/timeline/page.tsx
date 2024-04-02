@@ -1,7 +1,7 @@
 "use client";
 import MainLayout from "@/components/navigation/MainLayout";
 import NewPost from "./NewPost";
-import PostLayout from "./PostLayout";
+import PostLayout from "@/components/view/PostView/PostLayout";
 import React from "react";
 
 const Timeline = () => {

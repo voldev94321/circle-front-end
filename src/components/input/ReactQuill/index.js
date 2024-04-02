@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+'use client';
 import React from "react";
 import EditorToolbar, { modules, formats } from "./EditorToolbar";
 import dynamic from "next/dynamic";
@@ -67,13 +68,13 @@ export const ReactQuillEditor = ({ content, setContent, onPasteImage, showToolba
   };
 
   React.useEffect(() => {
-    const container = containerRef.current;
-    const qillEditor = container.getElementsByClassName("ql-editor")[0];
-    qillEditor.addEventListener("paste", handlePaste);
-
     setTimeout(async () => {
       const {users} = await getAllUsers();
-
+      const container = containerRef.current;
+      const qillEditor = container.getElementsByClassName("ql-editor")[0];
+      if(qillEditor){
+        qillEditor.addEventListener("paste", handlePaste);
+      }
       setInterval(() => {
         /// --------------- Tag username --------------------
         let value = qillEditor.innerHTML;

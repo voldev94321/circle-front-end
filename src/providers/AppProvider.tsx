@@ -9,6 +9,7 @@ import RepostModal from "@/components/modal/RepostModal";
 import ImageModal from "@/components/modal/ImageModal";
 import ReportModal from "@/components/modal/ReportModal";
 import BlogModal from "@/components/modal/BlogModal";
+import ProfileModal from "@/components/modal/ProfileModal";
 const LazyWalletContext = lazy(() => import("./WalletContext"));
 const LazyWalletConnectModal = lazy(
   () => import("@/components/modal/WalletConnectModal")
@@ -26,10 +27,11 @@ export default function AppProvider({
           <PersistGate loading={null} persistor={persistor}>
             {children}
             <LazyWalletConnectModal />
-            <RepostModal/>
-            <BlogModal/>
-            <ImageModal/>
-            <ReportModal/>
+            <RepostModal />
+            <BlogModal />
+            <ImageModal />
+            <ReportModal />
+            <ProfileModal />
           </PersistGate>
         </Provider>
       </ReactQueryProvider>

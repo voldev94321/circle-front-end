@@ -10,6 +10,8 @@ export interface ModalState {
   reportModalData: any;
   blogModalState: boolean;
   blogModalData: any;
+  profileModalState: boolean;
+  profileModalData: any;
 }
 
 // Initial state
@@ -26,6 +28,8 @@ const initialState: ModalState = {
   },
   blogModalState: false,
   blogModalData: {},
+  profileModalState: false,
+  profileModalData: {},
 };
 
 export const modalSlice = createSlice({
@@ -59,6 +63,12 @@ export const modalSlice = createSlice({
     setBlogModalData: (state, action: PayloadAction<any>) => {
       state.blogModalData = action.payload;
     },
+    setProfileModalState: (state, action: PayloadAction<boolean>) => {
+      state.profileModalState = action.payload;
+    },
+    setProfileModalData: (state, action: PayloadAction<any>) => {
+      state.profileModalData = action.payload;
+    },
   },
 });
 
@@ -72,5 +82,7 @@ export const {
   setReportModalData,
   setBlogModalState,
   setBlogModalData,
+  setProfileModalState,
+  setProfileModalData,
 } = modalSlice.actions;
 export const modalReducer = modalSlice.reducer;

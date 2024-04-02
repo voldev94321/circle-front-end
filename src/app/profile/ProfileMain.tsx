@@ -1,6 +1,6 @@
+'use client';
 import React from "react";
-import PostLayout from "../timeline/PostLayout";
-
+import PostLayout from "@/components/view/PostView/PostLayout";
 const tabItems = ["Posts", "Replies", "Likes"];
 
 const ProfileMain = () => {
