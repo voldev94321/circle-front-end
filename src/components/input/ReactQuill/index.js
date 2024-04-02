@@ -121,7 +121,7 @@ export const ReactQuillEditor = ({ content, setContent, onPasteImage, showToolba
         }
       }, 2000);
     }, 0);
-  }, []);
+  }, [containerRef]);
 
   const onKeyDown = ( e ) => {
     if(e.key == 'Enter'){
