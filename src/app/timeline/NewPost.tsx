@@ -99,7 +99,7 @@ const NewPost = ({ refresh }: NewPostProps) => {
   return (
     <div className="w-full bg-tertiary p-2 rounded-2xl flex gap-2">
       <img
-        className="rounded-full border-[1px] border-front w-[40px] h-[40px] object-cover"
+        className="rounded-full border-[1px] border-front w-[40px] h-[40px] object-cover min-w-[40px] min-h-[40px]"
         src={userInfo.avatarUrl ? userInfo.avatarUrl : "/img/avatar/default.png"}
         alt="pfp"
       />

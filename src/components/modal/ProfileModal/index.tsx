@@ -80,7 +80,10 @@ const ProfileModal = () => {
     const result = await updateProfile(userInfo.token, userData);
     if (result.success) {
       toast.success("Profile updated successfully!");
-      dispatch(setUserInfo(result.user));
+      dispatch(setUserInfo({
+        ...userInfo, 
+        ...result.user
+      }));
       dispatch(setProfileModalState(false));
     } else {
       toast.error("Profile was not updated!");
