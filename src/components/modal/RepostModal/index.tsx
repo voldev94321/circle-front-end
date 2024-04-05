@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { repost } from "@/apis/blog";
 import PrimaryButton from "@/components/button/PrimaryButton";
 import ReactQuillEditor from "@/components/input/ReactQuill";
@@ -52,12 +53,10 @@ const RepostModal = () => {
         }}
       >
         <div className="w-full p-2 rounded-2xl flex gap-2">
-          <Image
+          <img
             className="rounded-full border-[1px] border-front w-[40px] h-[40px]"
-            src="/img/avatar/default.png"
+            src={userInfo.avatarUrl ? userInfo.avatarUrl : "/img/avatar/default.png"}
             alt="pfp"
-            width={40}
-            height={40}
           />
           <div className="flex-grow flex items-center relative overflow-hidden">
             <div className="text-editor w-full">
@@ -78,8 +77,8 @@ const RepostModal = () => {
             blogId={repostModalData._id}
             commentId={repostModalData.commentId}
             username={repostModalData.username}
-            profilename={repostModalData.username}
-            useravatar="/img/avatar/default.png"
+            profilename={repostModalData.profilename}
+            useravatar={repostModalData.useravatar}
             content={repostModalData.content}
             commentsCount={repostModalData.commentsCount}
             likes={repostModalData.likes}
