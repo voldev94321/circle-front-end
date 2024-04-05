@@ -31,7 +31,7 @@ const ProfileHeader = () => {
           className="w-20 h-20 rounded-2xl -mt-12 border-front border-2 object-cover"
         />
         <div className="flex justify-between items-center flex-grow">
-          <div>{userInfo.circlename}</div>
+          {userInfo.circlename && <div>{userInfo.circlename}</div>}
           <div>Joined: {formatDate(userInfo.createdAt)}</div>
           {userInfo.extra.map((item: any, index: number) => (
             <div key={index}>
