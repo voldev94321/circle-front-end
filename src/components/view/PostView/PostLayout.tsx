@@ -11,8 +11,13 @@ import { useInView } from "react-intersection-observer";
 import { useSelector } from "react-redux";
 import { CircleLoader } from "react-spinners";
 
+interface PostLayoutProps {
+  forwardedRef: any,
+  filter?: string,
+}
+
 const pageLimit = 5;
-const PostLayout = ({forwardedRef} : any) => {
+const PostLayout = ({forwardedRef, filter} : PostLayoutProps) => {
   const { ref, inView } = useInView();
   const { searchValue } = useSelector((state: any) => state.app);
   const [isLoading, setIsLoading] = useState(false);

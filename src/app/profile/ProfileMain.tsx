@@ -2,6 +2,7 @@
 import React from "react";
 import PostLayout from "@/components/view/PostView/PostLayout";
 import { useSelector } from "react-redux";
+import NewPost from "../timeline/NewPost";
 const tabItems = ["Posts", "Replies", "Likes"];
 
 const ProfileMain = () => {
@@ -17,6 +18,7 @@ const ProfileMain = () => {
 
   return (
     <div className="mt-8">
+      <div className="hidden"><NewPost refresh={handleRefresh}/></div>
       <div className="ml-4 flex justify-between items-center">
         <div>
           Bio: {userInfo.bio}
@@ -38,7 +40,7 @@ const ProfileMain = () => {
         </div>
       </div>
       <div className="-mt-2">
-        <PostLayout forwardedRef={postLayoutRef}/>
+        <PostLayout forwardedRef={postLayoutRef} filter={selectedTab}/>
       </div>
     </div>
   );
