@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { circlePost, dislikePost, likePost, repost } from "@/apis/blog";
 import Image from "next/image";
@@ -260,12 +261,10 @@ const PostView = ({
   return (
     <div className="w-full relative">
       <div className="flex gap-4" ref={innerRef}>
-        <Image
+        <img
           className="rounded-full border-[1px] border-front w-[50px] h-[50px]"
           src={useravatar}
           alt="pfp"
-          width={50}
-          height={50}
         />
         <div className="flex-grow flex flex-col gap-2">
           <div className="mb-2">

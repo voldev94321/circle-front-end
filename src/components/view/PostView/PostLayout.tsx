@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 import { getPost } from "@/apis/blog";
@@ -5,7 +6,6 @@ import CardView from "@/components/view/CardView";
 import PostView from "@/components/view/PostView/PostView";
 import { getTimeAgo } from "@/utils/date";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import Image from "next/image";
 import React, { useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { useSelector } from "react-redux";
@@ -76,15 +76,13 @@ const PostLayout = ({forwardedRef} : any) => {
                   {(index != 0 || (index == 0 && pageIndex != 0)) && (
                     <div className="border-t-2 border-front2 border-dotted my-8 -mx-8"></div>
                   )}
-                  {item.status == "REPOSTED" && (
+                  {item.status == "REPOSTED" && item.repostedUserInfo && item.repostedUserInfo.length > 0 && (
                     <div>
                       <div className="flex gap-4 -mx-4 -mt-4">
-                        <Image
-                          className="rounded-full border-[1px] border-front w-[30px] h-[30px]"
-                          src={"/img/avatar/default.png"}
+                        <img
+                          className="rounded-full border-[1px] border-front w-[30px] h-[30px] object-cover"
+                          src={item.repostedUserInfo[0].avatarUrl ?  item.repostedUserInfo[0].avatarUrl : "/img/avatar/default.png"}
                           alt="pfp"
-                          width={30}
-                          height={30}
                         />
                         <div className="mt-1 overflow-hidden mr-12">
                           {" "}
@@ -104,9 +102,9 @@ const PostLayout = ({forwardedRef} : any) => {
                     innerRef={ref}
                     blogId={item._id}
                     commentId={item.commentId}
-                    username={item.username}
+                    username={item.circlename}
                     profilename={item.username}
-                    useravatar="/img/avatar/default.png"
+                    useravatar={item.avatarUrl ? item.avatarUrl : "/img/avatar/default.png"}
                     content={item.content}
                     commentsCount={item.commentsCount}
                     likes={item.likes}

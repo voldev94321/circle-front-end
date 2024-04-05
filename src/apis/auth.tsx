@@ -66,7 +66,20 @@ export const forgotPassword = async (userid: string) => {
 
 export const getAllUsers = async () => {
   const data = await axios.post(
-    process.env.NEXT_PUBLIC_BACKEND_URL + "/auth/getusers",
+    process.env.NEXT_PUBLIC_BACKEND_URL + "/auth/getusers"
+  );
+  return data.data;
+};
+
+export const updateProfile = async (token: string, userData: any) => {
+  const data = await axios.post(
+    process.env.NEXT_PUBLIC_BACKEND_URL + "/auth/update",
+    { userData: userData },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
   );
   return data.data;
 };

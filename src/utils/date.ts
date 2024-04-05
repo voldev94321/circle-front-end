@@ -17,3 +17,17 @@ export function getTimeAgo(dateString: string) {
     return `${Math.floor(timeDifferenceSeconds / 31536000)} years ago`;
   }
 }
+
+export const formatDate = (dateString: string) => {
+  // Create a new Date object from the dateString
+  const date = new Date(dateString);
+
+  // Use toLocaleDateString() with options to format the date
+  const formattedDate = date.toLocaleDateString("en-US", {
+    month: "2-digit", // 'MM' for 2-digit month
+    day: "2-digit", // 'DD' for 2-digit day
+    year: "numeric", // 'YYYY' for 4-digit year
+  });
+
+  return formattedDate;
+};

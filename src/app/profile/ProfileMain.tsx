@@ -1,11 +1,13 @@
 'use client';
 import React from "react";
 import PostLayout from "@/components/view/PostView/PostLayout";
+import { useSelector } from "react-redux";
 const tabItems = ["Posts", "Replies", "Likes"];
 
 const ProfileMain = () => {
   const [selectedTab, setSelectedTab] = React.useState(tabItems[0]);
   const postLayoutRef = React.useRef<any>(null);
+  const { userInfo } = useSelector((state: any) => state.auth);
 
   const handleRefresh = () => {
     if(postLayoutRef && postLayoutRef.current){
@@ -17,7 +19,7 @@ const ProfileMain = () => {
     <div className="mt-8">
       <div className="ml-4 flex justify-between items-center">
         <div>
-          Bio: Father & Husband, CEO of Circle, and Blockchain enthusiast.
+          Bio: {userInfo.bio}
         </div>
         <div className="flex gap-4">
           {tabItems.map((item, index) => (
