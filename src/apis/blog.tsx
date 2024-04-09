@@ -21,6 +21,30 @@ export const getPost = async (skip: number, limit: number, searchValue: string) 
   return data.data;
 };
 
+export const getPostByUserId = async (skip: number, limit: number, searchValue: string, userId: string) => {
+  const data = await axios.post(
+    process.env.NEXT_PUBLIC_BACKEND_URL + "/blog/getPostsByUserId",
+    { skip, limit, searchValue, userId }
+  );
+  return data.data;
+};
+
+export const getPostByReplies = async (skip: number, limit: number, searchValue: string, userId: string) => {
+  const data = await axios.post(
+    process.env.NEXT_PUBLIC_BACKEND_URL + "/blog/getPostsByReplies",
+    { skip, limit, searchValue, userId }
+  );
+  return data.data;
+};
+
+export const getPostByLikes = async (skip: number, limit: number, searchValue: string, userId: string) => {
+  const data = await axios.post(
+    process.env.NEXT_PUBLIC_BACKEND_URL + "/blog/getPostsByLikes",
+    { skip, limit, searchValue, userId }
+  );
+  return data.data;
+};
+
 export const likePost = async (
   blogId: string,
   commentId: string,

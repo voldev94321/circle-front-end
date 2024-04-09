@@ -19,15 +19,15 @@ const ProfileMain = () => {
   return (
     <div className="mt-8">
       <div className="hidden"><NewPost refresh={handleRefresh}/></div>
-      <div className="ml-4 flex justify-between items-center">
-        <div>
+      <div className="ml-4 flex justify-between items-end">
+        <div className="flex-grow" style={{overflowWrap: "anywhere"}}>
           Bio: {userInfo.bio}
         </div>
         <div className="flex gap-4">
           {tabItems.map((item, index) => (
             <div
               key={index}
-              className={`w-32 ${
+              className={`w-48 ${
                 selectedTab == item ? "bg-primary" : "bg-tertiary"
               } text-center p-2 rounded-lg cursor-pointer`}
               onClick={() => {
