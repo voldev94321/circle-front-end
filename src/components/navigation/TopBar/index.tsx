@@ -8,10 +8,12 @@ import { setSearchValueState } from "@/store/appSlice";
 
 interface TopBarProps {
   setMenu: any;
+  menu: string;
 }
 
-const TopBar = ({ setMenu }: TopBarProps) => {
+const TopBar = ({ setMenu, menu }: TopBarProps) => {
   const [search, setSearch] = React.useState("");
+  const [menuLabel, setMenuLabel] = React.useState("");
   const dispatch = useDispatch();
 
   const handleSearch = () => {
@@ -24,6 +26,19 @@ const TopBar = ({ setMenu }: TopBarProps) => {
     }
   }
   
+  React.useEffect(() => {
+    let menuPrefix = "Menu";
+    switch(menu){
+      case "Wallet":
+      case "Messages":
+      case "Saved":
+        menuPrefix = "Library";
+        break;
+    }
+
+    setMenuLabel(menuPrefix + " > " + menu);
+  }, [menu]);
+
   return (
     <div className="flex gap-6 items-center">
       <div
@@ -31,7 +46,7 @@ const TopBar = ({ setMenu }: TopBarProps) => {
           setMenu(true);
         }}
       >
-        Menu &gt; Timeline
+        {menuLabel}
       </div>
       <div className="flex-grow flex p-2 rounded-2xl bg-front bg-opacity-10 items-center px-4">
         <div className="flex-grow ">

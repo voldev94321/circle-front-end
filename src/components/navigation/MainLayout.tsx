@@ -21,7 +21,7 @@ const MainLayout = ({ menu, children }: MainLayoutProps) => {
             id="header"
             className="sticky top-0 p-12 bg-gradient-to-b from-back3 via-back3 to-transparent z-40"
           >
-            <TopBar setMenu={(v: boolean) => {setIsMenuOpen(v)}}/>
+            <TopBar setMenu={(v: boolean) => {setIsMenuOpen(v)}} menu={menu}/>
           </div>
           <div className="p-12 pt-0">
             <div>{children}</div>
