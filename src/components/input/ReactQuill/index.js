@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-'use client';
+"use client";
 import React from "react";
 import EditorToolbar, { modules, formats } from "./EditorToolbar";
 import dynamic from "next/dynamic";
@@ -11,7 +11,7 @@ import {
   extractImgInfo,
   removeHtmlTags,
 } from "@/utils/html";
-import { getAllUsers } from "@/apis/auth";
+import { useSelector } from "react-redux";
 // import ToolbarEmoji from "./ToolbarEmoji";
 // const DynamicToolbarEmoji = dynamic(() => import("./ToolbarEmoji"), {ssr: false});
 // const DynamicEmojiBlot = dynamic(() => import("./EmojiBlot"), {ssr: false});
@@ -20,9 +20,17 @@ import { getAllUsers } from "@/apis/auth";
 // import quillEmoji from "react-quill-emoji";
 
 const characterLimit = 500;
-export const ReactQuillEditor = ({ content, setContent, onPasteImage, showToolbar, onEnterPressed }) => {
+let isTimer = false;
+export const ReactQuillEditor = ({
+  content,
+  setContent,
+  onPasteImage,
+  showToolbar,
+  onEnterPressed,
+}) => {
   const [beforeChange, setBeforeChange] = React.useState("");
   const containerRef = React.useRef();
+  const { allUsers } = useSelector((state) => state.app);
 
   const handleChange = (value) => {
     try {
@@ -49,7 +57,6 @@ export const ReactQuillEditor = ({ content, setContent, onPasteImage, showToolba
   };
 
   const handlePaste = (event) => {
-    
     const items = (event.clipboardData || window.clipboardData).items;
 
     for (let i = 0; i < items.length; i++) {
@@ -68,68 +75,80 @@ export const ReactQuillEditor = ({ content, setContent, onPasteImage, showToolba
   };
 
   React.useEffect(() => {
+    if(!containerRef || allUsers.length == 0){
+      return;
+    }
+    if(isTimer){
+      return;
+    }
     setTimeout(async () => {
-      const {users} = await getAllUsers();
       const container = containerRef.current;
       const qillEditor = container.getElementsByClassName("ql-editor")[0];
-      if(qillEditor){
+      if (qillEditor) {
         qillEditor.addEventListener("paste", handlePaste);
       }
+      isTimer = true;
       setInterval(() => {
         /// --------------- Tag username --------------------
-        let value = qillEditor.innerHTML;
-        const names = value.match(/@(\w+)\b/g);
-        if(!names){
-          return;
-        }
-        let taggedUsernames = [];
-        for(let i=0;i<names.length;i++){
-          if(users.findIndex(u => names[i].slice(1) == u.username) != -1){
-            taggedUsernames.push(names[i]);
+        try {
+          let value =
+            containerRef.current.getElementsByClassName("ql-editor")[0]
+              .innerHTML;
+          const names = value.match(/@(\w+)\b/g);
+          if (!names) {
+            return;
           }
-        }
-        if (taggedUsernames.length > 0) {
-          for (let i = 0; i < taggedUsernames.length; i++) {
-            const trim = taggedUsernames[i].replace(" ", "");
-            const replaceString =
-              "<span style='color: #8043FA;' contenteditable='false'><strong>@</strong>" +
-              trim.slice(1) +
-              "</span>";
-            value = value.replaceAll(trim, replaceString);
+          let taggedUsernames = [];
+          for (let i = 0; i < names.length; i++) {
+            if (allUsers.findIndex((u) => names[i].slice(1) == u.username) != -1) {
+              taggedUsernames.push(names[i]);
+            }
           }
-          // console.log(value);
+          if (taggedUsernames.length > 0) {
+            for (let i = 0; i < taggedUsernames.length; i++) {
+              const trim = taggedUsernames[i].replace(" ", "");
+              const replaceString =
+                "<span style='color: #8043FA;' contenteditable='false'><strong>@</strong>" +
+                trim.slice(1) +
+                "</span>";
+              value = value.replaceAll(trim, replaceString);
+            }
+            // console.log(value);
 
-          let startOffset = 0;
-          let endOffset = 0;
-          let range;
-          if (window.getSelection) {
-            startOffset = window
-              .getSelection()
-              .getRangeAt(0)
-              .cloneRange().startOffset;
-            endOffset = window
-              .getSelection()
-              .getRangeAt(0)
-              .cloneRange().endOffset;
-            range = window.getSelection().getRangeAt(0).cloneRange();
+            let startOffset = 0;
+            let endOffset = 0;
+            let range;
+            if (window.getSelection) {
+              startOffset = window
+                .getSelection()
+                .getRangeAt(0)
+                .cloneRange().startOffset;
+              endOffset = window
+                .getSelection()
+                .getRangeAt(0)
+                .cloneRange().endOffset;
+              range = window.getSelection().getRangeAt(0).cloneRange();
+            }
+            qillEditor.innerHTML = value;
+            range.setStart(qillEditor, qillEditor.childNodes.length);
+            range.setEnd(qillEditor, qillEditor.childNodes.length);
+            window.getSelection().removeAllRanges();
+            window.getSelection().addRange(range);
+            // return;
           }
-          qillEditor.innerHTML = value;
-          range.setStart(qillEditor, qillEditor.childNodes.length);
-          range.setEnd(qillEditor, qillEditor.childNodes.length);
-          window.getSelection().removeAllRanges();
-          window.getSelection().addRange(range);
-          // return;
+        } catch (e) {
+          console.log(e);
         }
       }, 2000);
     }, 0);
-  }, [containerRef]);
+  }, [containerRef, allUsers]);
 
-  const onKeyDown = ( e ) => {
-    if(e.key == 'Enter'){
+  const onKeyDown = (e) => {
+    if (e.key == "Enter") {
       e.preventDefault();
       onEnterPressed();
     }
-  }
+  };
 
   return (
     <div className="text-editor w-full flex" ref={containerRef}>
@@ -143,7 +162,7 @@ export const ReactQuillEditor = ({ content, setContent, onPasteImage, showToolba
         formats={formats}
         onKeyDown={onKeyDown}
       />
-      {showToolbar && <EditorToolbar />}
+      <EditorToolbar showToolbar={showToolbar} />
     </div>
   );
 };

@@ -61,7 +61,7 @@ export const formats = [
 ];
 
 // Quill Toolbar component
-export const QuillToolbar = () => {
+export const QuillToolbar = ( {showToolBar }) => {
   // const { Quill } = require("react-quill");
   // const Size = Quill.import("formats/size");
   // Size.whitelist = ["extra-small", "small", "medium", "large"];
@@ -79,7 +79,7 @@ export const QuillToolbar = () => {
   // Quill.register(Font, true);
 
   return (
-    <div id="toolbar">
+    <div id="toolbar" style={{ display: showToolBar ? "block" : "none"}}>
       {/* <span className="ql-formats">
         <select className="ql-font" defaultValue="arial">
           <option value="arial">Arial</option>

@@ -100,7 +100,7 @@ const PostLayout = ({ forwardedRef, filter }: PostLayoutProps) => {
   }, [searchValue, filter]);
 
   return (
-    <div>
+    <div className="pt-12">
       {!isLoading ? (
         <CardView>
           {data?.pages?.map(
@@ -149,7 +149,7 @@ const PostLayout = ({ forwardedRef, filter }: PostLayoutProps) => {
                         </div>
                       )}
 
-                    <PostView
+                    {item && <PostView
                       innerRef={ref}
                       blogId={item._id}
                       commentId={item.commentId}
@@ -168,7 +168,7 @@ const PostLayout = ({ forwardedRef, filter }: PostLayoutProps) => {
                       reposts={item.reposts}
                       createdAt={item.createdAt}
                       isReposted={item.status == "REPOSTED"}
-                    />
+                    />}
                   </div>
                 );
               })

@@ -6,8 +6,8 @@ interface CardViewProps {
 
 const CardView = ({ children }: CardViewProps) => {
   return (
-    <div className="mt-12 bg-tertiary rounded-3xl p-4">
-      <div className="rounded-3xl p-8 pt-8 bg-gradient-to-b from-black to-transparent ">{children}</div>
+    <div className="bg-tertiary rounded-t-3xl p-4 min-h-full">
+      <div className="h-full rounded-t-3xl p-8 pt-8 bg-gradient-to-b from-black to-transparent ">{children}</div>
     </div>
   );
 };

@@ -5,6 +5,7 @@ import TransparentInput from "@/components/input/TransparentInput";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { setSearchValueState } from "@/store/appSlice";
+import { useRouter } from "next/navigation";
 
 interface TopBarProps {
   setMenu: any;
@@ -15,6 +16,7 @@ const TopBar = ({ setMenu, menu }: TopBarProps) => {
   const [search, setSearch] = React.useState("");
   const [menuLabel, setMenuLabel] = React.useState("");
   const dispatch = useDispatch();
+  const router = useRouter();
 
   const handleSearch = () => {
     dispatch(setSearchValueState(search));
@@ -24,6 +26,10 @@ const TopBar = ({ setMenu, menu }: TopBarProps) => {
     if( e.key == "Enter" ) {
       handleSearch();
     }
+  }
+
+  const handleMessage = () => {
+    router.push("/messages");
   }
   
   React.useEffect(() => {
@@ -60,7 +66,7 @@ const TopBar = ({ setMenu, menu }: TopBarProps) => {
         </div>
         <FaSearch size={18} className="cursor-pointer" onClick={handleSearch}/>
       </div>
-      <div className="p-2 bg-front bg-opacity-10 rounded-2xl px-4 hover:scale-95  duration-500 cursor-pointer">
+      <div className="p-2 bg-front bg-opacity-10 rounded-2xl px-4 hover:scale-95  duration-500 cursor-pointer" onClick={handleMessage}>
         <MdMessage size={20} />
       </div>
       <div className="p-2 bg-front bg-opacity-10 rounded-2xl px-4 hover:scale-95 duration-500 cursor-pointer">

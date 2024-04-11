@@ -18,7 +18,6 @@ const ProfileMain = () => {
 
   return (
     <div className="mt-8">
-      <div className="hidden"><NewPost refresh={handleRefresh}/></div>
       <div className="ml-4 flex justify-between items-end">
         <div className="flex-grow" style={{overflowWrap: "anywhere"}}>
           Bio: {userInfo.bio}
