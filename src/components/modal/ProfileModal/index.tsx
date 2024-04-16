@@ -57,8 +57,7 @@ const ProfileModal = () => {
     const userData = { ...userInfo };
     if (previewImage) {
       const uploadedResult = await uploadImage(previewImage);
-      userData.avatarUrl =
-        process.env.NEXT_PUBLIC_BACKEND_URL + "/uploads/" + uploadedResult.data;
+      userData.avatarUrl = uploadedResult.data;
     }
 
     userData.circlename = username;

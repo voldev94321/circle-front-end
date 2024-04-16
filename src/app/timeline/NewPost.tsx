@@ -32,8 +32,6 @@ const NewPost = ({ refresh }: NewPostProps) => {
       const updatedResult = await uploadImage(imgItem.src);
 
       newContent += "<div><img src='" +
-          process.env.NEXT_PUBLIC_BACKEND_URL +
-          "/uploads/" +
           updatedResult.data +
           "' alt='img' class='blog-image'></div>";
     }
