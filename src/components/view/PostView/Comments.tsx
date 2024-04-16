@@ -1,5 +1,4 @@
 import { getComments, newComment } from "@/apis/blog";
-import TransparentInput from "@/components/input/TransparentInput";
 import React, { useRef } from "react";
 import { IoSendSharp } from "react-icons/io5";
 import PostView from "./PostView";

@@ -5,13 +5,8 @@ import { uploadImage } from "@/apis/uploadImage";
 import PrimaryButton from "@/components/button/PrimaryButton";
 import TransparentInput from "@/components/input/TransparentInput";
 import TransparentTextArea from "@/components/input/TransparentTextArea";
-import PostView from "@/components/view/PostView/PostView";
 import { setUserInfo } from "@/store/authSlice";
-import {
-  setBlogModalState,
-  setProfileModalState,
-  setRepostModalState,
-} from "@/store/modalSlice";
+import { setProfileModalState } from "@/store/modalSlice";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
@@ -24,12 +19,24 @@ const ProfileModal = () => {
   const [username, setUsername] = React.useState(userInfo.circlename);
   const [bio, setBio] = React.useState(userInfo.bio);
   const [previewImage, setPreviewImage] = React.useState("");
-  const [label1, setLabel1] = React.useState(userInfo.extra && userInfo.extra[0] ? userInfo.extra[0].label : "");
-  const [label2, setLabel2] = React.useState(userInfo.extra && userInfo.extra[1] ? userInfo.extra[1].label : "");
-  const [label3, setLabel3] = React.useState(userInfo.extra && userInfo.extra[2] ? userInfo.extra[2].label : "");
-  const [content1, setContent1] = React.useState(userInfo.extra && userInfo.extra[0] ? userInfo.extra[0].content : "");
-  const [content2, setContent2] = React.useState(userInfo.extra && userInfo.extra[1] ? userInfo.extra[1].content : "");
-  const [content3, setContent3] = React.useState(userInfo.extra && userInfo.extra[2] ? userInfo.extra[2].content : "");
+  const [label1, setLabel1] = React.useState(
+    userInfo.extra && userInfo.extra[0] ? userInfo.extra[0].label : ""
+  );
+  const [label2, setLabel2] = React.useState(
+    userInfo.extra && userInfo.extra[1] ? userInfo.extra[1].label : ""
+  );
+  const [label3, setLabel3] = React.useState(
+    userInfo.extra && userInfo.extra[2] ? userInfo.extra[2].label : ""
+  );
+  const [content1, setContent1] = React.useState(
+    userInfo.extra && userInfo.extra[0] ? userInfo.extra[0].content : ""
+  );
+  const [content2, setContent2] = React.useState(
+    userInfo.extra && userInfo.extra[1] ? userInfo.extra[1].content : ""
+  );
+  const [content3, setContent3] = React.useState(
+    userInfo.extra && userInfo.extra[2] ? userInfo.extra[2].content : ""
+  );
 
   const onClose = () => {
     dispatch(setProfileModalState(false));
@@ -80,10 +87,12 @@ const ProfileModal = () => {
     const result = await updateProfile(userInfo.token, userData);
     if (result.success) {
       toast.success("Profile updated successfully!");
-      dispatch(setUserInfo({
-        ...userInfo, 
-        ...result.user
-      }));
+      dispatch(
+        setUserInfo({
+          ...userInfo,
+          ...result.user,
+        })
+      );
       dispatch(setProfileModalState(false));
     } else {
       toast.error("Profile was not updated!");
@@ -91,14 +100,26 @@ const ProfileModal = () => {
   };
 
   React.useEffect(() => {
-    if(profileModalState){
+    if (profileModalState) {
       setBio(userInfo.bio);
-      setLabel1(userInfo.extra && userInfo.extra[0] ? userInfo.extra[0].label : "");
-      setLabel2(userInfo.extra && userInfo.extra[1] ? userInfo.extra[1].label : "");
-      setLabel3(userInfo.extra && userInfo.extra[2] ? userInfo.extra[2].label : "");
-      setContent1(userInfo.extra && userInfo.extra[0] ? userInfo.extra[0].content : "");
-      setContent2(userInfo.extra && userInfo.extra[1] ? userInfo.extra[1].content : "");
-      setContent3(userInfo.extra && userInfo.extra[2] ? userInfo.extra[2].content : "");
+      setLabel1(
+        userInfo.extra && userInfo.extra[0] ? userInfo.extra[0].label : ""
+      );
+      setLabel2(
+        userInfo.extra && userInfo.extra[1] ? userInfo.extra[1].label : ""
+      );
+      setLabel3(
+        userInfo.extra && userInfo.extra[2] ? userInfo.extra[2].label : ""
+      );
+      setContent1(
+        userInfo.extra && userInfo.extra[0] ? userInfo.extra[0].content : ""
+      );
+      setContent2(
+        userInfo.extra && userInfo.extra[1] ? userInfo.extra[1].content : ""
+      );
+      setContent3(
+        userInfo.extra && userInfo.extra[2] ? userInfo.extra[2].content : ""
+      );
     }
   }, [profileModalState]);
 
@@ -162,6 +183,7 @@ const ProfileModal = () => {
                 placeholder="Bio"
                 value={bio}
                 setValue={setBio}
+                limit={100}
               />
             </div>
           </div>
@@ -176,6 +198,7 @@ const ProfileModal = () => {
               type="text"
               value={label1}
               setValue={setLabel1}
+              limit={30}
             />
           </div>
           <div className="w-full border-2 border-primary rounded-xl p-2">
@@ -184,6 +207,7 @@ const ProfileModal = () => {
               type="text"
               value={content1}
               setValue={setContent1}
+              limit={30}
             />
           </div>
         </div>
@@ -194,6 +218,7 @@ const ProfileModal = () => {
               type="text"
               value={label2}
               setValue={setLabel2}
+              limit={30}
             />
           </div>
           <div className="w-full border-2 border-primary rounded-xl p-2">
@@ -202,6 +227,7 @@ const ProfileModal = () => {
               type="text"
               value={content2}
               setValue={setContent2}
+              limit={30}
             />
           </div>
         </div>
@@ -212,6 +238,7 @@ const ProfileModal = () => {
               type="text"
               value={label3}
               setValue={setLabel3}
+              limit={30}
             />
           </div>
           <div className="w-full border-2 border-primary rounded-xl p-2">
@@ -220,6 +247,7 @@ const ProfileModal = () => {
               type="text"
               value={content3}
               setValue={setContent3}
+              limit={30}
             />
           </div>
         </div>

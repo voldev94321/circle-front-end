@@ -2,13 +2,9 @@
 import { repost } from "@/apis/blog";
 import PrimaryButton from "@/components/button/PrimaryButton";
 import ReactQuillEditor from "@/components/input/ReactQuill";
-import { formats, modules } from "@/components/input/ReactQuill/EditorToolbar";
-import TransparentInput from "@/components/input/TransparentInput";
-import TransparentTextArea from "@/components/input/TransparentTextArea";
 import PostView from "@/components/view/PostView/PostView";
 import { setRepostModalState } from "@/store/modalSlice";
 import dynamic from "next/dynamic";
-import Image from "next/image";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
