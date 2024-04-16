@@ -2,8 +2,7 @@
 import { useWallet } from "@/providers/WalletContext";
 import { setSelectedMessageUser } from "@/store/appSlice";
 import { numberWithCommas } from "@/utils/number";
-import Decimal from "decimal.js";
-import Image from "next/image";
+import Decimal from "decimal.js"; 
 import React, { lazy } from "react";
 import { useDispatch, useSelector } from "react-redux";
 const LazyWalletConnectButton = lazy(
@@ -26,7 +25,7 @@ const RightSideBar = ({menu}: RightSideBarProps) => {
 
   return (
     <div className=" h-full md:w-[330px] w-full bg-gradient-to-b from-black via-back3 to-black py-6">
-      <Image alt="circle" src="/img/logo.svg" width={300} height={300} />
+      <img alt="circle" src="/img/logo.svg" className="w-full px-6" />
       { menu !== "Messages" ? <div className="w-full px-6">
         <LazyWalletConnectButton />
         {isConnected && (
