@@ -17,10 +17,10 @@ const ProfileMain = () => {
   }
 
   return (
-    <div className="mt-8">
+    <div className="mt-4">
       <div className="ml-4 flex justify-between items-end">
-        <div className="flex-grow" style={{overflowWrap: "anywhere"}}>
-          Bio: {userInfo.bio}
+        <div className="flex-grow leading-6" style={{overflowWrap: "anywhere"}}>
+          <b>{userInfo.circlename}</b>&nbsp;&nbsp;<span className="opacity-50">@{userInfo.username}</span><br/><b>Bio: </b>{userInfo.bio}
         </div>
         <div className="flex gap-4">
           {tabItems.map((item, index) => (

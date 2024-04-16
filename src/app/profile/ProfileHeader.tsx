@@ -30,18 +30,17 @@ const ProfileHeader = () => {
           alt="avatar"
           className="w-20 h-20 rounded-2xl -mt-12 border-front border-2 object-cover"
         />
-        <div className="flex justify-center gap-4 items-center flex-grow">
-          {userInfo.circlename && <div>{userInfo.circlename}</div>}
-          <div>Joined: {formatDate(userInfo.createdAt)}</div>
+        <div className="flex justify-start gap-6 items-center flex-grow">
+          <div><b>Joined</b>: {formatDate(userInfo.createdAt)}</div>
           {userInfo.extra.map((item: any, index: number) => (
             <div key={index}>
-              {item.label}: {item.content}
+              <b>{item.label}</b>: {item.content}
             </div>
           ))}
         </div>
         <div>
           <IoMdSettings
-            className="w-8 h-8 cursor-pointer"
+            className="w-5 h-5 cursor-pointer"
             onClick={handleSetting}
           />
         </div>
