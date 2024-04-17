@@ -81,8 +81,9 @@ export const ReactQuillEditor = ({
     if(isTimer){
       return;
     }
+    
     setTimeout(async () => {
-     
+      isTimer = true;
       setInterval(() => {
         /// --------------- Tag username --------------------
         try {
@@ -90,9 +91,9 @@ export const ReactQuillEditor = ({
           const qillEditor = container.getElementsByClassName("ql-editor")[0];
   
           if (qillEditor) {
+            qillEditor.removeEventListener("paste", handlePaste);
             qillEditor.addEventListener("paste", handlePaste);
           }
-          isTimer = true;
 
           let value =
             containerRef.current.getElementsByClassName("ql-editor")[0]
@@ -142,7 +143,7 @@ export const ReactQuillEditor = ({
         } catch (e) {
           console.log(e);
         }
-      }, 2000);
+      }, 1000);
     }, 0);
   }, [containerRef, allUsers]);
 
