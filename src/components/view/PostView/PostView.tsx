@@ -3,7 +3,12 @@
 import { circlePost, dislikePost, likePost, repost } from "@/apis/blog";
 import Image from "next/image";
 import React, { MutableRefObject } from "react";
-import { BiRepost, BiSolidDislike, BiSolidLike, BiSolidPencil } from "react-icons/bi";
+import {
+  BiRepost,
+  BiSolidDislike,
+  BiSolidLike,
+  BiSolidPencil,
+} from "react-icons/bi";
 import { MdMessage, MdOutlineReport } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import CommentsView from "./Comments";
@@ -21,6 +26,7 @@ import {
 import { useRouter } from "next/navigation";
 import { SlUserFollow } from "react-icons/sl";
 import { getTimeAgo } from "@/utils/date";
+import Link from "next/link";
 
 interface PostViewProps {
   blogId: string;
@@ -62,9 +68,13 @@ const PostView = ({
   isCommented,
 }: PostViewProps) => {
   const router = useRouter();
-  const [isComment, setIsComment] = React.useState(openComment && commentsCount > 0);
+  const [isComment, setIsComment] = React.useState(
+    openComment && commentsCount > 0
+  );
   const { userInfo } = useSelector((state: any) => state.auth);
-  const { blogModalState, repostModalState } = useSelector((state: any) => state.modal);
+  const { blogModalState, repostModalState } = useSelector(
+    (state: any) => state.modal
+  );
   const dispatch = useDispatch();
   const blogRef = React.useRef(null);
 
@@ -99,18 +109,18 @@ const PostView = ({
   const [showCommentInput, setShowCommentInput] = React.useState(false);
 
   const handleComment = () => {
-    if(isComment){
+    if (isComment) {
       setShowCommentInput(false);
     }
     setIsComment(!isComment);
   };
 
   const handleShowCommentInput = () => {
-    if(!isComment && showCommentInput){
+    if (!isComment && showCommentInput) {
       setIsComment(true);
     }
     setShowCommentInput(!showCommentInput);
-  }
+  };
 
   const handleLike = async () => {
     likePost(blogId, commentId, !isLike, userInfo.token);
@@ -188,18 +198,15 @@ const PostView = ({
     );
   };
 
-  const handleFollow = async () => {
-
-  }
+  const handleFollow = async () => {};
 
   const handleReport = async () => {
     dispatch(setReportModalState(true));
-    dispatch(setReportModalData({blogId, commentId}));
-  }
+    dispatch(setReportModalData({ blogId, commentId }));
+  };
 
   const handleClickPost = async (e: any) => {
-   
-    if(!blogModalState && !repostModalState){
+    if (!blogModalState && !repostModalState) {
       dispatch(setBlogModalState(true));
       dispatch(
         setBlogModalData({
@@ -218,7 +225,7 @@ const PostView = ({
         })
       );
     }
-  }
+  };
 
   React.useEffect(() => {
     const handleClick = (event: any) => {
@@ -261,15 +268,20 @@ const PostView = ({
   return (
     <div className="w-full relative">
       <div className="flex gap-4" ref={innerRef}>
-        <img
-          className="rounded-full border-[1px] border-front w-[50px] h-[50px]"
-          src={useravatar}
-          alt="pfp"
-        />
+        <Link href={`/profile?id=${profilename}`}>
+          <img
+            className="rounded-full border-[1px] border-front w-[50px] h-[50px]"
+            src={useravatar}
+            alt="pfp"
+          />
+        </Link>
         <div className="flex-grow flex flex-col gap-2">
-          <div className="mb-2">
-            {profilename} <span className="opacity-50">{username} • {getTimeAgo(createdAt)}</span>
-          </div>
+          <Link className="mb-2" href={`/profile?id=${profilename}`}>
+            {profilename}{" "}
+            <span className="opacity-50">
+              {username} • {getTimeAgo(createdAt)}
+            </span>
+          </Link>
           <div
             // dangerouslySetInnerHTML={{ __html: content }}
             id="blog-view"
@@ -279,15 +291,20 @@ const PostView = ({
           />
           {!hideIcons && (
             <div id="item-list" className="flex gap-2">
-              { !isCommented && <div
-                className="flex flex-col items-center opacity cursor-pointer hover:scale-95  duration-500"
-                onClick={handleShowCommentInput}
-              >
-                <div className="bg-front bg-opacity-10 p-2 rounded-xl">
-                  <MdMessage size={16} className={showCommentInput ? "text-primary" : ""}/>
+              {!isCommented && (
+                <div
+                  className="flex flex-col items-center opacity cursor-pointer hover:scale-95  duration-500"
+                  onClick={handleShowCommentInput}
+                >
+                  <div className="bg-front bg-opacity-10 p-2 rounded-xl">
+                    <MdMessage
+                      size={16}
+                      className={showCommentInput ? "text-primary" : ""}
+                    />
+                  </div>
+                  <div className="text-front2">{commentsCount}</div>
                 </div>
-                <div className="text-front2">{commentsCount}</div>
-              </div>}
+              )}
               <div
                 className="flex flex-col items-center opacity cursor-pointer hover:scale-95  duration-500"
                 onClick={handleLike}
@@ -368,14 +385,16 @@ const PostView = ({
               </div>
             </div>
           )}
-          {(isComment || showCommentInput) && !isCommented  ?  (
+          {(isComment || showCommentInput) && !isCommented ? (
             <CommentsView
               blogId={blogId}
               commentId={commentId}
               token={userInfo.token}
               showCommentInput={showCommentInput}
             />
-          ) : <div></div>}
+          ) : (
+            <div></div>
+          )}
         </div>
       </div>
       <div
@@ -389,22 +408,28 @@ const PostView = ({
         {" "}
         . . .{" "}
       </div>
-      {isSettingMenu && <div className={`absolute ${isReposted ? "-top-8" : "top-6"} right-0 bg-back z-50`}>
+      {isSettingMenu && (
         <div
-          className="hover:bg-primary p-2 flex items-center gap-2 cursor-pointer"
-          onMouseDown={handleFollow}
+          className={`absolute ${
+            isReposted ? "-top-8" : "top-6"
+          } right-0 bg-back z-50`}
         >
-          <SlUserFollow size={16} />
-          Follow this user
+          <div
+            className="hover:bg-primary p-2 flex items-center gap-2 cursor-pointer"
+            onMouseDown={handleFollow}
+          >
+            <SlUserFollow size={16} />
+            Follow this user
+          </div>
+          <div
+            className="hover:bg-primary p-2 flex items-center gap-2 cursor-pointer"
+            onMouseDown={handleReport}
+          >
+            <MdOutlineReport size={16} color="red" />
+            Report
+          </div>
         </div>
-        <div
-          className="hover:bg-primary p-2 flex items-center gap-2 cursor-pointer"
-          onMouseDown={handleReport}
-        >
-          <MdOutlineReport size={16} color="red"/>
-          Report
-        </div>
-      </div>}
+      )}
     </div>
   );
 };

@@ -2,13 +2,15 @@
 import React from "react";
 import PostLayout from "@/components/view/PostView/PostLayout";
 import { useSelector } from "react-redux";
-import NewPost from "../timeline/NewPost";
 const tabItems = ["Posts", "Replies", "Likes"];
 
-const ProfileMain = () => {
+interface ProfileMainProps {
+  selectedUser: any;
+}
+
+const ProfileMain = ( { selectedUser }: ProfileMainProps) => {
   const [selectedTab, setSelectedTab] = React.useState(tabItems[0]);
   const postLayoutRef = React.useRef<any>(null);
-  const { userInfo } = useSelector((state: any) => state.auth);
 
   const handleRefresh = () => {
     if(postLayoutRef && postLayoutRef.current){
@@ -20,7 +22,7 @@ const ProfileMain = () => {
     <div className="mt-4">
       <div className="ml-4 flex justify-between items-end">
         <div className="flex-grow leading-6" style={{overflowWrap: "anywhere"}}>
-          <b>{userInfo.circlename}</b>&nbsp;&nbsp;<span className="opacity-50">@{userInfo.username}</span><br/><b>Bio: </b>{userInfo.bio}
+          <b>{selectedUser.circlename}</b>&nbsp;&nbsp;<span className="opacity-50">@{selectedUser.username}</span><br/><b>Bio: </b>{selectedUser.bio}
         </div>
         <div className="flex gap-4">
           {tabItems.map((item, index) => (
@@ -39,7 +41,7 @@ const ProfileMain = () => {
         </div>
       </div>
       <div className="-mt-2">
-        <PostLayout forwardedRef={postLayoutRef} filter={selectedTab}/>
+        <PostLayout forwardedRef={postLayoutRef} filter={selectedTab} selectedUser={selectedUser}/>
       </div>
     </div>
   );

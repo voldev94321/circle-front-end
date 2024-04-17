@@ -6,6 +6,7 @@ import CardView from "@/components/view/CardView";
 import PostView from "@/components/view/PostView/PostView";
 import { getTimeAgo } from "@/utils/date";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import Link from "next/link";
 import React, { useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { useSelector } from "react-redux";
@@ -14,10 +15,11 @@ import { CircleLoader } from "react-spinners";
 interface PostLayoutProps {
   forwardedRef: any;
   filter?: string;
+  selectedUser?: any;
 }
 
 const pageLimit = 5;
-const PostLayout = ({ forwardedRef, filter }: PostLayoutProps) => {
+const PostLayout = ({ forwardedRef, filter, selectedUser }: PostLayoutProps) => {
   const { ref, inView } = useInView();
   const { searchValue } = useSelector((state: any) => state.app);
   const [isLoading, setIsLoading] = useState(false);
@@ -31,7 +33,7 @@ const PostLayout = ({ forwardedRef, filter }: PostLayoutProps) => {
           pageParam,
           pageLimit,
           searchValue,
-          userInfo._id
+          selectedUser._id
         );
         break;
       case "Replies":
@@ -39,7 +41,7 @@ const PostLayout = ({ forwardedRef, filter }: PostLayoutProps) => {
           pageParam,
           pageLimit,
           searchValue,
-          userInfo._id
+          selectedUser._id
         );
         break;
       case "Likes":
@@ -47,7 +49,7 @@ const PostLayout = ({ forwardedRef, filter }: PostLayoutProps) => {
           pageParam,
           pageLimit,
           searchValue,
-          userInfo._id
+          selectedUser._id
         );
         break;
       default:
@@ -97,7 +99,7 @@ const PostLayout = ({ forwardedRef, filter }: PostLayoutProps) => {
 
   React.useEffect(() => {
     refresh();
-  }, [searchValue, filter]);
+  }, [searchValue, filter, selectedUser]);
 
   return (
     <div className="pt-12">
@@ -117,16 +119,16 @@ const PostLayout = ({ forwardedRef, filter }: PostLayoutProps) => {
                       item.repostedUserInfo.length > 0 && (
                         <div>
                           <div className="flex gap-4 -mx-4 -mt-4">
-                            <img
-                              className="rounded-full border-[1px] border-front w-[30px] h-[30px] object-cover"
+                            <Link href={`/profile?id=${item.repostedUserInfo[0].username}`}> <img
+                              className="rounded-full border-[1px] border-front w-[30px] h-[30px] object-cover min-w-[30px]"
                               src={
                                 item.repostedUserInfo[0].avatarUrl
                                   ? item.repostedUserInfo[0].avatarUrl
                                   : "/img/avatar/default.png"
                               }
                               alt="pfp"
-                            />
-                            <div className="mt-1 overflow-hidden mr-12">
+                            /></Link>
+                            <Link className="mt-1 overflow-hidden mr-12" href={`/profile?id=${item.repostedUserInfo[0].username}`}>
                               {" "}
                               {item.repostedUserInfo &&
                                 item.repostedUserInfo.length > 0 &&
@@ -143,7 +145,7 @@ const PostLayout = ({ forwardedRef, filter }: PostLayoutProps) => {
                                   }}
                                 ></div>
                               )}
-                            </div>
+                            </Link>
                           </div>
                           <hr className="mt-4 opacity-10 -mx-8 mb-2" />
                         </div>
