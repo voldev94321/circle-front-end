@@ -155,6 +155,10 @@ const MessageBox = ({ user }: MessageBoxPros) => {
     initSocket();
   }, []);
 
+  React.useEffect(() => {
+    refetch();
+  }, [user])
+
   return (
     <div className="bg-tertiary rounded-t-3xl min-h-full p-4 flex flex-col">
       <div className="h-full w-full rounded-t-3xl p-8 pt-8 bg-gradient-to-b from-black to-transparent flex-grow flex flex-col justify-between relative">

@@ -85,15 +85,15 @@ export const ReactQuillEditor = ({
      
       setInterval(() => {
         /// --------------- Tag username --------------------
-        const container = containerRef.current;
-        const qillEditor = container.getElementsByClassName("ql-editor")[0];
-
-        if (qillEditor) {
-          qillEditor.addEventListener("paste", handlePaste);
-        }
-        isTimer = true;
-
         try {
+          const container = containerRef.current;
+          const qillEditor = container.getElementsByClassName("ql-editor")[0];
+  
+          if (qillEditor) {
+            qillEditor.addEventListener("paste", handlePaste);
+          }
+          isTimer = true;
+
           let value =
             containerRef.current.getElementsByClassName("ql-editor")[0]
               .innerHTML;
