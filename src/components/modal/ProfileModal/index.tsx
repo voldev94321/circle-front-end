@@ -19,6 +19,7 @@ const ProfileModal = () => {
   const [username, setUsername] = React.useState(userInfo.circlename);
   const [bio, setBio] = React.useState(userInfo.bio);
   const [previewImage, setPreviewImage] = React.useState("");
+  const [previewBanner, setPreviewBanner] = React.useState("");
   const [label1, setLabel1] = React.useState(
     userInfo.extra && userInfo.extra[0] ? userInfo.extra[0].label : ""
   );
@@ -53,11 +54,27 @@ const ProfileModal = () => {
     }
   };
 
+  const handleBannerChange = (event: any) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreviewBanner("" + reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleComplete = async () => {
     const userData = { ...userInfo };
     if (previewImage) {
       const uploadedResult = await uploadImage(previewImage);
       userData.avatarUrl = uploadedResult.data;
+    }
+
+    if(previewBanner) {
+      const uploadedResult = await uploadImage(previewBanner);
+      userData.bannerUrl = uploadedResult.data;
     }
 
     userData.circlename = username;
@@ -119,6 +136,8 @@ const ProfileModal = () => {
       setContent3(
         userInfo.extra && userInfo.extra[2] ? userInfo.extra[2].content : ""
       );
+      setPreviewImage("");
+      setPreviewBanner("");
     }
   }, [profileModalState]);
 
@@ -145,6 +164,23 @@ const ProfileModal = () => {
           Tailor your public profile and accompany your posts with personalized
           details. A completed profile and a profile picture increase the
           likelihood of others following and engaging with you.
+        </div>
+        <div className="w-full h-20 border-2 border-primary rounded-2xl relative">
+          {(previewBanner || userInfo.bannerUrl) && (
+            <img
+              src={previewBanner ? previewBanner : userInfo.bannerUrl}
+              alt="banner"
+              className="w-full h-full object-cover rounded-2xl"
+            />
+          )}
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+            Update Banner
+          </div>
+          <input
+            className="absolute top-0 left-0 opacity-0 w-full h-full cursor-pointer"
+            type="file"
+            onChange={handleBannerChange}
+          />
         </div>
         <div className="w-full mt-4">
           PROFILE INFORMATION: Update profile picture, username, and bio

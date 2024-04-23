@@ -83,3 +83,29 @@ export const updateProfile = async (token: string, userData: any) => {
   );
   return data.data;
 };
+
+export const followUser = async (token: string, userId: string) => {
+  const data = await axios.post(
+    process.env.NEXT_PUBLIC_BACKEND_URL + "/auth/follow",
+    { followId: userId },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return data.data;
+};
+
+export const getUserInfo = async ( token: string ) => {
+  const data = await axios.post(
+    process.env.NEXT_PUBLIC_BACKEND_URL + "/auth/getUserInfo",
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return data.data;
+}

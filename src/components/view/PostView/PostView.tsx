@@ -72,6 +72,7 @@ const PostView = ({
     openComment && commentsCount > 0
   );
   const { userInfo } = useSelector((state: any) => state.auth);
+  const { allUsers } = useSelector((state: any) => state.app);
   const { blogModalState, repostModalState } = useSelector(
     (state: any) => state.modal
   );

@@ -5,6 +5,7 @@ import { numberWithCommas } from "@/utils/number";
 import Decimal from "decimal.js"; 
 import React, { lazy } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import Followers from "./Followers";
 const LazyWalletConnectButton = lazy(
   () => import("@/components/button/ConnectWalletButton")
 );
@@ -31,6 +32,7 @@ const RightSideBar = ({menu}: RightSideBarProps) => {
         {isConnected && (
           <div>
             <div className="my-4">Balance: { "" + numberWithCommas(new Decimal(adaBalance).dividedBy(Math.pow(10, 6)).toNumber().toFixed(2))}&nbsp;₳</div>
+            <Followers/>
           </div>
         )}
       </div> : <div>

@@ -27,6 +27,12 @@ const ProfilePage = () => {
     }
   }, [allUsers, id]);
 
+  React.useEffect(() => {
+    if(selectedUser._id == userInfo._id){
+      setSelectedUser(userInfo);
+    }
+  }, [userInfo]);
+
   return <MainLayout menu="Profile">
     <ProfileHeader selectedUser={ selectedUser }/>
     <ProfileMain selectedUser={selectedUser}/>
