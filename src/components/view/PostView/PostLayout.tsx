@@ -106,7 +106,7 @@ const PostLayout = ({ forwardedRef, filter, selectedUser }: PostLayoutProps) => 
 
   return (
     <div className="pt-12">
-      {!isLoading && fetchStatus != "fetching" ? (
+      {!isLoading && (fetchStatus != "fetching" || isFetchingNextPage)? (
         <CardView>
           {data?.pages?.map(
             (page, pageIndex) =>
