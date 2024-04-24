@@ -16,7 +16,7 @@ const ProfileCard = () => {
         <div className="flex flex-col justify-between">
             <div>{userInfo.username}</div>
             <div>{userInfo.circlename}</div>
-            <div className="text-2xs">{userInfo.followed ? userInfo.followed.length : 0} Following { userInfo.followers ? userInfo.followers.length : 0 } Followers</div>
+            <div className="text-2xs">{userInfo.followers ? userInfo.followers.length : 0} Following { userInfo.followed ? userInfo.followed.length : 0 } Followers</div>
         </div>
     </div>);
 };

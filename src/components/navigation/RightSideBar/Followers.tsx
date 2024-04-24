@@ -18,6 +18,15 @@ const Followers = () => {
 
   const onFollowersChange = () => {
     setIsFollowers(!isFollowers);
+    setFollowers(
+      isFollowers
+        ? userInfo.followers
+          ? userInfo.followers
+          : []
+        : userInfo.followed
+        ? userInfo.followed
+        : []
+    );
   };
 
   const handleClickUser = (user: any) => {};
@@ -30,7 +39,7 @@ const Followers = () => {
           className="flex items-center gap-2 cursor-pointer"
           onClick={onFollowersChange}
         >
-          Followers{" "}
+          {isFollowers ? "Followers\t" : "Following\t"}
           {isFollowers ? (
             <MdKeyboardArrowUp className="text-black bg-front" />
           ) : (
@@ -50,15 +59,15 @@ const Followers = () => {
         </div>
       </div>
       <div className="mt-4">
-        {isFollowers &&
-          allUsers &&
+        {allUsers &&
           allUsers
             .filter(
               (v: any) =>
-                userInfo.followers.findIndex((uv: any) => uv == v._id) != -1
+                followers.findIndex((uv: any) => uv == v._id) != -1
             )
             .filter(
-                (v:any) => v.username.includes(search) || v.circlename.includes(search)
+              (v: any) =>
+                v.username.includes(search) || v.circlename.includes(search)
             )
             .map((user: any, index: number) => (
               <Link key={index} href={"/profile?id=" + user.username}>

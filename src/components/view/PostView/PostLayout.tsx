@@ -83,8 +83,9 @@ const PostLayout = ({ forwardedRef, filter, selectedUser }: PostLayoutProps) => 
 
   const refresh = async () => {
     setIsLoading(true);
-    await refetch();
-    setIsLoading(false);
+    refetch().then(() => {
+      setIsLoading(false);
+    });
   };
 
   React.useImperativeHandle(forwardedRef, () => ({
