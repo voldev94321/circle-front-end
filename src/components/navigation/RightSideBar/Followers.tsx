@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
@@ -8,28 +9,40 @@ import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
 import { useSelector } from "react-redux";
 
 const Followers = () => {
-  const [search, setSearch] = React.useState("");
-  const [isFollowers, setIsFollowers] = React.useState(false);
-  const [followers, setFollowers] = React.useState([]);
   const { userInfo } = useSelector((state: any) => state.auth);
   const { allUsers } = useSelector((state: any) => state.app);
+  const [search, setSearch] = React.useState("");
+  const [isFollowers, setIsFollowers] = React.useState(false);
+  const [userList, setUserList] = React.useState([]);
 
   const handleKeyPress = (e: any) => {};
 
   const onFollowersChange = () => {
     setIsFollowers(!isFollowers);
-    setFollowers(
-      isFollowers
-        ? userInfo.followers
-          ? userInfo.followers
-          : []
-        : userInfo.followed
-        ? userInfo.followed
-        : []
-    );
   };
 
   const handleClickUser = (user: any) => {};
+
+  React.useEffect(() => {
+    const followers = !isFollowers
+      ? userInfo.followers
+        ? userInfo.followers
+        : []
+      : userInfo.followed
+      ? userInfo.followed
+      : [];
+    setUserList(
+      allUsers &&
+        allUsers
+          .filter(
+            (v: any) => followers.findIndex((uv: any) => uv == v._id) != -1
+          )
+          .filter(
+            (v: any) =>
+              v.username.includes(search) || v.circlename.includes(search)
+          )
+    );
+  }, [isFollowers, allUsers, userInfo]);
 
   return (
     <div>
@@ -59,37 +72,25 @@ const Followers = () => {
         </div>
       </div>
       <div className="mt-4">
-        {allUsers &&
-          allUsers
-            .filter(
-              (v: any) =>
-                followers.findIndex((uv: any) => uv == v._id) != -1
-            )
-            .filter(
-              (v: any) =>
-                v.username.includes(search) || v.circlename.includes(search)
-            )
-            .map((user: any, index: number) => (
-              <Link key={index} href={"/profile?id=" + user.username}>
-                {" "}
-                <div
-                  className="flex items-center gap-2 cursor-pointer hover:bg-secondary p-2"
-                  onClick={() => handleClickUser(user)}
-                >
-                  <img
-                    src={
-                      user.avatarUrl
-                        ? user.avatarUrl
-                        : "/img/avatar/default.png"
-                    }
-                    alt="avatar"
-                    className="w-10 h-10 rounded-full border-front border-2 object-cover"
-                  />
-                  <div>{user.circlename}</div>
-                  <div className="opacity-50">@{user.username}</div>
-                </div>
-              </Link>
-            ))}
+        {userList.map((user: any, index: number) => (
+          <Link key={index} href={"/profile?id=" + user.username}>
+            {" "}
+            <div
+              className="flex items-center gap-2 cursor-pointer hover:bg-secondary p-2"
+              onClick={() => handleClickUser(user)}
+            >
+              <img
+                src={
+                  user.avatarUrl ? user.avatarUrl : "/img/avatar/default.png"
+                }
+                alt="avatar"
+                className="w-10 h-10 rounded-full border-front border-2 object-cover"
+              />
+              <div>{user.circlename}</div>
+              <div className="opacity-50">@{user.username}</div>
+            </div>
+          </Link>
+        ))}
       </div>
     </div>
   );

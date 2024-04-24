@@ -80,19 +80,19 @@ const PostView = ({
   const blogRef = React.useRef(null);
 
   const [isLike, setIsLike] = React.useState(
-    likes.findIndex((value) => value == userInfo._id) != -1 ? true : false
+    (likes && likes.findIndex((value) => value == userInfo._id) != -1) ? true : false
   );
-  const [likeCounts, setLikeCounts] = React.useState(0 + likes.length);
+  const [likeCounts, setLikeCounts] = React.useState(0 + (likes ? likes.length : 0));
 
   const [isDislike, setIsDislike] = React.useState(
-    dislikes.findIndex((value) => value == userInfo._id) != -1 ? true : false
+    (dislikes && dislikes.findIndex((value) => value == userInfo._id) != -1) ? true : false
   );
-  const [dislikeCounts, setDislikeCounts] = React.useState(0 + dislikes.length);
+  const [dislikeCounts, setDislikeCounts] = React.useState(0 + (dislikes ? dislikes.length : 0));
 
   const [isCircle, setIsCircle] = React.useState(
-    circles.findIndex((value) => value == userInfo._id) != -1 ? true : false
+    (circles && circles.findIndex((value) => value == userInfo._id) != -1) ? true : false
   );
-  const [circleCounts, setCircleCounts] = React.useState(0 + circles.length);
+  const [circleCounts, setCircleCounts] = React.useState(0 + (circles ? circles.length : 0));
 
   const [isRepost, setIsRepost] = React.useState(
     reposts

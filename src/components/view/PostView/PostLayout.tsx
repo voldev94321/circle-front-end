@@ -7,6 +7,7 @@ import PostView from "@/components/view/PostView/PostView";
 import { getTimeAgo } from "@/utils/date";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { useSelector } from "react-redux";
@@ -24,6 +25,8 @@ const PostLayout = ({ forwardedRef, filter, selectedUser }: PostLayoutProps) => 
   const { searchValue } = useSelector((state: any) => state.app);
   const [isLoading, setIsLoading] = useState(false);
   const { userInfo } = useSelector((state: any) => state.auth);
+  const pathname = usePathname();
+  const router = useRouter();
 
   const fetchData = async ({ pageParam }: { pageParam: number }) => {
     let data = { data: []};
@@ -83,9 +86,8 @@ const PostLayout = ({ forwardedRef, filter, selectedUser }: PostLayoutProps) => 
 
   const refresh = async () => {
     setIsLoading(true);
-    refetch().then(() => {
-      setIsLoading(false);
-    });
+    await refetch();
+    setIsLoading(false);
   };
 
   React.useImperativeHandle(forwardedRef, () => ({
@@ -104,7 +106,7 @@ const PostLayout = ({ forwardedRef, filter, selectedUser }: PostLayoutProps) => 
 
   return (
     <div className="pt-12">
-      {!isLoading ? (
+      {!isLoading && fetchStatus != "fetching" ? (
         <CardView>
           {data?.pages?.map(
             (page, pageIndex) =>
