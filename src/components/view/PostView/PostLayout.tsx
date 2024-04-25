@@ -114,9 +114,6 @@ const PostLayout = ({ forwardedRef, filter, selectedUser }: PostLayoutProps) => 
               page.map((item: any, index: number) => {
                 return (
                   <div key={index}>
-                    {(index != 0 || (index == 0 && pageIndex != 0)) && (
-                      <div className="border-t-2 border-front2 border-dotted my-8 -mx-8"></div>
-                    )}
                     {item.status == "REPOSTED" &&
                       item.repostedUserInfo &&
                       item.repostedUserInfo.length > 0 && (
@@ -174,6 +171,9 @@ const PostLayout = ({ forwardedRef, filter, selectedUser }: PostLayoutProps) => 
                       createdAt={item.createdAt}
                       isReposted={item.status == "REPOSTED"}
                     />}
+                    {/* {(index != 0 || (index == 0 && pageIndex != 0)) && ( */}
+                      <div className="border-t-2 border-front2 border-dotted my-8 -mx-8"></div>
+                    {/* )} */}
                   </div>
                 );
               })

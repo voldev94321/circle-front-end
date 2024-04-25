@@ -3,7 +3,7 @@ import { MdMessage } from "react-icons/md";
 import { FaSearch } from "react-icons/fa";
 import TransparentInput from "@/components/input/TransparentInput";
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setSearchValueState } from "@/store/appSlice";
 import { useRouter } from "next/navigation";
 
@@ -13,7 +13,8 @@ interface TopBarProps {
 }
 
 const TopBar = ({ setMenu, menu }: TopBarProps) => {
-  const [search, setSearch] = React.useState("");
+  const { searchValue } = useSelector((state: any) => state.app);
+  const [search, setSearch] = React.useState(searchValue);
   const [menuLabel, setMenuLabel] = React.useState("");
   const dispatch = useDispatch();
   const router = useRouter();

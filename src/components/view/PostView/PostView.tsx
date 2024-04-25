@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable react-hooks/exhaustive-deps */
-import { circlePost, dislikePost, likePost, repost } from "@/apis/blog";
+import { circlePost, deletePost, dislikePost, likePost, repost } from "@/apis/blog";
 import Image from "next/image";
 import React, { MutableRefObject } from "react";
 import {
@@ -228,6 +228,16 @@ const PostView = ({
     }
   };
 
+  const handleDelete = async () => {
+    await deletePost(userInfo.token, blogId);
+    let blog: any = blogRef.current;
+    const parentBlog = blog.parentNode.parentNode.parentNode.parentNode;
+    
+    parentBlog.parentNode.removeChild(parentBlog);
+    // console.log("parentblog", parentBlog, blog);
+    // blog.parentNode.parentNode.removeChild(blog);
+  }
+
   React.useEffect(() => {
     const handleClick = (event: any) => {
       event.preventDefault();
@@ -415,13 +425,19 @@ const PostView = ({
             isReposted ? "-top-8" : "top-6"
           } right-0 bg-back z-50`}
         >
-          <div
+          { profilename == userInfo.username || isReposted && reposts.findIndex(v=>v==userInfo._id) != -1 ? <div
+            className="hover:bg-primary p-2 flex items-center gap-2 cursor-pointer"
+            onMouseDown={handleDelete}
+          >
+            <SlUserFollow size={16} />
+            Delete this post
+          </div> : <div
             className="hover:bg-primary p-2 flex items-center gap-2 cursor-pointer"
             onMouseDown={handleFollow}
           >
             <SlUserFollow size={16} />
             Follow this user
-          </div>
+          </div>}
           <div
             className="hover:bg-primary p-2 flex items-center gap-2 cursor-pointer"
             onMouseDown={handleReport}

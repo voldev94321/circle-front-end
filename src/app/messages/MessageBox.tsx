@@ -188,7 +188,7 @@ const MessageBox = ({ user }: MessageBoxPros) => {
                         }`}
                       >
                         <img
-                          className="rounded-full border-[1px] border-front w-[30px] h-[30px] object-cover"
+                          className="rounded-full border-[1px] border-front w-[30px] min-w-[30px] h-[30px] object-cover"
                           src={
                             msgUser.avatarUrl
                               ? msgUser.avatarUrl

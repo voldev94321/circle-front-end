@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+import TransparentInput from "@/components/input/TransparentInput";
 import React from "react";
 import { useSelector } from "react-redux";
 
@@ -16,6 +17,7 @@ const SelectUserModal = ({
   setCurrentUser,
 }: SelectUserModalProps) => {
   const { userInfo } = useSelector((state: any) => state.auth);
+  const [search, setSearch] = React.useState("");
 
   const onClose = () => {
     console.log(users);
@@ -25,7 +27,7 @@ const SelectUserModal = ({
   const handleClickUser = (user: any) => {
     handleClose();
     setCurrentUser(user);
-  }
+  };
 
   React.useEffect(() => {}, [users]);
 
@@ -37,7 +39,7 @@ const SelectUserModal = ({
       }}
     >
       <div
-        className="flex flex-col items-center gap-3 rounded-3xl md:bg-back bg-back w-[40rem] h-full md:h-fit border-primary border-2 overflow-y-auto"
+        className="flex flex-col items-center rounded-3xl md:bg-back bg-back w-[40rem] h-[500px] border-primary border-2"
         onClick={(e) => {
           e.stopPropagation();
         }}
@@ -45,23 +47,50 @@ const SelectUserModal = ({
           e.stopPropagation();
         }}
       >
-        <div className="w-full m-4">
-          {users && users.map((user: any, index: number) => (
-            (user.username != userInfo.username) && <div key={index}>
-              <div className="flex items-center gap-2 my-2 cursor-pointer hover:bg-primary px-2" onClick={() => handleClickUser(user)}>
-                <img
-                  src={
-                    user.avatarUrl
-                      ? user.avatarUrl
-                      : "/img/avatar/default.png"
-                  }
-                  alt="avatar"
-                  className="w-10 h-10 rounded-2xl border-front border-2 object-cover"
-                />
-                <div>{user.username}</div>
-              </div>
+        <div className="w-full px-2">
+          <div className="flex-grow flex p-1 rounded-2xl bg-front bg-opacity-10 items-center px-4 w-full mt-2">
+            <div className="flex-grow ">
+              <TransparentInput
+                placeholder="Search here..."
+                value={search}
+                setValue={setSearch}
+                type="text"
+                onKeyDown={() => {}}
+              />
             </div>
-          ))}
+          </div>
+        </div>
+        <div className="w-full m-2 overflow-auto">
+          <div className="">
+            {users &&
+              users
+                .filter(
+                  (v: any) =>
+                    v.username.includes(search) || v.circlename.includes(search)
+                )
+                .map(
+                  (user: any, index: number) =>
+                    user.username != userInfo.username && (
+                      <div key={index}>
+                        <div
+                          className="flex items-center gap-2 my-2 cursor-pointer hover:bg-primary px-2"
+                          onClick={() => handleClickUser(user)}
+                        >
+                          <img
+                            src={
+                              user.avatarUrl
+                                ? user.avatarUrl
+                                : "/img/avatar/default.png"
+                            }
+                            alt="avatar"
+                            className="w-10 h-10 rounded-2xl border-front border-2 object-cover"
+                          />
+                          <div>{user.username}</div>
+                        </div>
+                      </div>
+                    )
+                )}
+          </div>
         </div>
       </div>
       <div className="fixed top-2 right-2 md:hidden">⨉</div>

@@ -42,7 +42,7 @@ const Followers = () => {
               v.username.includes(search) || v.circlename.includes(search)
           )
     );
-  }, [isFollowers, allUsers, userInfo]);
+  }, [isFollowers, allUsers, userInfo, search]);
 
   return (
     <div>

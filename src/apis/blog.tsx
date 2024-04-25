@@ -21,6 +21,19 @@ export const getPost = async (skip: number, limit: number, searchValue: string) 
   return data.data;
 };
 
+export const deletePost = async (token: string, blogId: string) => {
+  const data = await axios.post(
+    process.env.NEXT_PUBLIC_BACKEND_URL + "/blog/delete",
+    { blogId },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return data.data;
+};
+
 export const getPostByUserId = async (skip: number, limit: number, searchValue: string, userId: string) => {
   const data = await axios.post(
     process.env.NEXT_PUBLIC_BACKEND_URL + "/blog/getPostsByUserId",
