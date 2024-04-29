@@ -15,7 +15,7 @@ const WalletConnectButton = () => {
   }; 
 
   return (
-    <TertiaryButton onClick={!isConnected ? handleOpenWalletModal : disconnect} classNames="w-full">
+    <TertiaryButton onClick={!isConnected ? handleOpenWalletModal : disconnect} classNames="w-full mb-2">
       {isConnected ? "Disconnect" : "Connect Wallet"}
     </TertiaryButton>
   );

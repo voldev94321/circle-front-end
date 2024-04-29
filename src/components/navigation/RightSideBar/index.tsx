@@ -31,10 +31,10 @@ const RightSideBar = ({menu}: RightSideBarProps) => {
         <LazyWalletConnectButton />
         {isConnected && (
           <div>
-            <div className="my-4">Balance: { "" + numberWithCommas(new Decimal(adaBalance).dividedBy(Math.pow(10, 6)).toNumber().toFixed(2))}&nbsp;₳</div>
-            <Followers/>
+            <div className="my-2">Balance: { "" + numberWithCommas(new Decimal(adaBalance).dividedBy(Math.pow(10, 6)).toNumber().toFixed(2))}&nbsp;₳</div>
           </div>
         )}
+        <Followers/>
       </div> : <div>
         { userInfo.contacts && userInfo.contacts.map((id: string) => {
           const userIndex = allUsers.findIndex((u: any) => u._id == id);
