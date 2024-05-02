@@ -34,6 +34,7 @@ export const ReactQuillEditor = ({
   const { allUsers } = useSelector((state) => state.app);
 
   const handleChange = (value) => {
+    
     try {
       /// ------------------ Limit Check ---------------
       const tempElement = document.createElement("div");
@@ -55,6 +56,7 @@ export const ReactQuillEditor = ({
     } catch (e) {
       console.log(e);
     }
+    setTimeout(() => tagUserName(), 1000);
   };
 
   const handlePaste = (event) => {
@@ -75,6 +77,68 @@ export const ReactQuillEditor = ({
     }
   };
 
+  const tagUserName = () => {
+    try {
+      // console.log(document);
+      // const container = containerRef.current;
+      const qillEditor = documentRef.current.getElementsByClassName("ql-editor")[0];
+      // const qillEditor = quillRef.current;
+
+      if (qillEditor) {
+        qillEditor.removeEventListener("paste", handlePaste);
+        qillEditor.addEventListener("paste", handlePaste);
+      }
+
+      let value =
+        containerRef.current.getElementsByClassName("ql-editor")[0]
+          .innerHTML;
+      const names = value.match(/@(\w+)\b/g);
+      if (!names) {
+        return;
+      }
+      let taggedUsernames = [];
+      for (let i = 0; i < names.length; i++) {
+        if (allUsers.findIndex((u) => names[i].slice(1) == u.username) != -1) {
+          taggedUsernames.push(names[i]);
+        }
+      }
+      if (taggedUsernames.length > 0) {
+        for (let i = 0; i < taggedUsernames.length; i++) {
+          const trim = taggedUsernames[i].replace(" ", "");
+          const replaceString =
+            "<span style='color: #8043FA;' contenteditable='false'><strong>@</strong>" +
+            trim.slice(1) +
+            "</span>";
+          value = value.replaceAll(trim, replaceString);
+        }
+        // console.log(value);
+
+        let startOffset = 0;
+        let endOffset = 0;
+        let range;
+        if (window.getSelection) {
+          startOffset = window
+            .getSelection()
+            .getRangeAt(0)
+            .cloneRange().startOffset;
+          endOffset = window
+            .getSelection()
+            .getRangeAt(0)
+            .cloneRange().endOffset;
+          range = window.getSelection().getRangeAt(0).cloneRange();
+        }
+        qillEditor.innerHTML = value;
+        range.setStart(qillEditor, qillEditor.childNodes.length);
+        range.setEnd(qillEditor, qillEditor.childNodes.length);
+        window.getSelection().removeAllRanges();
+        window.getSelection().addRange(range);
+        // return;
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   React.useEffect(() => {
     if(!containerRef || allUsers.length == 0){
       return;
@@ -87,65 +151,66 @@ export const ReactQuillEditor = ({
       isTimer = true;
       setInterval(() => {
         /// --------------- Tag username --------------------
-        try {
-          // console.log(document);
-          // const container = containerRef.current;
-          const qillEditor = documentRef.current.getElementsByClassName("ql-editor")[0];
-          // const qillEditor = quillRef.current;
+        // try {
+        //   // console.log(document);
+        //   // const container = containerRef.current;
+        //   const qillEditor = documentRef.current.getElementsByClassName("ql-editor")[0];
+        //   // const qillEditor = quillRef.current;
   
-          if (qillEditor) {
-            qillEditor.removeEventListener("paste", handlePaste);
-            qillEditor.addEventListener("paste", handlePaste);
-          }
+        //   if (qillEditor) {
+        //     qillEditor.removeEventListener("paste", handlePaste);
+        //     qillEditor.addEventListener("paste", handlePaste);
+        //   }
 
-          let value =
-            containerRef.current.getElementsByClassName("ql-editor")[0]
-              .innerHTML;
-          const names = value.match(/@(\w+)\b/g);
-          if (!names) {
-            return;
-          }
-          let taggedUsernames = [];
-          for (let i = 0; i < names.length; i++) {
-            if (allUsers.findIndex((u) => names[i].slice(1) == u.username) != -1) {
-              taggedUsernames.push(names[i]);
-            }
-          }
-          if (taggedUsernames.length > 0) {
-            for (let i = 0; i < taggedUsernames.length; i++) {
-              const trim = taggedUsernames[i].replace(" ", "");
-              const replaceString =
-                "<span style='color: #8043FA;' contenteditable='false'><strong>@</strong>" +
-                trim.slice(1) +
-                "</span>";
-              value = value.replaceAll(trim, replaceString);
-            }
-            // console.log(value);
+        //   let value =
+        //     containerRef.current.getElementsByClassName("ql-editor")[0]
+        //       .innerHTML;
+        //   const names = value.match(/@(\w+)\b/g);
+        //   if (!names) {
+        //     return;
+        //   }
+        //   let taggedUsernames = [];
+        //   for (let i = 0; i < names.length; i++) {
+        //     if (allUsers.findIndex((u) => names[i].slice(1) == u.username) != -1) {
+        //       taggedUsernames.push(names[i]);
+        //     }
+        //   }
+        //   if (taggedUsernames.length > 0) {
+        //     for (let i = 0; i < taggedUsernames.length; i++) {
+        //       const trim = taggedUsernames[i].replace(" ", "");
+        //       const replaceString =
+        //         "<span style='color: #8043FA;' contenteditable='false'><strong>@</strong>" +
+        //         trim.slice(1) +
+        //         "</span>";
+        //       value = value.replaceAll(trim, replaceString);
+        //     }
+        //     // console.log(value);
 
-            let startOffset = 0;
-            let endOffset = 0;
-            let range;
-            if (window.getSelection) {
-              startOffset = window
-                .getSelection()
-                .getRangeAt(0)
-                .cloneRange().startOffset;
-              endOffset = window
-                .getSelection()
-                .getRangeAt(0)
-                .cloneRange().endOffset;
-              range = window.getSelection().getRangeAt(0).cloneRange();
-            }
-            qillEditor.innerHTML = value;
-            range.setStart(qillEditor, qillEditor.childNodes.length);
-            range.setEnd(qillEditor, qillEditor.childNodes.length);
-            window.getSelection().removeAllRanges();
-            window.getSelection().addRange(range);
-            // return;
-          }
-        } catch (e) {
-          console.log(e);
-        }
+        //     let startOffset = 0;
+        //     let endOffset = 0;
+        //     let range;
+        //     if (window.getSelection) {
+        //       startOffset = window
+        //         .getSelection()
+        //         .getRangeAt(0)
+        //         .cloneRange().startOffset;
+        //       endOffset = window
+        //         .getSelection()
+        //         .getRangeAt(0)
+        //         .cloneRange().endOffset;
+        //       range = window.getSelection().getRangeAt(0).cloneRange();
+        //     }
+        //     qillEditor.innerHTML = value;
+        //     range.setStart(qillEditor, qillEditor.childNodes.length);
+        //     range.setEnd(qillEditor, qillEditor.childNodes.length);
+        //     window.getSelection().removeAllRanges();
+        //     window.getSelection().addRange(range);
+        //     // return;
+        //   }
+        // } catch (e) {
+        //   console.log(e);
+        // }
+        // tagUserName();
       }, 1000);
     }, 0);
   }, [containerRef, allUsers]);
