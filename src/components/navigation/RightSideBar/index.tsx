@@ -35,7 +35,7 @@ const RightSideBar = ({menu}: RightSideBarProps) => {
           </div>
         )}
         <Followers/>
-      </div> : <div>
+      </div> : <div className="">
         { userInfo.contacts && userInfo.contacts.map((id: string) => {
           const userIndex = allUsers.findIndex((u: any) => u._id == id);
           if(userIndex == -1){
@@ -43,7 +43,7 @@ const RightSideBar = ({menu}: RightSideBarProps) => {
           }
           const user = allUsers[userIndex];
           return (<div key={id}>
-            <div className="flex items-center gap-2 cursor-pointer hover:bg-secondary p-2" onClick={() => handleClickUser(user)}>
+            <div className="flex items-center gap-2 cursor-pointer hover:bg-primary p-2 mx-4" onClick={() => handleClickUser(user)}>
                 <img
                   src={
                     user.avatarUrl

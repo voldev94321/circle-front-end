@@ -78,7 +78,7 @@ const Followers = () => {
           <Link key={index} href={"/profile?id=" + user.username}>
             {" "}
             <div
-              className="flex items-center gap-2 cursor-pointer hover:bg-secondary p-2"
+              className="flex items-center gap-2 cursor-pointer hover:bg-primary p-2"
               onClick={() => handleClickUser(user)}
             >
               <img

@@ -15,7 +15,7 @@ const ProfileCard = () => {
         <img className="rounded-full border-[1px] border-front w-[60px] h-[60px] object-cover" src={userInfo.avatarUrl ? userInfo.avatarUrl : "/img/avatar/default.png"} alt="pfp"/>
         <div className="flex flex-col justify-between">
             <div>{userInfo.circlename}</div>
-            <div>{userInfo.username}</div>
+            <div className="">@{userInfo.username}</div>
             <div className="text-2xs">{userInfo.followers ? userInfo.followers.length : 0} Following { userInfo.followed ? userInfo.followed.length : 0 } Followers</div>
         </div>
     </div>);
