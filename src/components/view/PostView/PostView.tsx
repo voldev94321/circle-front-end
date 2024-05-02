@@ -288,9 +288,9 @@ const PostView = ({
         </Link>
         <div className="flex-grow flex flex-col gap-2">
           <Link className="mb-2" href={`/profile?id=${profilename}`}>
-            {profilename}{" "}
+            {username}{" "}
             <span className="opacity-50">
-              {username} • {getTimeAgo(createdAt)}
+              {profilename} • {getTimeAgo(createdAt)}
             </span>
           </Link>
           <div

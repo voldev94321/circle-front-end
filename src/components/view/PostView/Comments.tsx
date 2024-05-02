@@ -3,6 +3,7 @@ import React, { useRef } from "react";
 import { IoSendSharp } from "react-icons/io5";
 import PostView from "./PostView";
 import ReactQuillEditor from "@/components/input/ReactQuill";
+import TransparentInput from "@/components/input/TransparentInput";
 
 interface CommentsViewProps {
   blogId: string;
@@ -11,7 +12,12 @@ interface CommentsViewProps {
   showCommentInput: boolean;
 }
 
-const CommentsView = ({ blogId, commentId, token, showCommentInput }: CommentsViewProps) => {
+const CommentsView = ({
+  blogId,
+  commentId,
+  token,
+  showCommentInput,
+}: CommentsViewProps) => {
   const [comment, setComment] = React.useState("");
   const [list, setList] = React.useState([]);
   const ref = useRef<HTMLDivElement>(null);
@@ -23,7 +29,12 @@ const CommentsView = ({ blogId, commentId, token, showCommentInput }: CommentsVi
   };
 
   const handleSend = async () => {
-    const result = await newComment(blogId, token, comment.replaceAll("<p><br></p>", ""), commentId);
+    const result = await newComment(
+      blogId,
+      token,
+      comment.replaceAll("<p><br></p>", ""),
+      commentId
+    );
     fetchData();
     setComment("");
     try {
@@ -41,9 +52,12 @@ const CommentsView = ({ blogId, commentId, token, showCommentInput }: CommentsVi
     }
   };
 
-  const handleKeyDown = async () => {
-    setComment("");
-    handleSend();
+  const handleKeyDown = async (e: any) => {
+    if (e.key == "Enter") {
+      setComment("");
+      e.preventDefault();
+      handleSend();
+    }
   };
 
   React.useEffect(() => {
@@ -53,22 +67,23 @@ const CommentsView = ({ blogId, commentId, token, showCommentInput }: CommentsVi
 
   return (
     <div ref={ref}>
-      {showCommentInput && 
-      <div className="bg-front bg-opacity-10 p-2 rounded-2xl flex px-4 items-center mb-4">
-        <ReactQuillEditor
-          content={comment}
-          setContent={setComment}
-          onPasteImage={() => {}}
-          showToolbar={false}
-          onEnterPressed={handleKeyDown}
-        />
-        <div
-          className="hover:scale-95  duration-500 h-fit cursor-pointer"
-          onClick={handleSend}
-        >
-          <IoSendSharp size={16} />
+      {showCommentInput && (
+        <div className="bg-front bg-opacity-10 p-2 rounded-2xl flex px-4 items-center mb-4">
+          <TransparentInput
+            placeholder="Write your comment here..."
+            type="text"
+            value={comment}
+            setValue={setComment}
+            onKeyDown={handleKeyDown}
+          />
+          <div
+            className="hover:scale-95  duration-500 h-fit cursor-pointer"
+            onClick={handleSend}
+          >
+            <IoSendSharp size={16} />
+          </div>
         </div>
-      </div>}
+      )}
       {/* // : <div className="hover:text-primary cursor-pointer text-front2" onClick={()=>{setShowCommentInput(true);}}>Add Comment</div>} */}
       {list.map((item: any, index) => (
         <PostView
@@ -77,7 +92,9 @@ const CommentsView = ({ blogId, commentId, token, showCommentInput }: CommentsVi
           commentId={item._id}
           username={item.circlename}
           profilename={item.username}
-          useravatar={ item.avatarUrl ? item.avatarUrl : "/img/avatar/default.png"}
+          useravatar={
+            item.avatarUrl ? item.avatarUrl : "/img/avatar/default.png"
+          }
           content={item.content}
           commentsCount={item.commentsCount}
           likes={item.likes}

@@ -27,6 +27,8 @@ const NewPost = ({ refresh }: NewPostProps) => {
     }
 
     let newContent = content.toString();
+    setContent("");
+
     for (let i = 0; i < imgList.length; i++) {
       const imgItem = imgList[i];
       const updatedResult = await uploadImage(imgItem.src);
@@ -40,7 +42,7 @@ const NewPost = ({ refresh }: NewPostProps) => {
       const data = await newPost(newContent, userInfo.token);
       if (data.success) {
         toast.success("Your blog posted successfully!");
-        setContent("");
+        
         if(imageListRef.current){
           imageListRef.current.innerHTML = "";
         }
@@ -108,7 +110,7 @@ const NewPost = ({ refresh }: NewPostProps) => {
             setContent={setContent}
             onPasteImage={handlePasteImage}
             showToolbar={true}
-            onEnterPressed={()=>{}}
+            onEnterPressed={handleSend}
           />
         </div>
         <div className="mt-2 flex flex-col gap-2" ref={imageListRef}></div>

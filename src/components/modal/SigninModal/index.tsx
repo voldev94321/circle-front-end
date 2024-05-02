@@ -47,6 +47,27 @@ const SigninModal: React.FC<SigninModalProps> = ({ isOpen, onClose }) => {
       toast.success("We've send the updated password to your email!");
     }
   }
+  
+  React.useEffect(() => {
+    function handleKeyDown(event: any) {
+      if (event.key === 'Escape') {
+        onClose();
+      }
+    }
+
+    if (isOpen) {
+      // Add event listener when the modal is open
+      document.addEventListener('keydown', handleKeyDown);
+    } else {
+      // Remove event listener when the modal is closed
+      document.removeEventListener('keydown', handleKeyDown);
+    }
+
+    return () => {
+      // Cleanup function: remove event listener when component unmounts
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isOpen, onClose]);
 
   return isOpen ? (
     <div

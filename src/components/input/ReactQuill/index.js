@@ -30,6 +30,7 @@ export const ReactQuillEditor = ({
 }) => {
   const [beforeChange, setBeforeChange] = React.useState("");
   const containerRef = React.useRef();
+  const documentRef = React.useRef(document);
   const { allUsers } = useSelector((state) => state.app);
 
   const handleChange = (value) => {
@@ -87,8 +88,10 @@ export const ReactQuillEditor = ({
       setInterval(() => {
         /// --------------- Tag username --------------------
         try {
-          const container = containerRef.current;
-          const qillEditor = container.getElementsByClassName("ql-editor")[0];
+          // console.log(document);
+          // const container = containerRef.current;
+          const qillEditor = documentRef.current.getElementsByClassName("ql-editor")[0];
+          // const qillEditor = quillRef.current;
   
           if (qillEditor) {
             qillEditor.removeEventListener("paste", handlePaste);
@@ -148,7 +151,7 @@ export const ReactQuillEditor = ({
   }, [containerRef, allUsers]);
 
   const onKeyDown = (e) => {
-    if (e.key == "Enter") {
+    if (e.key == "Enter" && !e.shiftKey) {
       e.preventDefault();
       onEnterPressed();
     }

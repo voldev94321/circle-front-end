@@ -31,6 +31,8 @@ const Followers = () => {
       : userInfo.followed
       ? userInfo.followed
       : [];
+    
+    const searchString = search.charAt(0) == "@" ? search.slice(1) : search;
     setUserList(
       allUsers &&
         allUsers
@@ -39,7 +41,7 @@ const Followers = () => {
           )
           .filter(
             (v: any) =>
-              v.username.includes(search) || v.circlename.includes(search)
+              search.charAt(0) == "@" && v.username.includes(searchString) || search.charAt(0) != "@" && v.circlename.includes(searchString)
           )
     );
   }, [isFollowers, allUsers, userInfo, search]);

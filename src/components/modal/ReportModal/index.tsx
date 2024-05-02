@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import PrimaryButton from "@/components/button/PrimaryButton";
 import RadioSelect from "@/components/input/RadioSelect";
 import { setReportModalState, setRepostModalState } from "@/store/modalSlice";
@@ -26,6 +27,27 @@ const ReportModal = () => {
     onClose();
     toast.success("You reported this post!");
   };
+  
+  React.useEffect(() => {
+    function handleKeyDown(event: any) {
+      if (event.key === 'Escape') {
+        onClose();
+      }
+    }
+
+    if (reportModalState) {
+      // Add event listener when the modal is open
+      document.addEventListener('keydown', handleKeyDown);
+    } else {
+      // Remove event listener when the modal is closed
+      document.removeEventListener('keydown', handleKeyDown);
+    }
+
+    return () => {
+      // Cleanup function: remove event listener when component unmounts
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [reportModalState, onClose]);
 
   return reportModalState ? (
     <div

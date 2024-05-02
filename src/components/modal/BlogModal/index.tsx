@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import PostView from "@/components/view/PostView/PostView";
 import { setBlogModalState, setRepostModalState } from "@/store/modalSlice";
 import React from "react";
@@ -12,6 +13,27 @@ const BlogModal = () => {
   const onClose = () => {
     dispatch(setBlogModalState(false));
   };
+
+  React.useEffect(() => {
+    function handleKeyDown(event: any) {
+      if (event.key === 'Escape') {
+        onClose();
+      }
+    }
+
+    if (blogModalState) {
+      // Add event listener when the modal is open
+      document.addEventListener('keydown', handleKeyDown);
+    } else {
+      // Remove event listener when the modal is closed
+      document.removeEventListener('keydown', handleKeyDown);
+    }
+
+    return () => {
+      // Cleanup function: remove event listener when component unmounts
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [blogModalState, onClose]);
 
   return blogModalState ? (
     <div

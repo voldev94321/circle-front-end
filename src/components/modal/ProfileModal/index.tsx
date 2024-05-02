@@ -141,6 +141,27 @@ const ProfileModal = () => {
     }
   }, [profileModalState]);
 
+  React.useEffect(() => {
+    function handleKeyDown(event: any) {
+      if (event.key === 'Escape') {
+        onClose();
+      }
+    }
+
+    if (profileModalState) {
+      // Add event listener when the modal is open
+      document.addEventListener('keydown', handleKeyDown);
+    } else {
+      // Remove event listener when the modal is closed
+      document.removeEventListener('keydown', handleKeyDown);
+    }
+
+    return () => {
+      // Cleanup function: remove event listener when component unmounts
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [profileModalState, onClose]);
+
   return profileModalState ? (
     <div
       className="fixed left-0 top-0 z-50 flex h-full w-full items-center justify-center  bg-black bg-opacity-70"
@@ -165,12 +186,12 @@ const ProfileModal = () => {
           details. A completed profile and a profile picture increase the
           likelihood of others following and engaging with you.
         </div>
-        <div className="w-full h-20 border-2 border-primary rounded-2xl relative">
+        <div className="w-full border-2 border-primary rounded-2xl relative">
           {(previewBanner || userInfo.bannerUrl) && (
             <img
               src={previewBanner ? previewBanner : userInfo.bannerUrl}
               alt="banner"
-              className="w-full h-full object-cover rounded-2xl"
+              className="w-full  min-h-20 max-h-48 object-cover rounded-2xl"
             />
           )}
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">

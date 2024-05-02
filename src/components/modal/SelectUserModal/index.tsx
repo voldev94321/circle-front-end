@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 import TransparentInput from "@/components/input/TransparentInput";
 import React from "react";
@@ -20,7 +21,6 @@ const SelectUserModal = ({
   const [search, setSearch] = React.useState("");
 
   const onClose = () => {
-    console.log(users);
     handleClose();
   };
 
@@ -31,6 +31,27 @@ const SelectUserModal = ({
 
   React.useEffect(() => {}, [users]);
 
+  React.useEffect(() => {
+    function handleKeyDown(event: any) {
+      if (event.key === 'Escape') {
+        onClose();
+      }
+    }
+
+    if (isOpen) {
+      // Add event listener when the modal is open
+      document.addEventListener('keydown', handleKeyDown);
+    } else {
+      // Remove event listener when the modal is closed
+      document.removeEventListener('keydown', handleKeyDown);
+    }
+
+    return () => {
+      // Cleanup function: remove event listener when component unmounts
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isOpen, onClose]);
+  
   return isOpen ? (
     <div
       className="fixed left-0 top-0 z-50 flex h-full w-full items-center justify-center  bg-black bg-opacity-90"
