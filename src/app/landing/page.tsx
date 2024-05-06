@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 'use client';
 import PrimaryButton from "@/components/button/PrimaryButton";
 import SecondaryButton from "@/components/button/SecondaryButton";
@@ -42,8 +43,8 @@ const LandingPage = () => {
     <div>
       <LazyLandingHeader />
       <div className="flex justify-center items-center h-screen">
-        <div className="md:gap-8 flex flex-col md:flex-row h-screen">
-          <Image src="/img/logo.svg" alt="logo" height={500} width={500} />
+        <div className="md:gap-8 flex flex-col md:flex-row h-screen items-center">
+          <img src="/img/logo.png" alt="logo" className="w-92 h-92" />
           <div className="flex justify-center items-center md:h-screen">
             <div className="p-4 rounded-lg flex gap-8">
               <div>

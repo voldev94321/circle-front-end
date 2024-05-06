@@ -14,7 +14,7 @@ const AboutPage = () => {
       <LandingFooter />
       <Image
         className="fixed top-1/2 transform -translate-y-1/2 left-1/2 -translate-x-1/2 md:left-0 md:translate-x-52 opacity-10"
-        src="/img/logo.svg"
+        src="/img/logo.png"
         alt="logo"
         height={500}
         width={500}

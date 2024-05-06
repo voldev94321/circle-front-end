@@ -97,7 +97,7 @@ const SignupModal: React.FC<SignupModalProps> = ({ isOpen, onClose, openSignInMo
         <div className="relative w-full">
           <Image
             className="m-auto"
-            src="/img/logo.svg"
+            src="/img/logo.png"
             alt="logo"
             height={100}
             width={100}

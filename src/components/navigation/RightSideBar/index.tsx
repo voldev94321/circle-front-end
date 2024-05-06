@@ -26,7 +26,7 @@ const RightSideBar = ({menu}: RightSideBarProps) => {
 
   return (
     <div className=" h-full md:w-[330px] w-full bg-gradient-to-b from-black via-back3 to-black py-6">
-      <img alt="circle" src="/img/logo.svg" className="w-full px-6" />
+      <img alt="circle" src="/img/logo.png" className="w-full px-6" />
       { menu !== "Messages" ? <div className="w-full px-6">
         <LazyWalletConnectButton />
         {isConnected && (

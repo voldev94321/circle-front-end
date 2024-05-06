@@ -85,7 +85,7 @@ const SigninModal: React.FC<SigninModalProps> = ({ isOpen, onClose }) => {
       >
         <Image
           className="m-auto"
-          src="/img/logo.svg"
+          src="/img/logo.png"
           alt="logo"
           height={250}
           width={250}
